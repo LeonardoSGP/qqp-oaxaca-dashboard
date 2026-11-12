@@ -1,0 +1,52 @@
+id_establecimiento,id_cadena,id_giro,id_municipio,nombre_comercial,direccion,latitud,longitud
+1,21,1,2,Bodega Aurrera Sucursal Santa Anita,Ferrocarril 517 Rumbo a Zachila. Col. Santa Anita. Cp. 68160,17.045399,-96.730589
+2,27,10,1,Boneteria la Fama Sucursal Bustamante,Bustamante 200. Entre Aldama y las Casas. Col. Centro. Cp. 68000,17.058744,-96.725367
+3,1,1,1,Chedraui Selecto Sucursal Oaxaca Reforma,Heroica Escuela Naval Militar 917. Esq. Alamos. Col. Reforma. Cp. 68050,17.078111,-96.708134
+4,2,2,1,Coppel Plaza Oaxaca,Jorge Tamayo 500 Esq. Universidad Plaza Oaxaca. Col. Ex Hacienda Candiani. Cp. 68130,17.042999,-96.714174
+5,25,9,1,Distribuidora Escolar y de Oficina J.p.,Heroico Colegio Militar 1010 Loc.9a Un Costado de Gigante Reforma. Col. Reforma. Cp. 68150,17.081359,-96.711684
+6,5,2,1,Elektra Sucurasl Centro,Colon 210. Entre Fiallo y Armenta y Lopez. Col. Centro. Cp. 68000,17.058777,-96.723676
+7,16,4,1,Farmacia Guadalajara Sucursal Emiliano Zapata,Emiliano Zapata 220. Entre Sabinos y Palmeras. Col. Reforma. Cp. 68050,17.077215,-96.71692
+8,6,4,1,Farmacia Hospital Reforma,Reforma 613. Entre Berriozabal y Humboldt. Col. Centro. Cp. 68000,,
+9,11,4,1,Farmacia Similares Sucursal 76317,Dalias 601. Esquina Alamos. Col. Reforma. Cp. 68050,17.079242,-96.711341
+10,12,4,1,Farmacias del Ahorro Sucursal Juarez,Avenida Juarez 312 Local 1 y 2. Entre Berriozabal y Humbolt. Col. Centro. Cp. 68000,17.067798,-96.720313
+11,7,4,1,Farmacias Guelaguetza Sucursal Independencia,Independencia 407 Loc. 1. Esq. Tinoco y Palacios. Col. Centro. Cp. 68000,17.062446,-96.727005
+12,13,4,1,Farmacias Omega Sucursal Centro,Las Casas 111 Letra D. Entre Jose Maria Bustamante y Ricardo Flores Magon. Col. Centro. Cp. 68000,17.059222,-96.725861
+13,17,7,1,Liverpool Sucursal Plaza Oaxaca,Jorge L. Tamayo 500. Int. Plaza Oaxaca. Col. Col.ex-hacienda Candiani. Cp. 68130,17.043607,-96.714788
+14,8,5,1,Mercado Benito Juarez,Flores Magon S/N. Entre Casas y Aldama. Col. Centro. Cp. 68000,17.058487,-96.726388
+15,8,5,1,Mercado Hidalgo,Palmeras S/N. Esq. Emilio Carranza. Col. Reforma. Cp. 68000,17.068441,-96.725346
+16,8,5,1,Mercado Paz Migueles,Proletariado Mexicano S/N. Entre Martires de Cananea y Mexico 68. Col. Unidad Habitacional Infonavit 1o. de Mayo. Cp. 68020,17.088161,-96.711079
+17,8,5,1,Mercado Sanchez Pascuas,Joaquin Amaro S/N. Entre Abraham Castellanos y Quetzalcoatl. Col. Figueroa. Cp. 68000,17.068441,-96.725346
+18,9,1,1,Mercado Soriana Sucursal H. Colegio Militar (296),Heroico Colegio Militar No. 1010. Entre Naranjos y Sauces. Col. Reforma. Cp. 68050,17.080718,-96.712213
+19,26,10,1,Milano Sucursal Centro,Flores Magon 103. Junto al Zocalo. Col. Centro. Cp. 68000,17.059639,-96.726044
+20,23,9,1,Office Depot Sucursal Plaza del Valle,Universidad 535 Entre Plaza del Valle. Col. Exhacienda de Candiani. Cp. 68130,17.040457,-96.711099
+21,14,6,1,Oxxo Sucursal Chicago 505z2,Mártires de Chicago No. 8. Entre Plutón y Dolores Larios. Col. Infonavit 1ro. de Mayo. Cp. 68027,17.086093,-96.711613
+22,18,8,1,Panificadora Reforma,Palmeras No. 521. Esq. Heróico Colegio Militar. Col. Reforma. Cp. 68050,17.076125,-96.71291
+23,10,1,1,Pitico Reforma,Calle Naranjos No.407 Esquina Jazmin. Col. Reforma. Cp. 68050,17.080579,-96.713419
+24,24,9,1,Proveedora Escolar,Independencia 1001. Esq. Reforma. Col. Centro. Cp. 68000,17.061603,-96.722461
+25,15,2,1,Salinas y Rocha Optima Sucursal Centro,Independencia 402. Entre Diaz Ordaz y J. P. Garcia. Col. Centro. Cp. 68000,17.062575,-96.728121
+26,20,7,1,Sears Plaza del Valle (Unica),Universidad 139 Plaza del Valle. Col. Ex-hacienda Candiani. Cp. 68130,17.039429,-96.711365
+27,3,1,1,Soriana Hiper Sucursal Oaxaca (105),Avenida Jorge L Tamayo # 500. Esq. Av. Universidad. Col. Ex Hacienda Candiani. Cp. 68130,17.043637,-96.714849
+28,22,9,1,Tony Tiendas,J. P. Garcia 602. Entre Zaragoza y Mina. Col. Centro. Cp. 68000,17.057423,-96.728528
+29,4,3,1,Tortillería Angelique Sucursal Uh. Flores Magón,Av. Central Oriente Poniente No. 4. Esq. Av. Central Norte Sur. Col. u. H. Ricardo Flores Magón. Cp. 68025,17.083847,-96.696879
+30,4,3,1,Tortillería del Mercado,20 de Noviembre 304. Entre Aldama y las Casas. Col. Centro. Cp. 68000,17.05878,-96.727256
+31,4,3,3,Tortillería Dos Regiones Sucursal del Bosque,Calz. Lazaro Cardenas 1404. Entre Zepatle y Calicanto. Col. del Bosque Sur. Cp. 71228,17.06469,-96.6975
+32,4,3,3,Tortillería Dos Regiones Sucursal España,Prolongación de Calicanto No. 108. Entre Miguel Hidalgo y 13 de Diciembre. Col. Calicanto. Cp. 71245,17.057962,-96.698234
+33,4,3,3,Tortillería Eda,Alamos 210. Esquina Orquideas. Col. Antiguo Aeropuerto. Cp. 71245,17.07888,-96.71917
+34,4,3,1,Tortillería el Refugio,Huerto los Ciruelos 303. Entre Laureles y Olmos. Col. Fraccionamiento Trinidad de las Huertas. Cp. 68120,17.050459,-96.716654
+35,4,3,1,Tortillería el Refugio Sucursal Centro,Porfirio Diaz # 708. Quetzalcoatl y Cosijopi. Col. Centro. Cp. 68000,17.068557,-96.725242
+36,4,3,1,Tortillería Elvis,Escuadron 201 No. 406. Esq. Sauces. Col. Antiguo Aeropuerto. Cp. 71245,17.080641,-96.706241
+37,4,3,1,Tortillería Infonavit,Esteban Baca Calderon No. 3-c. Entre Mártires de Cananea y Mártires de Chicago. Col. Infonavit 1ro. de Mayo. Cp. 68025,17.083319,-96.709583
+38,4,3,1,Tortillería la Guadalupana,Rayon No. 1204. Entre Eclipse 70 y Periferico. Col. Barrio Trinidad de las Huertas. Cp. 68000,17.055775,-96.713474
+39,4,3,1,Tortillería la Higienica,Prolongacion de Refugio # 400. Norte 1 y Norte 2. Col. Victor Bravo Ahuja. Cp. 68100,17.063316,-96.709889
+40,4,3,3,Tortillería Miguel,Av. Calicanto No. 101. Esq. del Trabajo. Col. Ampliación del Bosque Sur. Cp. 71244,17.064076,-96.696679
+41,4,3,3,Tortillería Nelly Sucursal Unica,Canal del Rosario 202. Esq. Priv. Canal del Rosario. Col. Calicanto. Cp. 68150,17.05641,-96.69423
+42,4,3,1,Tortillería Reforma,Reforma 705. Esq. Gomez Farias. Col. Centro. Cp. 68000,17.069231,-96.721297
+43,4,3,1,Tortillería Rosita,Amapolas # 619. Palmeras y Belisario Domingez. Col. Reforma. Cp. 68050,17.075967,-96.714951
+44,4,3,1,Tortillería Silvia,Nicolas del Puerto # 203. Morelos y Calz. de la Republica. Col. Centro. Cp. 68000,17.061367,-96.71583
+45,4,3,1,Tortillería Sin Nombre,7 de Enero No. 3 Mz. G. Entre Andador el Acero y Siderurgia. Col. Infonavit 1ro. de Mayo. Cp. 68020,17.081423,-96.710773
+46,4,3,1,Tortillería Vicky,Belisario Dominguez #708. H.c. Militar y Priv. Dalias. Col. Reforma. Cp. 68050,17.074859,-96.71277
+47,29,10,1,Uniformes Bekamex,Pinos 202. a Una Calle del Hotel Bosque. Col. Santa Lucia. Cp. 68100,17.066823,-96.696907
+48,30,10,1,Uniformes Casa Cruz Sucursal Centro,J.p. Jarcia 401. Esq. las Casas. Col. Centro. Cp. 68000,17.059621,-96.728037
+49,28,10,1,Uniformes Novedades Gler,Colon 312. Entre Melchor Ocampo y Fiallo. Col. Centro. Cp. 68000,17.058569,-96.722632
+50,31,10,1,Uniformes Tejidos Keyri,Escuela Naval Militar 725. Esq. Dalias. Col. Reforma. Cp. 68050,17.078097,-96.711667
+51,19,1,1,Walmart Sucursal 3506,Simbolos Patrios 1319. Entre Fresnos y Cda. Simbolos Patrios. Col. Exhacienda Candiani. Cp. 68130,17.031725,-96.714557

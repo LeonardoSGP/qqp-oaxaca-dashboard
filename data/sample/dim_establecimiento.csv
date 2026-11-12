@@ -1,0 +1,52 @@
+sk_establecimiento,id_establecimiento_origen,nombre_comercial,cadena_comercial,giro,direccion,municipio,estado,latitud,longitud
+1,7,Farmacia Guadalajara Sucursal Emiliano Zapata,Farmacia Guadalajara,Farmacias,Emiliano Zapata 220. Entre Sabinos y Palmeras. Col. Reforma. Cp. 68050,Oaxaca de Juárez,Oaxaca,17.077215,-96.71692
+2,8,Farmacia Hospital Reforma,Farmacia Hospital Reforma,Farmacias,Reforma 613. Entre Berriozabal y Humboldt. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,,
+3,9,Farmacia Similares Sucursal 76317,Farmacias Similares,Farmacias,Dalias 601. Esquina Alamos. Col. Reforma. Cp. 68050,Oaxaca de Juárez,Oaxaca,17.079242,-96.711341
+4,10,Farmacias del Ahorro Sucursal Juarez,Farmacias del Ahorro,Farmacias,Avenida Juarez 312 Local 1 y 2. Entre Berriozabal y Humbolt. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.067798,-96.720313
+5,11,Farmacias Guelaguetza Sucursal Independencia,Farmacias Guelaguetza,Farmacias,Independencia 407 Loc. 1. Esq. Tinoco y Palacios. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.062446,-96.727005
+6,12,Farmacias Omega Sucursal Centro,Farmacia,Farmacias,Las Casas 111 Letra D. Entre Jose Maria Bustamante y Ricardo Flores Magon. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.059222,-96.725861
+7,14,Mercado Benito Juarez,Mercado Publico,Mercados,Flores Magon S/N. Entre Casas y Aldama. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.058487,-96.726388
+8,15,Mercado Hidalgo,Mercado Publico,Mercados,Palmeras S/N. Esq. Emilio Carranza. Col. Reforma. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.068441,-96.725346
+9,16,Mercado Paz Migueles,Mercado Publico,Mercados,Proletariado Mexicano S/N. Entre Martires de Cananea y Mexico 68. Col. Unidad Habitacional Infonavit 1o. de Mayo. Cp. 68020,Oaxaca de Juárez,Oaxaca,17.088161,-96.711079
+10,17,Mercado Sanchez Pascuas,Mercado Publico,Mercados,Joaquin Amaro S/N. Entre Abraham Castellanos y Quetzalcoatl. Col. Figueroa. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.068441,-96.725346
+11,22,Panificadora Reforma,Panaderias Tradicionales,Panaderías,Palmeras No. 521. Esq. Heróico Colegio Militar. Col. Reforma. Cp. 68050,Oaxaca de Juárez,Oaxaca,17.076125,-96.71291
+12,5,Distribuidora Escolar y de Oficina J.p.,Distribuidora Escolar y de Oficina J.p.,Papelerías,Heroico Colegio Militar 1010 Loc.9a Un Costado de Gigante Reforma. Col. Reforma. Cp. 68150,Oaxaca de Juárez,Oaxaca,17.081359,-96.711684
+13,20,Office Depot Sucursal Plaza del Valle,Office Depot,Papelerías,Universidad 535 Entre Plaza del Valle. Col. Exhacienda de Candiani. Cp. 68130,Oaxaca de Juárez,Oaxaca,17.040457,-96.711099
+14,24,Proveedora Escolar,Papeleria Escolar,Papelerías,Independencia 1001. Esq. Reforma. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.061603,-96.722461
+15,28,Tony Tiendas,Papeleria Tony,Papelerías,J. P. Garcia 602. Entre Zaragoza y Mina. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.057423,-96.728528
+16,1,Bodega Aurrera Sucursal Santa Anita,Bodega Aurrera,Supermercado / Tienda de Autoservicio,Ferrocarril 517 Rumbo a Zachila. Col. Santa Anita. Cp. 68160,Santa Cruz Xoxocotlán,Oaxaca,17.045399,-96.730589
+17,3,Chedraui Selecto Sucursal Oaxaca Reforma,Chedraui Selecto,Supermercado / Tienda de Autoservicio,Heroica Escuela Naval Militar 917. Esq. Alamos. Col. Reforma. Cp. 68050,Oaxaca de Juárez,Oaxaca,17.078111,-96.708134
+18,18,Mercado Soriana Sucursal H. Colegio Militar (296),Mercado Soriana,Supermercado / Tienda de Autoservicio,Heroico Colegio Militar No. 1010. Entre Naranjos y Sauces. Col. Reforma. Cp. 68050,Oaxaca de Juárez,Oaxaca,17.080718,-96.712213
+19,23,Pitico Reforma,El Pitico,Supermercado / Tienda de Autoservicio,Calle Naranjos No.407 Esquina Jazmin. Col. Reforma. Cp. 68050,Oaxaca de Juárez,Oaxaca,17.080579,-96.713419
+20,27,Soriana Hiper Sucursal Oaxaca (105),Hipermercado Soriana,Supermercado / Tienda de Autoservicio,Avenida Jorge L Tamayo # 500. Esq. Av. Universidad. Col. Ex Hacienda Candiani. Cp. 68130,Oaxaca de Juárez,Oaxaca,17.043637,-96.714849
+21,51,Walmart Sucursal 3506,Wal-mart,Supermercado / Tienda de Autoservicio,Simbolos Patrios 1319. Entre Fresnos y Cda. Simbolos Patrios. Col. Exhacienda Candiani. Cp. 68130,Oaxaca de Juárez,Oaxaca,17.031725,-96.714557
+22,21,Oxxo Sucursal Chicago 505z2,Oxxo,Tienda de Conveniencia,Mártires de Chicago No. 8. Entre Plutón y Dolores Larios. Col. Infonavit 1ro. de Mayo. Cp. 68027,Oaxaca de Juárez,Oaxaca,17.086093,-96.711613
+23,4,Coppel Plaza Oaxaca,Coppel,Tienda de Electrodomésticos,Jorge Tamayo 500 Esq. Universidad Plaza Oaxaca. Col. Ex Hacienda Candiani. Cp. 68130,Oaxaca de Juárez,Oaxaca,17.042999,-96.714174
+24,6,Elektra Sucurasl Centro,Elektra,Tienda de Electrodomésticos,Colon 210. Entre Fiallo y Armenta y Lopez. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.058777,-96.723676
+25,25,Salinas y Rocha Optima Sucursal Centro,Salinas y Rocha,Tienda de Electrodomésticos,Independencia 402. Entre Diaz Ordaz y J. P. Garcia. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.062575,-96.728121
+26,13,Liverpool Sucursal Plaza Oaxaca,Liverpool,Tienda Departamentales,Jorge L. Tamayo 500. Int. Plaza Oaxaca. Col. Col.ex-hacienda Candiani. Cp. 68130,Oaxaca de Juárez,Oaxaca,17.043607,-96.714788
+27,26,Sears Plaza del Valle (Unica),Sears Roebuck de Mexico,Tienda Departamentales,Universidad 139 Plaza del Valle. Col. Ex-hacienda Candiani. Cp. 68130,Oaxaca de Juárez,Oaxaca,17.039429,-96.711365
+28,31,Tortillería Dos Regiones Sucursal del Bosque,Tortillerias Tradicionales,Tortillerías,Calz. Lazaro Cardenas 1404. Entre Zepatle y Calicanto. Col. del Bosque Sur. Cp. 71228,Santa Lucia del Camino,Oaxaca,17.06469,-96.6975
+29,32,Tortillería Dos Regiones Sucursal España,Tortillerias Tradicionales,Tortillerías,Prolongación de Calicanto No. 108. Entre Miguel Hidalgo y 13 de Diciembre. Col. Calicanto. Cp. 71245,Santa Lucia del Camino,Oaxaca,17.057962,-96.698234
+30,33,Tortillería Eda,Tortillerias Tradicionales,Tortillerías,Alamos 210. Esquina Orquideas. Col. Antiguo Aeropuerto. Cp. 71245,Santa Lucia del Camino,Oaxaca,17.07888,-96.71917
+31,40,Tortillería Miguel,Tortillerias Tradicionales,Tortillerías,Av. Calicanto No. 101. Esq. del Trabajo. Col. Ampliación del Bosque Sur. Cp. 71244,Santa Lucia del Camino,Oaxaca,17.064076,-96.696679
+32,41,Tortillería Nelly Sucursal Unica,Tortillerias Tradicionales,Tortillerías,Canal del Rosario 202. Esq. Priv. Canal del Rosario. Col. Calicanto. Cp. 68150,Santa Lucia del Camino,Oaxaca,17.05641,-96.69423
+33,29,Tortillería Angelique Sucursal Uh. Flores Magón,Tortillerias Tradicionales,Tortillerías,Av. Central Oriente Poniente No. 4. Esq. Av. Central Norte Sur. Col. u. H. Ricardo Flores Magón. Cp. 68025,Oaxaca de Juárez,Oaxaca,17.083847,-96.696879
+34,30,Tortillería del Mercado,Tortillerias Tradicionales,Tortillerías,20 de Noviembre 304. Entre Aldama y las Casas. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.05878,-96.727256
+35,34,Tortillería el Refugio,Tortillerias Tradicionales,Tortillerías,Huerto los Ciruelos 303. Entre Laureles y Olmos. Col. Fraccionamiento Trinidad de las Huertas. Cp. 68120,Oaxaca de Juárez,Oaxaca,17.050459,-96.716654
+36,35,Tortillería el Refugio Sucursal Centro,Tortillerias Tradicionales,Tortillerías,Porfirio Diaz # 708. Quetzalcoatl y Cosijopi. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.068557,-96.725242
+37,36,Tortillería Elvis,Tortillerias Tradicionales,Tortillerías,Escuadron 201 No. 406. Esq. Sauces. Col. Antiguo Aeropuerto. Cp. 71245,Oaxaca de Juárez,Oaxaca,17.080641,-96.706241
+38,37,Tortillería Infonavit,Tortillerias Tradicionales,Tortillerías,Esteban Baca Calderon No. 3-c. Entre Mártires de Cananea y Mártires de Chicago. Col. Infonavit 1ro. de Mayo. Cp. 68025,Oaxaca de Juárez,Oaxaca,17.083319,-96.709583
+39,38,Tortillería la Guadalupana,Tortillerias Tradicionales,Tortillerías,Rayon No. 1204. Entre Eclipse 70 y Periferico. Col. Barrio Trinidad de las Huertas. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.055775,-96.713474
+40,39,Tortillería la Higienica,Tortillerias Tradicionales,Tortillerías,Prolongacion de Refugio # 400. Norte 1 y Norte 2. Col. Victor Bravo Ahuja. Cp. 68100,Oaxaca de Juárez,Oaxaca,17.063316,-96.709889
+41,42,Tortillería Reforma,Tortillerias Tradicionales,Tortillerías,Reforma 705. Esq. Gomez Farias. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.069231,-96.721297
+42,43,Tortillería Rosita,Tortillerias Tradicionales,Tortillerías,Amapolas # 619. Palmeras y Belisario Domingez. Col. Reforma. Cp. 68050,Oaxaca de Juárez,Oaxaca,17.075967,-96.714951
+43,44,Tortillería Silvia,Tortillerias Tradicionales,Tortillerías,Nicolas del Puerto # 203. Morelos y Calz. de la Republica. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.061367,-96.71583
+44,45,Tortillería Sin Nombre,Tortillerias Tradicionales,Tortillerías,7 de Enero No. 3 Mz. G. Entre Andador el Acero y Siderurgia. Col. Infonavit 1ro. de Mayo. Cp. 68020,Oaxaca de Juárez,Oaxaca,17.081423,-96.710773
+45,46,Tortillería Vicky,Tortillerias Tradicionales,Tortillerías,Belisario Dominguez #708. H.c. Militar y Priv. Dalias. Col. Reforma. Cp. 68050,Oaxaca de Juárez,Oaxaca,17.074859,-96.71277
+46,2,Boneteria la Fama Sucursal Bustamante,Tiendas de Uniformes,Uniformes,Bustamante 200. Entre Aldama y las Casas. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.058744,-96.725367
+47,19,Milano Sucursal Centro,Milano,Uniformes,Flores Magon 103. Junto al Zocalo. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.059639,-96.726044
+48,47,Uniformes Bekamex,Uniformes Bekamex,Uniformes,Pinos 202. a Una Calle del Hotel Bosque. Col. Santa Lucia. Cp. 68100,Oaxaca de Juárez,Oaxaca,17.066823,-96.696907
+49,48,Uniformes Casa Cruz Sucursal Centro,Uniformes Casa Cruz,Uniformes,J.p. Jarcia 401. Esq. las Casas. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.059621,-96.728037
+50,49,Uniformes Novedades Gler,Uniformes Novedades Gler,Uniformes,Colon 312. Entre Melchor Ocampo y Fiallo. Col. Centro. Cp. 68000,Oaxaca de Juárez,Oaxaca,17.058569,-96.722632
+51,50,Uniformes Tejidos Keyri,Uniformes Tejidos Keyri,Uniformes,Escuela Naval Militar 725. Esq. Dalias. Col. Reforma. Cp. 68050,Oaxaca de Juárez,Oaxaca,17.078097,-96.711667

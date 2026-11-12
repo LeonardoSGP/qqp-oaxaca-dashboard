@@ -1,0 +1,501 @@
+id_presentacion,id_producto,id_marca,descripcion
+1,1,3,Botella 946 Ml. Canola
+1124,1,4,Botella 750 Ml. Canola
+2,1,4,Botella 840 Ml. Canola
+3,1,5,Botella 800 Ml. Vegetal
+4,1,6,Botella 800 Ml. Vegetal
+762,1,6,Botella 850 Ml. Vegetal
+5,1,8,Botella 765 Ml. Maíz
+6,1,9,Botella 850 Ml. Soya
+764,1,9,Botella 946 Ml. Soya
+7,1,10,Botella 825 Ml. Cártamo
+525,1,358,Botella 850 Ml. Vegetal
+526,1,359,Botella 850 Ml. Vegetal. Sabor Mantequilla
+725,1,448,Botella 1 Lt. Vegetal
+761,1,469,Botella 800 Ml. Vegetal
+763,1,470,Botella 946 Ml. Soya
+8,2,11,Botella 500 Ml. Extra Virgen (Etiqueta Verde)
+9,2,12,Botella 750 Ml. Extra Virgen
+10,2,13,Lata 450 Ml.
+11,2,13,Lata 950 Ml.
+1159,2,874,Botella 500 Ml. (Etiqueta Amarilla)
+12,3,14,Envase 300 Ml. Protección Caída
+13,3,15,Botella 400 Ml. Control Caída
+895,3,15,Botella 500 Ml. Control Caída
+542,3,15,Botella 700 Ml. Restauración
+541,3,293,Botella 720 Ml. Especialidades. Fuerza Acti-ceramidas
+766,3,298,Botella 360 Ml. Granada + Aceite de Aguacate/palta
+767,3,299,Botella 620 Ml. Ceramidas
+765,3,425,Botella 600 Ml. Lavanda & Aceite de Almendras
+1033,3,695,Botella 650 Ml. Stop Caída
+14,4,16,Botella 2 Lt.
+15,4,17,Botella 2 Lt.
+1096,4,17,Botella 600 Ml.
+16,4,17,Canastilla C/6 Botellas de 296 Ml.
+768,4,22,Botella 2 Lt.
+769,4,471,Botella 600 Ml. Limon-ada. Fizz
+770,4,471,Botella 600 Ml. Naranj-ada Fizz
+17,5,19,Botella 1.5 Lt. Limon
+726,5,20,Botella 1 Lt.
+18,5,20,Botella 1.5 Lt.
+19,5,20,Botella 600 Ml.
+20,5,21,Botella 1.4 Lt. Infusionada. Fresa
+21,5,22,Botella 1 Lt.
+22,5,22,Botella 1.5 Lt.
+23,5,22,Botella 600 Ml.
+543,5,22,Garrafón 10 Lt.
+24,5,23,Botella 1 Lt.
+544,5,23,Botella 1.5 Lt.
+545,5,23,Botella 600 Ml.
+771,5,472,Botella 1.5 Lt.
+968,5,528,Botella 1.5 Lt.
+1030,5,691,Botella 1 Lt. Mineral Natural
+1063,5,691,Botella 1.5 Lt. Mineral Natural
+25,6,24,Sobre 100 Gr.
+773,6,31,Sobre 100 Gr.
+26,7,28,Frasco 113 Gr. a Partir de los 6 Meses. Manzana
+546,7,28,Frasco 170 Gr. a Partir de los 8 Meses. Manzana
+727,8,29,Vaso 64 Gr. Sopa Instantánea con Camarón y Chile Piquín
+27,8,29,Vaso 64 Gr. Sopa Instantánea. Sabor a Pollo
+28,8,30,Vaso 64 Gr. Sopa Instantánea Sabor a Pollo
+969,9,1,1 Kg. Granel
+29,9,31,Sobre 75 Gr.
+31,10,31,Bolsa 500 Gr. Chica
+30,10,32,Bolsa 500 Gr. Chica
+32,11,5,Bolsa 900 Gr. Super Extra. Grano Largo
+778,11,31,Bolsa 1 Kg. Super Extra
+35,11,31,Bolsa 900 Gr. Super Extra
+936,11,32,Bolsa 750 Gr. Integral
+33,11,32,Bolsa 900 Gr. Super Extra
+776,11,32,Bolsa 907 Gr. Super Extra
+548,11,33,Bolsa 900 Gr. Super Extra. Verde
+777,11,33,Bolsa 907 Gr. Super Extra
+34,11,34,Bolsa 1 Kg. Super Extra. Integral
+547,11,358,Bolsa 900 Gr. Extra. Grano Largo
+1023,11,470,Bolsa 900 Gr. Super Extra
+36,12,37,Lata 120 Gr. con 20% de Proteína de Soya en Agua
+37,12,37,Lata 120 Gr. con 20% de Proteína de Soya en Agua con Aceite
+38,12,38,Bolsa 110 Gr. Ensalada
+779,12,38,Bolsa 74 Gr. Aleta Amarilla en Trozos en Agua
+549,12,38,Bolsa 78 Gr. Aleta Amarilla en Trozos en Aceite con Agua
+39,12,38,Bolsa 78 Gr. Aleta Amarilla. en Trozos en Agua
+780,12,38,Lata 140 Gr. Aleta Amarilla en Hojuelas en Agua
+550,12,38,Lata 140 Gr. Aleta Amarilla en Hojuelas en Agua con Aceite
+40,12,39,Lata 130 Gr. con 30% de Soya en Agua
+41,12,39,Lata 130 Gr. con 30% de Soya en Agua con Aceite
+42,12,41,Lata 130 Gr. Aleta Amarilla en Hojuelas en Agua
+43,12,41,Lata 130 Gr. Aleta Amarilla en Hojuelas en Agua con Aceite
+44,12,42,Lata 130 Gr. en Hojuelas en Agua
+937,12,42,Lata 130 Gr. en Hojuelas en Agua con Aceite
+782,12,43,Lata 140 Gr. (Clásico). Aleta Amarilla en Hojuelas en Agua
+781,12,43,Lata 140 Gr. (Clásico). Aleta Amarilla en Hojuelas en Agua con Aceite
+45,13,45,Bote 400 Gr. y Sémola de Trigo. Fortificada
+46,13,46,Bolsa 400 Gr.
+1125,13,47,Caja 280 Gr. Integral. Arándanos
+47,13,47,Caja 280 Gr. Integral. Fresas con Crema
+48,13,48,Bote 475 Gr. Hojuela Integral
+553,13,367,Bolsa 400 Gr. Hojuela Integral
+728,14,1,Bolsa Plástico 1 Kg. Estándar Morena
+729,14,1,Bolsa Plástico 2 Kg. Estándar Morena
+1044,14,5,Bolsa Plástico 1.8 Kg. Estándar
+49,14,5,Bolsa Plástico 900 Gr. Estándar
+1082,14,5,Bolsa Plástico 900 Gr. Refinada
+557,14,49,Bolsa 500 Gr. Mascabado
+1050,14,49,Bolsa Plástico 1 Kg. Estándar o Morena
+558,14,49,Bolsa Plástico 2 Kg. Estándar o Morena
+50,14,49,Bolsa Plástico 900 Gr. Estándar
+896,14,358,Bolsa Plástico 2 Kg. Estándar o Morena
+554,14,358,Bolsa Plástico 2 Kg. Refinada
+555,14,358,Bolsa Plástico 900 Gr. Estándar
+556,14,358,Bolsa Plástico 900 Gr. Refinada
+783,14,469,Bolsa Plástico 2 Kg. Estándar
+784,14,469,Bolsa Plástico 900 Gr. Estándar
+786,14,470,Bolsa Plástico 2 Kg. Refinada
+785,14,476,Caja 200 Gr. (50 Sobres de 4 Gr. C/U). Mascabado
+1022,14,564,Bolsa Plástico 1 Kg. Estándar o Morena
+51,15,51,Botella 600 Ml. Naranja
+52,15,52,Botella 1 Lt. Naranja
+560,15,52,Botella 500 Ml. Frutas
+53,16,53,Botella 950 Ml. el Rendidor
+54,16,54,Botella 930 Ml. Original
+55,17,55,Botella 700 Ml.
+787,17,477,Botella 700 Ml.
+1116,18,5,Frasco 180 Gr. Puro
+56,18,56,Frasco 170 Gr.
+57,18,56,Frasco 85 Gr. Tradicional
+730,18,57,Frasco 120 Gr.
+58,18,57,Frasco 200 Gr.
+59,18,58,Frasco 170 Gr. Mezclado con Caramelo
+563,18,58,Frasco 80 Gr. Mezclado con Caramelo
+561,18,369,Frasco 120 Gr. Sin Cafeína. Descafeinado
+562,18,369,Frasco 170 Gr. Sin Cafeína. Descafeinado
+788,18,470,Frasco 200 Gr.gourmet Colombiano
+60,19,59,Bolsa 400 Gr. Descafeinado
+564,19,370,Bolsa 200 Gr. Mezclado con Caramelo
+565,19,370,Bolsa 400 Gr. Mezclado con Caramelo
+789,19,478,Bolsa 400 Gr.
+897,19,505,Bolsa 400 Gr. Descafeinado
+1135,20,24,Sobre 25 Gr. Entera
+62,20,31,Bolsa 30 Gr. en Rama
+791,20,31,Bolsa 50 Gr. en Rama
+61,20,61,Frasco 63 Gr. Molida
+792,21,1,1 Kg. Granel. Cabeza
+64,21,1,1 Kg. Granel. Chuleta Ahumada o Entrecot Ahumado
+63,21,1,1 Kg. Granel. Chuleta o Chuleta Natural o Fresca/chuleta de Puerco Entrecortada o Lomo Deshuesado de Puerco o Chuleta Natural Lomo de Puerco
+567,21,1,1 Kg. Granel. Espinazo o Espinazo Cargado
+1020,21,1,1 Kg. Granel. Lomo o Caña de Lomo o en Trozo/lomo Sin Hueso
+568,21,1,1 Kg. Granel. Manitas
+66,21,1,1 Kg. Granel. Milanesa o Milanesa de Pierna
+975,21,1,1 Kg. Granel. Molida o Pulpa Molida
+999,21,1,1 Kg. Granel. Pierna Entera con Hueso o Pernil con Hueso
+793,21,1,1 Kg. Granel. Pierna Entera Sin Hueso o Pernil Sin Hueso
+527,21,158,1 Kg. Granel. Chuleta Natural
+65,22,1,1 Kg. Granel. Longaniza
+69,23,1,1 Kg. Granel. Entero. con Vísceras o Tipo Super o Entero Supermercado o Canal Entera
+529,23,1,1 Kg. Granel. Muslo (con Piel)
+530,23,1,1 Kg. Granel. Muslo (Sin Piel) o Light
+1036,23,1,1 Kg. Granel. Pechuga con Hueso o Anatómica o Sin Rabadilla (con Piel)
+70,23,1,1 Kg. Granel. Pechuga Sin Hueso (Sin Piel)
+531,23,1,1 Kg. Granel. Pechuga. Corte Americano
+898,23,1,1 Kg. Granel. Pechuga. Filete
+532,23,1,1 Kg. Granel. Pierna o Pierna Bate
+67,23,62,1 Kg. Granel. Entero
+68,23,63,1 Kg. Granel. Entero
+528,23,158,1 Kg. Granel. Entero
+794,24,1,1 Kg. Granel. Bistec Corte Delgado o Bistec
+71,24,1,1 Kg. Granel. Bistec del 0
+1012,24,1,1 Kg. Granel. Bistec del 0 para el Asador
+533,24,1,1 Kg. Granel. Bistec Diezmillo o Diezmillo Sin Hueso
+1064,24,1,1 Kg. Granel. Bistec para el Asador
+534,24,1,1 Kg. Granel. Carne para Asar
+976,24,1,1 Kg. Granel. Falda o para Deshebrar o Deshebrada
+1092,24,1,1 Kg. Granel. Falda para Cocer o Guisar
+535,24,1,1 Kg. Granel. Filete Limpio
+72,24,1,1 Kg. Granel. Milanesa de Bola o Auténtica de Bola o de Bola Corte Delgado o de Pulpa Bola
+536,24,1,1 Kg. Granel. Milanesa o de Corte Delgado o de Pulpa Blanca
+73,24,1,1 Kg. Granel. Molida
+537,24,1,1 Kg. Granel. Molida Especial 80/20
+795,24,1,1 Kg. Granel. Molida Top Sirlion 90/10 o de Sirlion 90/10
+569,24,1,1 Kg. Granel. Panza o Menudo. Crudos
+939,24,1,1 Kg. Granel. Retazo con Hueso o Cocido Comercial
+1013,24,1,1 Kg. Granel. Retazo con Hueso para Cocer o Guisar
+570,24,372,Paquete 500 Gr. Hígado Rebanado
+74,25,66,Blister 2 Piezas. Mediano 40
+75,25,67,Blister 3 Piezas. Doble Acción. Mediano
+796,25,479,Blister 2 Piezas
+76,26,68,Caja 570 Gr. Flakes
+77,26,68,Caja 775 Gr. Original
+571,26,69,Caja 38 Gr.
+78,26,69,Caja 540 Gr.
+797,26,69,Caja 560 Gr.
+79,26,70,Caja 500 Gr.
+798,26,70,Caja 530 Gr.
+80,26,71,Caja 450 Gr.
+81,26,72,Caja 530 Gr. Original
+799,26,73,Caja 30 Gr.
+82,26,73,Caja 380 Gr.
+83,26,73,Caja 600 Gr.
+800,26,73,Caja 620 Gr.
+572,26,373,Caja 275 Gr. el Original
+1105,26,373,Caja 370 Gr. el Original
+1126,26,373,Caja 385 Gr. el Original
+899,26,506,Caja 570 Gr. Original
+1080,26,507,Caja 620 Gr. Choco Crujiente
+900,26,507,Caja 620 Gr. Más Chocolatoso
+1075,26,507,Caja 650 Gr. Choco Crujiente
+940,26,507,Caja 650 Gr. Más Chocolatoso
+1065,26,721,Caja 620 Gr.
+1117,26,770,Caja 515 Gr.
+84,27,74,Paquete 10 Cajas. 50 Piezas C/U
+85,27,75,Paquete 10 Cajas. 50 Piezas C/U
+86,28,76,Canasta con 6 Botellas de 355 Ml. No Retornable (Clara)
+87,28,77,Canasta con 6 Botellas de 355 Ml. No Retornable
+88,28,77,Paquete. con 12 Latas de 355 Ml. C/U
+89,28,78,Canasta con 6 Botellas de 355 Ml. No Retornable
+90,28,79,Canasta con 6 Botellas de 355 Ml. No Retornable
+1152,28,79,Paquete con 12 Latas de 355 Ml.
+91,28,80,Canasta con 6 Botellas de 355 Ml. No Retornable
+92,28,81,Paquete con 12 Latas de 355 Ml.
+93,28,82,Botella 1.2 Lt. Retornable
+1024,28,82,Caja con 12 Botellas de 355 Ml. No Retornable
+573,28,374,Botella 940 Ml. Retornable. Familiar
+754,28,456,Paquete con 12 Latas de 355 Ml. C/U
+801,28,480,Canasta con 6 Botellas de 325 Ml.
+977,28,531,Canasta con 6 Botellas de 355 Ml. No Retornable
+574,29,41,Lata 215 Gr.
+94,29,83,Lata 200 Gr.
+95,29,84,Lata 220 Gr.
+97,30,31,Bolsa 75 Gr. Guajillo
+901,30,31,Bolsa 75 Gr. Pasilla
+96,30,85,Bolsa 100 Gr. Ancho
+1132,30,85,Bolsa 100 Gr. Pasilla
+101,31,84,Lata 105 Gr. Jalapeños Rajas
+902,31,84,Lata 105 Gr. Serrano. Enteros
+102,31,84,Lata 220 Gr. Chipotles Adobados
+731,31,84,Lata 220 Gr. Jalapeño. Enteros
+732,31,84,Lata 220 Gr. Jalapeños Rajas
+103,31,84,Lata 220 Gr. Serrano. Enteros
+104,31,84,Lata 240 Gr. Jalapeño. Enteros
+105,31,84,Lata 240 Gr. Jalapeños Rajas
+106,31,84,Lata 340 Gr. Jalapeños Rajas
+733,31,84,Lata 380 Gr. Jalapeños Rajas
+98,31,86,Lata 220 Gr. Jalapeños en Escabeche
+99,31,86,Lata 220 Gr. Jalapeños Rajas
+100,31,86,Lata 380 Gr. Jalapeños Rajas
+107,31,87,Lata 380 Gr. Jalapeños en Escabeche
+575,31,88,Lata 215 Gr. Chipotles Adobados
+108,31,88,Lata 215 Gr. Jalapeños en Escabeche
+576,31,88,Lata 215 Gr. Jalapeños Rajas
+109,32,89,Paquete 630 Gr.
+110,32,90,Paquete 540 Gr.
+111,33,91,1 Kg. Granel. Cantimpalo
+1014,33,412,1 Kg. Granel. Ranchero
+112,34,84,Lata 850 Gr.
+577,34,86,Lata 850 Gr.
+113,35,93,Bolsa 750 Gr. Caldo
+979,35,93,Bolsa 950 Gr. Caldo
+734,35,93,Caja 12 Cubos de 10.5 Gr. C/U. Caldo
+578,35,93,Frasco 450 Gr. Caldo
+804,35,482,Caja 110 Gr. 10 Cubos. Caldo
+582,36,94,Bote 417 Gr.
+583,36,94,Bote 417 Gr. Reducida en Grasa
+114,36,94,Vaso 196 Gr.
+579,36,207,Bote 426 Ml.
+580,36,207,Bote 426 Ml. Reducida en Grasa
+980,36,207,Bote 450 Ml.
+581,36,207,Vaso 200 Ml.
+115,37,95,Bote 1 Lt. Vegetal
+116,37,95,Bote 500 Ml. Vegetal
+117,38,96,Frasco 350 Gr.
+118,39,97,Frasco 425 Gr. Cremosa
+119,40,98,Tubo 75 Ml. Smiles. Liga de la Justicia
+120,40,98,Tubo 75 Ml. Smiles. para Niños. Mi Villano Favorito. Minions
+735,40,449,Tubo 100 Ml. Menta Original
+1015,40,483,Tubo 125 Ml. Sabor Original
+805,40,483,Tubo 135 Ml. Sabor Original
+981,40,483,Tubo 90 Ml. Sabor Original
+1118,40,771,Tubo 73 Ml. Encías
+121,41,99,Botella 400 Ml. Pro-ceramidas. Piel Seca
+122,41,100,Botella 400 Ml.
+123,41,101,Botella 500 Ml. Clásica. Piel Seca
+124,41,102,Botella 400 Ml. Humectación Diaria. Piel Normal a Seca
+125,41,103,Botella 400 Ml. Celulas Madre. Humectante
+126,41,104,Botella 400 Ml. Recuperación Esencial
+584,41,107,Botella 400 Ml. Express Hidration. Piel Normal
+585,41,107,Botella 400 Ml. Soft Milk. Piel Seca
+806,41,175,Botella 400 Ml. Piel Normal
+996,41,179,Botella 200 Ml. para Bebé. Hidratante. con Glicerina
+127,42,105,Tubo 110 Gr.
+128,43,106,Frasco 200 Ml.
+129,43,107,Envase 100 Ml.
+807,43,107,Frasco 400 Ml.
+130,43,108,Frasco 400 Gr. Piel Balanceada a Seca
+586,43,375,Frasco 400 Gr. Contra Arrugas
+808,43,484,Frasco 200 Gr.
+132,44,99,Barra 45 Gr. Tapa Azul. Original. Antitranspirante. para Dama
+133,44,99,Caja con Bote 150 Ml. (Aerosol) Men+care. Clinical Expert. Cuidado Total. para Caballero
+134,44,99,Caja con Bote 150 Ml. (Aerosol). Clinical Expert. Original Clean. para Dama
+810,44,107,Roll On 50 Ml. Aclarado Natural. para Dama
+811,44,107,Roll On 50 Ml. Black And White. Invisible Clear. para Dama
+587,44,107,Roll On 50 Ml. Men. Black And White. Invisible. Original. para Caballero
+812,44,107,Roll On 50 Ml. Men. Invisible. Antitranspirante. para Caballero
+1076,44,107,Roll On 50 Ml. Tono Natural. para Dama
+131,44,111,Barra 45 Gr. Black. para Caballero
+135,44,112,Roll On 65 Gr. Frescura Suave. para Dama
+136,44,113,Roll On 65 Ml. Fragancia Intensa. para Caballero
+590,44,114,Barra 45 Gr. Active Dry. Antitranspirante. para Caballero
+137,44,114,Barra 45 Gr. Powder. Dry. Antitranspirante. para Dama
+813,44,114,Caja con Barra 58 Gr. Clinical Men. Clean. para Caballero
+138,44,114,Caja con Barra 58 Gr. Clinical. Clasic. para Dama
+139,44,114,Roll On 50 Ml. Powder Dry. para Dama
+140,44,115,Barra 60 Gr. Fresh. para Caballero
+141,44,116,Barra 60 Gr. Spazio. para Caballero
+904,44,269,Barra 82 Gr. Specialized. Cool Wave. Gel Antitranspirante. para Caballero
+588,44,378,Barra 50 Gr. Fresh. para Caballero
+589,44,379,Roll On 65 Ml. Neutro Balance (Botella Transparente). para Dama
+903,44,508,Roll On 50 Gr. Verde. para Caballero
+905,44,509,Barra 45 Gr. Invisible. Floral. para Dama
+142,45,117,Bolsa 3.564 Gr. Polvo. Limpieza Instantánea
+1077,45,117,Bolsa 3.564 Gr. Polvo. Oxigeno Activo
+941,45,117,Bolsa 648 Gr. Polvo. Limpieza Instantánea
+1066,45,117,Bolsa 648 Gr. Polvo. Oxigeno Activo
+814,45,117,Bolsa 756 Gr. Polvo. Limpieza Instantánea
+1078,45,117,Bolsa 756 Gr. Polvo. Oxigeno Activo
+143,45,117,Botella 2.8 Lt. 1 para Todo
+1037,45,118,Bolsa 750 Gr. Polvo. con Un Toque de Downy
+144,45,118,Bolsa 750 Gr. Polvo. Poder y Cuidado
+1045,45,118,Botella 2.8 Lt. Concentrado. Color
+1123,45,118,Botella 2.8 Lt. Concentrado. Revitacolor
+145,45,119,Bolsa 1 Kg. Polvo
+146,45,120,Bolsa 1 Kg. Polvo
+147,45,120,Bolsa 5 Kg. Polvo
+148,45,121,Botella 1.83 Lt. Liquido
+149,45,122,Bolsa 900 Gr. Polvo. Universal
+150,45,123,Botella 1 Lt. Liquido. Delicada
+815,45,123,Botella 1.36 Lt. Liquido. Delicada
+151,45,124,Bolsa 850 Gr. Polvo
+152,45,125,Bolsa 850 Gr. Polvo
+591,45,380,Bolsa 850 Gr. Polvo. Aromas de Primavera
+592,45,381,Botella 3 Lt. Líquido
+1122,45,448,Bolsa 800 Gr. Polvo
+997,45,533,Bolsa 1 Kg. Polvo. Multiusos
+593,46,126,Bolsa 1 Kg. Polvo
+153,46,126,Bolsa 5 Kg. Polvo
+154,47,127,Bolsa 720 Gr. Polvo (Roja). Limón
+816,47,127,Botella 750 Ml. Liquido. Limon
+155,47,128,Bolsa 1 Kg. Polvo (Verde)
+156,47,128,Bolsa 720 Gr. Polvo. (Verde)
+157,47,128,Botella 750 Ml. Liquido (Verde). Limon
+594,47,128,Botella 750 Ml. Líquido. Pure & Lemon
+158,47,128,Botella 900 Ml. Liquido (Verde). Limon
+595,48,84,Lata 820 Gr. Mitades
+159,48,86,Lata 820 Gr. Mitades
+161,49,41,Lata 220 Gr. en Grano
+162,49,41,Lata 400 Gr. en Grano
+160,49,83,Lata 225 Gr. en Grano
+596,49,83,Lata 400 Gr. en Grano
+163,49,84,Lata 220 Gr. en Grano
+906,49,86,Lata 220 Gr. en Grano
+164,50,131,Bolsa 175 Gr. Crujiente (Galleta Molida)
+165,50,131,Bolsa 210 Gr. Pan Molido. Clásico
+817,50,485,Caja 350 Gr. Granulado. Crunchy. Corn Flakes
+166,51,137,Pieza Grande. (80 Mm. X 120 Mm. X 25 Mm.) (Verde)
+167,52,138,Caja 84 Gr. (50 Gr Caramelo). con Caramelo. Sabor Vainilla
+168,52,139,Caja 85 Gr. (35 Gr. Flan y 50 Gr. Caramelo). con Caramelo. Sabor Vainilla
+169,52,140,Caja 136 Gr. con Caramelo. Sabor Vainilla
+170,52,140,Caja 84 Gr. Sabor Vainilla
+171,53,141,Bolsa 500 Gr. Hortalizas Congeladas
+172,54,142,Lata 400 Gr. para Lactante
+173,54,143,Lata 400 Gr. para Lactante
+1067,54,723,Lata 400 Gr. para Lactante
+1068,54,724,Lata 400 Gr. para Lactante
+174,55,5,Bolsa 900 Gr. Negro
+175,55,5,Bolsa 900 Gr. Pinto
+821,55,31,Bolsa 1 Kg. Negro
+822,55,31,Bolsa 1 Kg. Negro. Jamapa
+823,55,31,Bolsa 1 Kg. Pinto
+179,55,31,Bolsa 900 Gr. Flor de Mayo
+180,55,31,Bolsa 900 Gr. Negro
+181,55,31,Bolsa 900 Gr. Negro. Jamapa
+824,55,31,Bolsa 900 Gr. Peruano
+182,55,31,Bolsa 900 Gr. Pinto
+176,55,32,Bolsa 750 Gr. Flor de Mayo
+907,55,32,Bolsa 900 Gr. Bayo
+908,55,32,Bolsa 900 Gr. Flor de Mayo
+177,55,32,Bolsa 900 Gr. Negro. Querétaro
+909,55,32,Bolsa 900 Gr. Pinto (Nacional)
+178,55,33,Bolsa 900 Gr. Negro. Querétaro
+910,55,33,Bolsa 900 Gr. Pinto
+597,55,358,Bolsa 908 Gr. Negro
+1031,55,358,Bolsa 908 Gr. Pinto
+982,55,470,Bolsa 900 Gr. Flor de Mayo
+983,55,470,Bolsa 900 Gr. Negro
+820,55,470,Bolsa 900 Gr. Pinto
+942,55,516,Bolsa 900 Gr. Bayo
+184,56,84,Lata 580 Gr. Refritos. Negro
+183,56,145,Bolsa 400 Gr. Refritos. Negros
+736,56,145,Bolsa 430 Gr. Refritos. Negros
+185,56,146,Bolsa 400 Gr. Refritos. Bayos
+825,56,146,Bolsa 430 Gr. Refritos. Bayos
+186,56,146,Lata 560 Gr. Entero. Bayo
+1057,57,147,Caja 228 Gr. Chokis. Clásica
+187,57,147,Caja 382 Gr. Sandwich. Emperador. Chocolate Cremoso
+1129,57,147,Caja 424 Gr. Surtido Rico. Original
+1119,57,147,Caja 490 Gr. Barras de Coco
+971,57,147,Paquete 75 Gr. Arcoiris
+188,57,148,Caja 268 Gr. Barritas con Relleno con Fresa
+189,57,148,Caja 268 Gr. Barritas con Relleno con Piña
+1157,57,148,Paquete 170 Gr. Triki Trakes
+190,57,148,Paquete 210 Gr. Príncipe
+191,57,148,Paquete 215 Gr. Triki Trakes
+192,57,148,Paquete 310 Gr. Polvorones
+193,57,149,Caja 252 Gr. Sandwich. Oreo. Chocolate con Relleno Cremoso Sabor Vainilla
+194,57,149,Caja 257.6 Gr. Chips Ahoy
+599,58,147,Bolsa 500 Gr. Animalitos
+984,58,147,Caja 720 Gr. Marias
+195,58,147,Caja 850 Gr. Marias
+826,58,147,Paquete 144 Gr. Marias
+196,58,147,Paquete 170 Gr. Marias
+943,58,517,Bolsa 800 Gr. Animalitos
+827,59,147,Caja 424 Gr. Habaneras. Clásica
+197,59,147,Caja 504 Gr. Saladitas
+198,59,147,Paquete 140 Gr. Saladitas
+737,59,147,Paquete 186 Gr. Saladitas
+600,59,149,Caja 356 Gr. Ritz
+199,60,31,Bolsa 500 Gr.
+200,61,150,Envase 220 Ml. para Caballero
+201,61,151,Envase 230 Ml. Profesional (Transparente)
+601,62,138,Bolsa 120 Gr. Leche. Chocolate
+602,62,138,Bolsa 120 Gr. Leche. Fresa
+603,62,138,Bolsa 120 Gr. Leche. Pistache
+202,62,138,Bolsa 120 Gr. Limón
+944,62,139,Bolsa 25 Gr. Agua. Limón
+203,62,140,Caja 84 Gr. Agua. Limón
+204,63,141,Bolsa 500 Gr. Hortalizas Congeladas
+205,64,141,Bolsa 500 Gr. Hortalizas Congeladas
+911,65,31,Bolsa 500 Gr. Pelada
+1000,65,32,Bolsa 500 Gr. Pelada
+206,65,85,Bolsa 500 Gr. Pelada
+207,66,152,Caja 425 Gr. Fécula. Natural
+208,66,153,Paquete 1 Kg. Maíz Blanco. Nixtamalizado
+607,66,388,Paquete 1 Kg.
+209,67,5,Paquete 1 Kg.
+913,67,244,Paquete 1 Kg.
+608,67,358,Paquete 1 Kg.
+612,67,387,Paquete 1 Kg. Integral
+739,67,389,Paquete 1 Kg.
+609,67,389,Paquete 907 Gr.
+829,67,390,Paquete 1 Kg. Ó 1.1 Kg.
+610,67,390,Paquete 800 Ó 880 Gr.
+611,67,391,Paquete 1 Kg.
+985,67,470,Paquete 1 Kg.
+211,68,140,Caja 800 Gr. Tradicionales
+613,68,147,Paquete 800 Gr. Tradicionales
+210,68,154,Caja 800 Gr. Original
+1001,68,387,Caja 800 Gr. Tradicionales
+614,68,387,Paquete 850 Gr. Tradicionales
+1054,68,718,Caja 800 Gr.
+212,69,155,Bote 517 Gr. (1 Lt.) Sabor Napolitano
+945,69,518,Bote 480 Gr. (900 Ml.) Sabor Napolitano
+1131,69,518,Bote 624 Gr. (1.17 Lt.) Sabor Napolitano
+213,70,158,Paquete C/12 Blanco
+214,70,158,Paquete C/18 Blanco
+946,70,159,Paquete C/12 Blanco
+215,70,159,Paquete C/18 Blanco
+216,70,159,Paquete C/30 Blanco
+947,70,160,Paquete C/12 Blanco
+948,70,160,Paquete C/18 Blanco
+217,70,160,Paquete C/30 Blanco
+218,70,161,Paquete C/12 Blanco
+219,70,161,Paquete C/18 Blanco
+220,70,161,Paquete C/30 Blanco
+615,70,358,Paquete C/12 Blanco
+616,70,358,Paquete C/18 Blanco
+1002,70,469,Paquete C/12 Blanco
+831,70,469,Paquete C/18 Blanco
+986,70,488,Paquete C/12 Blanco
+832,70,488,Paquete C/18 Blanco
+221,71,162,Bote 351 Gr./460 Ml. o 305 Gr./400 Ml. Base Agua
+222,71,163,Bote 302 Gr./460 Ml. (con Promoción) o Bote 305 Gr./400 Ml.
+223,71,164,Bote 338 Gr./400 Ml. Cucarachas y Escopriones
+224,71,165,Bote 309 Gr. (Sin Promoción) o Bote 372 Gr. (con Promoción)
+225,71,166,Bote 285 Gr. (Sin Promoción) o Bote 342 Gr. (con Promoción)
+226,71,167,Bote 305 Gr./400 Ml. Base de Agua
+227,71,168,Bote 338 Gr./400 Ml.
+617,71,392,Bote 372 Gr. (con Promoción)
+229,72,5,Barra 300 Gr. con Envoltura. (Rosa)
+230,72,126,Barra 400 Gr. con Envoltura
+228,72,169,Barra 400 Gr. con Envoltura. Frescura Agradable
+231,72,170,Barra 400 Gr. con Envoltura. (Amarillo)
+619,72,171,Barra 200 Gr. (Blanco)
+232,72,171,Barra 400 Gr. con Envoltura. (Rosa)
+618,72,358,Barra 350 Gr.con Envoltura. (Rosa)
+1138,72,795,Barra 400 Gr. con Envoltura. Lavanderia
+233,73,99,Caja con Barra 135 Gr. Original
+234,73,172,Caja C/barra 200 Gr. Neutro
+235,73,173,Barra 175 Gr.
+236,73,174,Barra 120 Gr. Sensación Humectante. Oliva y Aloe
+237,73,175,Barra 120 Gr. Dermolimpiador
+238,73,176,Barra 135 Gr. Aqua
+833,73,382,Barra 135 Gr. Antibacterial. (Rosa)
+620,73,382,Barra 150 Gr. Antibacterial. (Rosa)

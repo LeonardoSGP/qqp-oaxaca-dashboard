@@ -1,0 +1,782 @@
+id_producto,nombre,id_categoria,id_catalogo
+311,A.s.cor,1,1
+622,Acarbosa,1,1
+688,Aceite,2,2
+1,Aceite,2,3
+2,Aceite de Oliva,3,3
+174,Aceituna,3,3
+271,Acelga,7,4
+623,Aciclovir,1,1
+312,Acido Fólico,1,1
+662,Aclimafel,1,1
+3,Acondicionador y Enjuague,4,3
+663,Adalat Oros,1,1
+313,Aderogyl 15,1,1
+314,Adimod,1,1
+315,Afumix,1,1
+316,Afungil,1,1
+317,Agrifen,1,1
+4,Agua con Gas,5,3
+229,Agua con Gas,43,9
+318,Agua Oxigenada,1,1
+5,Agua Sin Gas,5,3
+237,Aguacate,6,4
+238,Ajo,7,4
+165,Ajo,8,3
+6,Ajonjolí,8,3
+294,Alcachofa,7,4
+166,Alcaparra,3,3
+319,Alcohol,1,1
+320,Alevian Duo,1,1
+321,Algodón,1,1
+7,Alimento Preparado para Niños,9,3
+8,Alimentos Preparados,10,3
+322,Alka-seltzer,1,1
+732,Almeja,18,7
+9,Almendras,3,3
+624,Alopurinol,1,1
+625,Altruline,1,1
+10,Alubia,11,3
+323,Amantadina Clorfenamina Paracetamol,1,1
+167,Amaranto,11,3
+626,Amaryl,1,1
+664,Amaryl M,1,1
+324,Ambroxol,1,1
+658,Ambroxol Dextrometorfano,1,1
+627,Ambroxol Salbutamol,1,1
+325,Amikacina,1,1
+326,Amlodipino,1,1
+327,Amoxicilina,1,1
+328,"Amoxicilina, Acido Clavulanico",1,1
+329,Amoxiclav. Bid,1,1
+659,Ampicilina,1,1
+330,Ampliron Duo,1,1
+331,Angeliq a,1,1
+332,Antiflu-des,1,1
+333,Antiflu-des Jr.,1,1
+283,Apio,7,4
+334,Aprovel,1,1
+665,Arava,1,1
+628,Arcoxia,1,1
+689,Arroz,12,2
+11,Arroz,12,3
+666,Artridol,1,1
+615,Asenlix,1,1
+197,Asistentes de Voz,13,5
+198,Aspiradoras,14,5
+335,Aspirina,1,1
+336,Aspirina Protect,1,1
+337,Atacand,1,1
+338,Atacand Plus,1,1
+682,Ativan,1,1
+339,Atorvastatina,1,1
+690,Atún,15,2
+12,Atún,15,3
+146,Atún,18,3
+728,Atún,18,7
+340,Augmentin 12 H.,1,1
+297,Autopistas,16,6
+341,Avamys 2a,1,1
+629,Avelox 7d,1,1
+13,Avena,12,3
+667,Avodart,1,1
+342,Azitromicina,1,1
+691,Azúcar,17,2
+14,Azúcar,17,3
+343,Bactrim F,1,1
+719,Bagre,18,7
+736,Bandera,18,7
+199,Barra de Sonido,13,5
+147,Barras de Avena,12,3
+189,Barras de Cereal,12,3
+721,Barrita de Surimi o Barrita de Surimi Cangre,18,7
+712,Basa,18,7
+772,Bata Escuela Oficial,42,8
+225,Batidoras,14,5
+192,Bebida Varias,5,3
+15,Bebidas Hidratantes,5,3
+344,Bedoyecta,1,1
+345,Bedoyecta-tri,1,1
+346,Bencilpenicilina Procainica,1,1
+347,Benzonatato,1,1
+284,Betabel,7,4
+685,Betametasona,1,1
+630,Betametasona/ Clotrimazol/ Gentamicina,1,1
+668,Bexident Encias,1,1
+348,Bezafibrato,1,1
+739,Bicolor,42,8
+669,Biometrix,1,1
+349,Biomics,1,1
+714,Blanco del Nilo,18,7
+16,Blanqueador,19,3
+771,Block,42,8
+670,Blopress Plus,1,1
+773,Blusa Escuela Oficial,42,8
+217,Bocinas Portátiles,13,5
+740,Bolígrafo Colores Varios,42,8
+741,Bolígrafo Tinta Negra,42,8
+631,Bonviva,1,1
+17,Brandy,20,3
+632,Bredelin,1,1
+272,Brócoli,7,4
+350,Bromuro de Pinaverio,1,1
+616,Buscapina Compositum,1,1
+351,Butilhioscina,1,1
+633,Butilhioscina/ Metamizol Sodico,1,1
+287,Cacahuates,3,4
+177,Cacahuates,28,3
+18,Café Soluble,21,3
+19,Café Tostado y Molido,21,3
+200,Cafeteras,14,5
+352,Cafiaspirina,1,1
+148,Cajeta,28,3
+239,Calabaza,7,4
+716,Calamar,18,7
+353,Calcitriol,1,1
+755,Calculadoras,42,8
+737,Callo de Hacha,18,7
+218,Cámaras Digitales,13,5
+717,Camarón,15,7
+196,Camarón,18,3
+718,Camarón,18,7
+780,Camisa Escuela Oficial,42,8
+240,Caña,3,4
+20,Canela,3,3
+354,Canesten V,1,1
+355,Captopril,1,1
+634,Carbamazepina,1,1
+692,Carne Cerdo,22,2
+21,Carne Cerdo,22,3
+22,Carne Cerdo,23,3
+186,Carne Pavo,24,3
+693,Carne Pollo,24,2
+23,Carne Pollo,24,3
+694,Carne Res,25,2
+24,Carne Res,25,3
+723,Carpa,18,7
+733,Cazón,18,7
+695,Cebolla,7,2
+241,Cebolla,7,4
+683,Cefaclor,1,1
+635,Cefalexina,1,1
+636,Cefaxona I.m.,1,1
+356,Cefotaxima,1,1
+357,Ceftrex Im,1,1
+660,Ceftriaxona,1,1
+617,Cefuracet,1,1
+637,Cefuroxima,1,1
+358,Celebrex,1,1
+359,Celestamine-ns,1,1
+638,Celestone Soluspan,1,1
+201,Celulares,13,5
+25,Cepillo Dental,4,3
+26,Cereales,12,3
+27,Cerillos,26,3
+28,Cerveza,27,3
+230,Cerveza,43,9
+639,Cetirizina,1,1
+774,Chaleco,42,8
+288,Champiñones,7,4
+242,Chayote,7,4
+168,Chía,11,3
+243,Chícharos,7,4
+29,Chícharos en Lata,9,3
+696,Chile Fresco,7,2
+244,Chile Fresco,7,4
+30,Chile Seco,11,3
+31,Chiles,9,3
+228,Chocolate,28,9
+32,Chocolate en Tablillas,28,3
+360,Cholal Modificado,1,1
+33,Chorizo,23,3
+640,Cialis,1,1
+273,Cilantro,7,4
+361,Cinarizina,1,1
+742,Cinta Adhesiva,42,8
+362,Ciproflox,1,1
+363,Ciprofloxacino,1,1
+290,Ciruela,6,4
+180,Ciruela Pasa,3,3
+364,Claritromicina,1,1
+365,Clendix,1,1
+671,Clexane,1,1
+366,Clindamicina,1,1
+367,Clopidogrel,1,1
+368,Cloramfeni Ofteno,1,1
+641,Clorfenamina Compuesta,1,1
+369,Co-diovan,1,1
+34,Coctel de Frutas en Almíbar,9,3
+245,Col,7,4
+285,Coliflor,7,4
+743,Colores de Madera,42,8
+182,Combinado Primavera,9,3
+370,Combivent,1,1
+371,Combivent. Respimat,1,1
+756,Compas,42,8
+672,Competact,1,1
+219,Componentes de Audio,13,5
+202,Computadoras Portátiles,13,5
+35,Concentrado de Pollo,8,3
+781,Conjunto de Pants Deportivo Escolar,42,8
+372,Contac,1,1
+373,Controlip,1,1
+195,Copa Menstrual,4,3
+744,Crayones,42,8
+36,Crema,29,3
+37,Crema Batida,29,3
+38,Crema de Avellanas con Cacao,28,3
+39,Crema de Cacahuate,28,3
+40,Crema Dental,4,3
+41,Crema Líquida,4,3
+42,Crema para Rozaduras,4,3
+43,Crema Sólida,4,3
+374,Crestor,1,1
+769,Cuaderno Forma College,42,8
+757,Cuaderno Forma Francesa,42,8
+745,Cuaderno Forma Italiana,42,8
+746,Cuaderno Profesional,42,8
+375,Cubrebocas,4,1
+169,Cúrcuma,8,3
+724,Curvina,18,7
+618,Cymbalta,1,1
+642,Cytotec,1,1
+643,Daflon,1,1
+376,Dagla,1,1
+377,Dalacin C,1,1
+378,Daxon,1,1
+379,Desenfriol-d,1,1
+380,Desenfriol-ito,1,1
+765,Desengrapadora,42,8
+644,Desloratadina,1,1
+44,Desodorante,4,3
+45,Detergente P/ropa,19,3
+46,Detergente P/ropa y Trastes,19,3
+47,Detergente P/trastes,19,3
+381,Dexabion,1,1
+382,Dexametasona,1,1
+383,Dexivant,1,1
+645,Dextrometorfano Guaifenesina,1,1
+673,Diabion,1,1
+384,Diane,1,1
+758,Diccionario,42,8
+385,Diclofenaco,1,1
+386,"Diclofenaco. Vitaminas B1, B6 y B12",1,1
+646,"Diclofenaco. Vitaminas B1, B6 y B13",1,1
+674,Dicloxacilina,1,1
+647,Difenidol,1,1
+387,Dimegan-d,1,1
+661,Dimenhidrinato,1,1
+388,Dimoflax,1,1
+389,Diovan,1,1
+231,Dip,43,9
+390,Diprospan,1,1
+759,Disco Compacto,42,8
+648,Dolac,1,1
+392,Dolo-neurobión,1,1
+393,Dolo-neurobión Forte,1,1
+391,Dolocartigen,1,1
+680,Dorixina Forte,1,1
+394,Dorixina Relax,1,1
+246,Durazno,6,4
+48,Duraznos en Almíbar,9,3
+649,Efexor Xr,1,1
+247,Ejote,7,4
+395,Elatec,1,1
+396,Electrolitos Orales,1,1
+203,Electrónicos de Video,16,5
+619,Elequine,1,1
+49,Elote,7,3
+274,Elote,7,4
+50,Empanizadores,30,3
+675,Enaladil,1,1
+397,Enalapril,1,1
+398,Enterogermina,1,1
+399,Espaven,1,1
+248,Espinacas,7,4
+400,Espironolactona,1,1
+170,Espuma de Afeitar,4,3
+204,Estufas,14,5
+401,Eutirox 100,1,1
+681,Evista,1,1
+402,Evra,1,1
+403,Exforge,1,1
+650,Exforge Hct,1,1
+205,Extractores de Jugos y Exprimidores,14,5
+404,Fabroven,1,1
+775,Falda Escuela Oficial,42,8
+405,Febrax,1,1
+406,Ferranina Fol,1,1
+51,Fibra para Cocina,31,3
+407,Finasterida,1,1
+52,Flan,28,3
+408,Flanax,1,1
+53,Floretes de Brócoli,9,3
+651,Fluconazol,1,1
+409,Fluoxetina,1,1
+760,Folders,42,8
+54,Fórmula Láctea,32,3
+652,Fosamax Plus,1,1
+410,Fosfocil,1,1
+206,Freidoras de Aire,14,5
+275,Fresa,6,4
+697,Frijol,11,2
+55,Frijol,11,3
+56,Frijoles,9,3
+411,Furosemida,1,1
+458,Gabapentina,1,1
+57,Galletas Dulces,10,3
+149,Galletas Dulces,37,3
+58,Galletas Populares,10,3
+59,Galletas Saladas,10,3
+234,Galletas Saladas,43,9
+412,Galvus Met,1,1
+60,Garbanzo,11,3
+413,Gasa,1,1
+414,Gavindo N,1,1
+415,Gel Antibacterial,4,1
+61,Gel Fijador,4,3
+62,Gelatina en Polvo,28,3
+416,Genoprazol,1,1
+596,Gentamicina,1,1
+620,Glanique,1,1
+500,Glibenclamida,1,1
+459,Glimepirida,1,1
+501,Glucómetro,4,1
+676,Glyvenol,1,1
+747,Goma Borrador,42,8
+293,Granada,6,4
+150,Granola,12,3
+63,Granos de Elote,9,3
+766,Grapas,42,8
+151,Grasa Comestible,2,3
+291,Guanábana,6,4
+417,Guantes de Látex,4,1
+64,Guarnición de Verduras,9,3
+276,Guayaba,6,4
+65,Haba,11,3
+677,Halcion,1,1
+152,Harina de Arroz,12,3
+66,Harina de Maíz,33,3
+67,Harina de Trigo,10,3
+68,Harina Hot Cakes,10,3
+69,Helado,29,3
+653,Her-klin Nf. Shampoo,1,1
+460,Hidroxocobalamina Tiamina Piridoxina,1,1
+418,Histiacil Nf,1,1
+171,Hojas de Laurel,8,3
+770,Hojas de Papel,42,8
+207,Horno de Microondas,14,5
+208,Horno Eléctrico,14,5
+729,Huachinango,18,7
+698,Huevo,34,2
+70,Huevo,34,3
+678,Humalog Mix 25,1,1
+679,Humulin N. Insulina Humana,1,1
+419,Humylub Ofteno,1,1
+461,Ibuprofeno,1,1
+420,Imodium,1,1
+71,Insecticida Aerosol,19,3
+421,Isodine Bucofaringeo,1,1
+462,Itraconazol,1,1
+72,Jabón de Pasta,19,3
+699,Jabón de Tocador,4,2
+73,Jabón de Tocador,4,3
+74,Jabón de Tocador para Bebé,4,3
+725,Jaiba,18,7
+249,Jamaica,3,4
+75,Jamón,23,3
+422,Janumet,1,1
+654,Januvia,1,1
+76,Jarabe P/preparar Bebidas,28,3
+250,Jícama,3,4
+700,Jitomate,7,2
+251,Jitomate,7,4
+748,Juego de Geometría,42,8
+298,Juegos de Mesa,16,6
+77,Jugo de Fruta,5,3
+299,Juguetes Armables,16,6
+300,Juguetes de Destreza,16,6
+301,Juguetes Educativos,16,6
+302,Juguetes Montables,16,6
+655,Kank-a,1,1
+656,Keflex,1,1
+657,Keflex Pediátrico,1,1
+621,Keppra,1,1
+502,Ketoconazol,1,1
+463,Ketorolaco,1,1
+252,Kiwi,6,4
+423,Krytan Tek Ofteno,1,1
+503,Lactacyd,1,1
+504,Lagricel Ofteno,1,1
+505,Lamisil,1,1
+606,Lamotrigina,1,1
+187,Lámpara Ahorradora,39,3
+506,Lancetas,4,1
+507,Lantus. Insulina Glargina,1,1
+749,Lápiz,42,8
+750,Lápiz Adhesivo,42,8
+209,Lavadoras,14,5
+78,Leche Condensada,32,3
+79,Leche en Polvo,32,3
+80,Leche Evaporada,32,3
+178,Leche Pasteurizada,41,3
+701,Leche Ultrapasteurizada,32,2
+81,Leche Ultrapasteurizada,32,3
+277,Lechuga,7,4
+153,Lenteja,11,3
+433,Levitra,1,1
+464,Levofloxacino,1,1
+508,Levonorgestrel,1,1
+509,Lexapro,1,1
+510,Libertrim Sii,1,1
+210,Licuadoras,14,5
+253,Lima,3,4
+702,Limón,6,2
+254,Limón,6,4
+82,Limpiador Líquido P/piso,19,3
+83,Linaza,11,3
+511,Lincocin,1,1
+465,Lincomicina,1,1
+434,Lipitor,1,1
+726,Lisa,18,7
+597,Lisinopril,1,1
+512,Livial,1,1
+466,Lopid,1,1
+467,Loratadina,1,1
+468,Loratadina Betametasona,1,1
+513,Losartán,1,1
+613,Losartan Hidroclorotiazida,1,1
+514,Losec A-20,1,1
+435,Lyrica,1,1
+515,Macrodantina,1,1
+84,Maíz Palomero,11,3
+175,Maíz Pozolero,33,3
+278,Mamey,6,4
+255,Mandarina,6,4
+279,Mango,6,4
+154,Manteca de Cerdo,38,3
+85,Mantequilla,29,3
+703,Manzana,6,2
+256,Manzana,6,4
+761,Marcadores,42,8
+86,Margarina,2,3
+516,Materna,1,1
+87,Mayonesa,8,3
+517,Medicasp Shampoo,1,1
+257,Melón,6,4
+518,Meloxicam,1,1
+88,Mermelada,9,3
+735,Mero,18,7
+519,Metamizol Sodico,1,1
+469,Metformina,1,1
+470,Metformina-glibenclamida,1,1
+436,Meticorten,1,1
+520,Metoprolol,1,1
+155,Mezcla California,9,3
+179,Mezcla Campesina,9,3
+471,Micardis,1,1
+521,Micardis Plus,1,1
+472,Miconazol,1,1
+190,Microbicida,19,3
+522,Mictasol,1,1
+156,Miel de Abeja,28,3
+211,Minibocinas Portátiles Bluetooth,13,5
+598,Misoprostol,1,1
+715,Mojarra,18,7
+157,Mole Rojo en Pasta,8,3
+473,Montelukast,1,1
+191,Mortadela,23,3
+89,Mostaza,8,3
+309,Motos y Carros Eléctricos,16,6
+303,Motos y Carros Mecánicos,16,6
+523,Motrin,1,1
+524,Mucosolvan,1,1
+304,Muñecas,16,6
+305,Muñecas Eléctricas,16,6
+306,Muñecos,16,6
+310,Muñecos Eléctricos,16,6
+474,Naproxeno,1,1
+525,"Naproxeno Sodico, Paracetamol",1,1
+258,Naranja,6,4
+424,Nebulizador,4,1
+526,Neo Melubrina,1,1
+527,Neuralin,1,1
+437,Nexium,1,1
+528,Nexium-mups,1,1
+529,Next. Tabs,1,1
+530,Nikzon,1,1
+686,Nimesulida,1,1
+599,Nitazoxanida,1,1
+600,Nitrofurantoina,1,1
+531,Nootropil,1,1
+289,Nopal,7,4
+438,Norvas,1,1
+532,Novotiral,1,1
+533,Novovartalon,1,1
+534,Núcleo C.m.p. Forte,1,1
+184,Nuez,8,3
+535,Olanzapina,1,1
+220,Olla de Presión Express,31,5
+475,Omeprazol,1,1
+176,Orégano,8,3
+614,Orlistat,1,1
+439,Oroxadin,1,1
+536,Oxímetro,4,1
+727,Pámpano,18,7
+90,Pan Blanco Bolillo,30,3
+704,Pan de Caja,30,2
+91,Pan de Caja,30,3
+92,Pan Dulce,30,3
+94,Pañales Desechables,35,3
+476,Panoto-s,1,1
+212,Pantallas,13,5
+776,Pantalón Corto Shorts Escuela,42,8
+777,Pantalón Escuela Oficial,42,8
+93,Pantiprotectores,4,3
+537,Pantoprazol,1,1
+538,Pantozol,1,1
+705,Papa,7,2
+259,Papa,7,4
+95,Papas Fritas y Similares,28,3
+232,Papas Fritas y Similares,43,9
+260,Papaya,6,4
+706,Papel Higiénico,35,2
+96,Papel Higiénico,35,3
+539,Paracetamol,1,1
+540,Paracetamol/cafeina,1,1
+738,Pargo,18,7
+477,Paroxetina,1,1
+181,Pasa (Uva Pasa),28,3
+707,Pasta para Sopa,10,2
+97,Pasta para Sopa,10,3
+98,Pastelillos y Pan Dulce Empaquetado,30,3
+478,Patanol,1,1
+541,Paxil,1,1
+194,Pechuga de Pavo,23,3
+542,Pedyalite. Sr-45. Electrolitos Orales,1,1
+751,Pegamento,42,8
+440,Pemix,1,1
+543,Pentrexyl,1,1
+261,Pepino,7,4
+280,Pera,6,4
+292,Perón,6,4
+544,Pharmaton. con Gingeng G115,1,1
+545,Piascledine 300,1,1
+479,Picot. Sal de Uvas,1,1
+158,Pilas Eléctricas,39,3
+172,Pimienta,8,3
+281,Pimiento,7,4
+262,Piña,6,4
+99,Piña en Almíbar,9,3
+213,Planchas,14,5
+227,Planchas de Vapor Vertical,14,5
+546,Plantaben,1,1
+607,Plantago Psyllium,1,1
+441,Plaquenil,1,1
+767,Plastilina,42,8
+708,Plátano,6,2
+263,Plátano,6,4
+547,Plavix,1,1
+778,Playera Blanca,42,8
+752,Pliegos de Papel,42,8
+768,Plumines,42,8
+753,Plumones,42,8
+100,Pollo Rostizado. Tradicional,36,3
+193,Polvo P/hornear,8,3
+101,Polvo P/preparar Bebidas,28,3
+102,Polvo P/preparar Bebidas Sabor Chocolate,28,3
+548,Pomada de la Campana,1,1
+762,Portaminas,42,8
+480,Posipen,1,1
+608,Postday,1,1
+481,Pravastatina,1,1
+442,Prevefem Complex,1,1
+482,Pristiq,1,1
+443,Prodolina,1,1
+103,Producto Lácteo,32,3
+104,Producto para Depilación,4,3
+105,Protector Solar,4,3
+444,Pulmicort,1,1
+483,Pulmonarom,1,1
+734,Pulpo,15,7
+722,Pulpo,18,7
+159,Puré de Tomate,9,3
+549,Qg5,1,1
+550,Quadriderm Nf,1,1
+106,Queso Americano,29,3
+185,Queso Chihuahua,29,3
+235,Queso Crema,43,9
+160,Queso de Puerco,23,3
+183,Queso Fresco,29,3
+107,Queso Manchego,29,3
+108,Queso Oaxaca,29,3
+109,Queso Panela,29,3
+282,Rábano,7,4
+110,Rastrillos Desechables,4,3
+551,Redotex,1,1
+552,Redoxon,1,1
+553,Redoxon. Forte,1,1
+554,Redustat,1,1
+111,Refresco,5,3
+233,Refresco,43,9
+445,Refresh Tears,1,1
+214,Refrigeradores,14,5
+236,Refrigeradores,44,9
+763,Reglas,42,8
+215,Reproductores Streaming,13,5
+112,Repuestos de Navajas,4,3
+555,Rinelon,1,1
+484,Riopan,1,1
+556,Rivotril,1,1
+557,Rivotril. Gotas,1,1
+730,Robalo,18,7
+558,Rocephin Im,1,1
+295,Romeritos,3,4
+161,Ron,20,3
+113,Ropa Interior Desechable y Similares,35,3
+754,Sacapuntas,42,8
+114,Sal de Mar,8,3
+115,Sal Molida de Mesa,8,3
+559,Salbutamol,1,1
+116,Salchicha,23,3
+720,Salmón,18,7
+117,Salsa Catsup,8,3
+118,Salsa de Soya,8,3
+162,Salsa Inglesa,8,3
+119,Salsa Picante y Similares,8,3
+264,Sandía,6,4
+224,Sandwicheras,14,5
+709,Sardina,15,2
+120,Sardina,15,3
+221,Secadoras,14,5
+560,Secotex Ocas,1,1
+446,Sedalmerck,1,1
+561,Seloken Zok,1,1
+562,Selopres Zok,1,1
+173,Semilla de Girasol,11,3
+485,Senosidos A-b,1,1
+425,Sensibit,1,1
+447,Serc,1,1
+563,Seretide Diskus,1,1
+448,Sermion,1,1
+486,Sertralina,1,1
+121,Servilletas de Papel Blanco,35,3
+564,Severin N.f.,1,1
+122,Shampoo,4,3
+123,Shampoo Íntimo,1,3
+124,Shampoo para Bebés/niños,4,3
+731,Sierra,18,7
+565,Sies,1,1
+601,Sildenafil,1,1
+487,Silka Medic,1,1
+687,Simvastatina,1,1
+684,Sinergix,1,1
+449,Singulair,1,1
+488,Sinuberase,1,1
+609,Sirdalud,1,1
+610,Sistema Gb. Solución Alopecia,1,1
+450,Somazina,1,1
+163,Spray Desinfectante,19,3
+566,Sterimar,1,1
+567,Stugeron Forte,1,1
+125,Suavizante P/ropa,19,3
+602,Subsalicilato de Bismuto,1,1
+126,Sueros Orales,1,3
+568,Suerox. 0 Azúcar,1,1
+779,Suéter Escuela Oficial,42,8
+489,Sufrexal Combi,1,1
+569,Suplemento Alimenticio,1,1
+451,Supradol,1,1
+127,Sustituto de Azúcar,17,3
+570,Systane,1,1
+426,Tabcin,1,1
+427,Tabcin 500,1,1
+226,Tablet,13,5
+571,Tacex Im,1,1
+572,Tafil,1,1
+452,Tafirol Flex,1,1
+128,Talco,4,3
+129,Talco para Bebé,4,3
+286,Tamarindo,3,4
+130,Tampones,35,3
+603,Tamsulosina,1,1
+164,Té,40,3
+131,Té Preparado,5,3
+573,Tecta,1,1
+265,Tejocote,3,4
+490,Telmisartan,1,1
+428,Tempra,1,1
+574,Tenoretic,1,1
+575,Tenormin,1,1
+132,Tequila,20,3
+576,Terbinafina,1,1
+429,Termómetro,4,1
+453,Terramicina,1,1
+430,Theraflu,1,1
+577,Tiaminal B12,1,1
+764,Tijeras,42,8
+713,Tilapia,18,7
+133,Tinte para el Cabello,4,3
+578,Tiras Reactivas,4,1
+134,Toalla de Papel,35,3
+135,Toalla Femenina,35,3
+136,Toallita Húmeda Limpiadora,35,3
+137,Toallitas Desinfectantes,19,3
+138,Tocino Ahumado,23,3
+266,Tomate,7,4
+604,Topiramato,1,1
+267,Toronja,6,4
+139,Tortilla de Harina de Trigo,33,3
+710,Tortilla de Maíz,33,2
+140,Tortilla de Maíz,33,3
+141,Tostadas de Maíz,33,3
+216,Tostadores de Pan,14,5
+579,Tramacet,1,1
+491,Tramadol,1,1
+580,Travatan,1,1
+581,Trayenta,1,1
+454,Treda,1,1
+492,Trental,1,1
+611,Trexen Duo,1,1
+493,Trimetoprima Sulfametoxazol,1,1
+268,Tuna,6,4
+582,Tylex 750,1,1
+494,Ulsen,1,1
+583,Ulsen Pcs,1,1
+584,Unesia,1,1
+455,Uniclar,1,1
+495,Unival,1,1
+269,Uva,6,4
+585,Vagitrol -V,1,1
+188,Vainilla,8,3
+307,Varios,16,6
+586,Variton,1,1
+587,Vartalon Compositum,1,1
+456,Vasculflow,1,1
+142,Vaselina,4,3
+588,Venalot Depot,1,1
+431,Venda Elástica,1,1
+432,Venditas Adhesivas,1,1
+605,Venlafaxina,1,1
+222,Ventiladores,14,5
+296,Verdolaga,7,4
+496,Vermox Plus,1,1
+589,Viagra,1,1
+497,Vick Vaporub,1,1
+223,Videocámaras,13,5
+308,Videojuegos,16,6
+143,Vinagre,8,3
+498,Vitacilina,1,1
+590,Vytorin 10/20,1,1
+144,Whisky,20,3
+591,Xatral-od,1,1
+592,Xl-3,1,1
+457,Yasmin,1,1
+499,Yasmin 24/4,1,1
+145,Yoghurt,29,3
+593,Zactos,1,1
+711,Zanahoria,7,2
+270,Zanahoria,7,4
+612,Zinnat,1,1
+594,Zintrepid,1,1
+595,Zofilip,1,1
