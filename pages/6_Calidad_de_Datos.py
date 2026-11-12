@@ -9,7 +9,7 @@ combinando datos del JSON del ETL y consultas en vivo a MySQL.
 import streamlit as st
 import pandas as pd
 from src.etl_info import resumen_general
-from src.db import is_connected
+from src.queries import calidad_nulos_dw, coordenadas_fuera_oaxaca
 from src.charts import barras_calidad_nulos
 
 st.markdown("""
@@ -69,45 +69,31 @@ st.dataframe(etapas, use_container_width=True, hide_index=True)
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
-# ─── Nulos en MySQL (si conectado) ───────────────────────────────────────────
+# ─── Nulos en MySQL ───────────────────────────────────────────────────────────
 st.markdown("### Valores nulos en el Data Warehouse (MySQL)")
-if not is_connected():
-    st.info("Modo demo activo. Conecta MySQL para ver el análisis de nulos en tiempo real.")
 
-    # Fallback con datos conocidos del ETL
-    df_nulos_demo = pd.DataFrame([
-        {"tabla": "dim_establecimiento", "columna": "latitud",  "nulos": 940,  "total": 51},
-        {"tabla": "dim_establecimiento", "columna": "longitud", "nulos": 940,  "total": 51},
-        {"tabla": "fact_precio",         "columna": "precio",   "nulos": 0,    "total": 191895},
-        {"tabla": "dim_producto",        "columna": "marca",    "nulos": 0,    "total": 3265},
-    ])
-    fig_nulos = barras_calidad_nulos(df_nulos_demo)
+with st.spinner("Consultando nulos en MySQL…"):
+    df_nulos = calidad_nulos_dw()
+    fuera    = coordenadas_fuera_oaxaca()
+
+if not df_nulos.empty:
+    fig_nulos = barras_calidad_nulos(df_nulos)
     st.plotly_chart(fig_nulos, use_container_width=True)
-    st.caption("Nota: Datos estimados desde el resumen del ETL, no consultados en tiempo real.")
+
+    df_nulos_tabla = df_nulos.copy()
+    df_nulos_tabla["pct_nulos"] = (df_nulos_tabla["nulos"] / df_nulos_tabla["total"] * 100).round(2)
+    df_nulos_tabla["nulos"]     = df_nulos_tabla["nulos"].apply(lambda v: f"{v:,}")
+    df_nulos_tabla["total"]     = df_nulos_tabla["total"].apply(lambda v: f"{v:,}")
+    df_nulos_tabla["pct_nulos"] = df_nulos_tabla["pct_nulos"].apply(lambda v: f"{v:.2f}%")
+    df_nulos_tabla.columns      = ["Tabla", "Columna", "Nulos", "Total", "% Nulos"]
+    st.dataframe(df_nulos_tabla, use_container_width=True, hide_index=True)
+
+st.markdown("<hr class='separador'>", unsafe_allow_html=True)
+st.markdown("### Coordenadas fuera del bounding box de Oaxaca")
+if fuera == 0:
+    st.success("No se detectaron coordenadas fuera del estado de Oaxaca.")
 else:
-    from src.queries import calidad_nulos_dw, coordenadas_fuera_oaxaca
-    with st.spinner("Consultando nulos en MySQL…"):
-        df_nulos = calidad_nulos_dw()
-        fuera    = coordenadas_fuera_oaxaca()
-
-    if not df_nulos.empty:
-        fig_nulos = barras_calidad_nulos(df_nulos)
-        st.plotly_chart(fig_nulos, use_container_width=True)
-
-        df_nulos_tabla = df_nulos.copy()
-        df_nulos_tabla["pct_nulos"] = (df_nulos_tabla["nulos"] / df_nulos_tabla["total"] * 100).round(2)
-        df_nulos_tabla["nulos"]     = df_nulos_tabla["nulos"].apply(lambda v: f"{v:,}")
-        df_nulos_tabla["total"]     = df_nulos_tabla["total"].apply(lambda v: f"{v:,}")
-        df_nulos_tabla["pct_nulos"] = df_nulos_tabla["pct_nulos"].apply(lambda v: f"{v:.2f}%")
-        df_nulos_tabla.columns      = ["Tabla", "Columna", "Nulos", "Total", "% Nulos"]
-        st.dataframe(df_nulos_tabla, use_container_width=True, hide_index=True)
-
-    st.markdown("<hr class='separador'>", unsafe_allow_html=True)
-    st.markdown("### Coordenadas fuera del bounding box de Oaxaca")
-    if fuera == 0:
-        st.success("No se detectaron coordenadas fuera del estado de Oaxaca.")
-    else:
-        st.warning(f"**{fuera}** establecimiento(s) con coordenadas fuera del bounding box de Oaxaca (lat 15.6–18.2, lon -98.6–-93.6).")
+    st.warning(f"**{fuera}** establecimiento(s) con coordenadas fuera del bounding box de Oaxaca (lat 15.6–18.2, lon -98.6–-93.6).")
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 

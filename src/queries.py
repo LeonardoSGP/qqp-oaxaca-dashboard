@@ -1,19 +1,16 @@
 """
 src/queries.py
 ─────────────────────────────────────────────────────────────────────────────
-Todas las consultas SQL del dashboard. Las agregaciones se realizan en la base
-de datos para no cargar DataFrames masivos en Pandas.
-Incluye fallback a archivos CSV de muestra en modo demo.
+Todas las consultas SQL del dashboard conectadas directamente a MySQL.
+Las agregaciones se realizan en la base de datos para no cargar DataFrames
+masivos en memoria.
 """
 
-import pathlib
 import pandas as pd
 import streamlit as st
 from sqlalchemy import text
 
-from src.db import get_engine_dw, get_engine_oltp, is_connected
-
-_SAMPLE = pathlib.Path(__file__).parent.parent / "data" / "sample"
+from src.db import get_engine_dw, get_engine_oltp
 
 # ─── Utilidad interna ────────────────────────────────────────────────────────
 
@@ -29,21 +26,10 @@ def _query_oltp(sql: str, params: dict | None = None) -> pd.DataFrame:
     with engine.connect() as conn:
         return pd.read_sql(text(sql), conn, params=params)
 
-def _sample(nombre: str) -> pd.DataFrame:
-    """Lee un CSV de muestra como fallback en modo demo."""
-    ruta = _SAMPLE / f"{nombre}.csv"
-    if ruta.exists():
-        return pd.read_csv(ruta)
-    return pd.DataFrame()
-
 # ─── Conciliación ───────────────────────────────────────────────────────────
 
 def contar_tabla(tabla: str, esquema: str) -> int | None:
-    """
-    Devuelve el conteo real de filas de una tabla.
-    Funciona para tablas normales; para vistas, igual.
-    Devuelve None si falla.
-    """
+    """Devuelve el conteo real de filas de una tabla en MySQL."""
     try:
         sql = f"SELECT COUNT(*) FROM `{esquema}`.`{tabla}`"
         engine = get_engine_dw() if "dw" in esquema else get_engine_oltp()
@@ -56,7 +42,7 @@ def contar_tabla(tabla: str, esquema: str) -> int | None:
 
 @st.cache_data(ttl=300, show_spinner=False)
 def conteo_tablas_dw() -> pd.DataFrame:
-    """Conteo de filas de las tablas del DW."""
+    """Conteo de filas de las tablas del DW directo desde MySQL."""
     sql = """
         SELECT 'fact_precio'         AS tabla, COUNT(*) AS filas FROM fact_precio
         UNION ALL
@@ -68,10 +54,7 @@ def conteo_tablas_dw() -> pd.DataFrame:
         UNION ALL
         SELECT 'agg_precio_mensual',   COUNT(*) FROM agg_precio_mensual
     """
-    try:
-        return _query_dw(sql)
-    except Exception:
-        return _sample("conteo_tablas_dw")
+    return _query_dw(sql)
 
 # ─── Previews de tablas ──────────────────────────────────────────────────────
 
@@ -84,10 +67,7 @@ def preview_tabla_dw(tabla: str, limit: int = 500) -> pd.DataFrame:
     }
     if tabla not in tablas_validas:
         return pd.DataFrame()
-    try:
-        return _query_dw(f"SELECT * FROM `{tabla}` LIMIT {limit}")
-    except Exception:
-        return _sample(tabla)
+    return _query_dw(f"SELECT * FROM `{tabla}` LIMIT {limit}")
 
 @st.cache_data(ttl=300, show_spinner=False)
 def preview_tabla_oltp(tabla: str, limit: int = 200) -> pd.DataFrame:
@@ -98,51 +78,36 @@ def preview_tabla_oltp(tabla: str, limit: int = 200) -> pd.DataFrame:
     }
     if tabla not in tablas_validas:
         return pd.DataFrame()
-    try:
-        return _query_oltp(f"SELECT * FROM `{tabla}` LIMIT {limit}")
-    except Exception:
-        return _sample(tabla)
+    return _query_oltp(f"SELECT * FROM `{tabla}` LIMIT {limit}")
 
 # ─── Comparativo de precios ──────────────────────────────────────────────────
 
 @st.cache_data(ttl=300, show_spinner=False)
 def lista_productos() -> list[str]:
-    """Lista de productos únicos en el data mart."""
+    """Lista de productos únicos en el data mart de MySQL."""
     sql = "SELECT DISTINCT producto FROM agg_precio_mensual ORDER BY producto"
-    try:
-        df = _query_dw(sql)
-        return df["producto"].tolist()
-    except Exception:
-        df = _sample("agg_precio_mensual")
-        return sorted(df["producto"].unique().tolist()) if not df.empty else []
+    df = _query_dw(sql)
+    return df["producto"].tolist() if not df.empty else []
 
 @st.cache_data(ttl=300, show_spinner=False)
 def lista_categorias() -> list[str]:
-    """Lista de categorías únicas."""
+    """Lista de categorías únicas en el data mart de MySQL."""
     sql = "SELECT DISTINCT categoria FROM agg_precio_mensual ORDER BY categoria"
-    try:
-        df = _query_dw(sql)
-        return df["categoria"].tolist()
-    except Exception:
-        df = _sample("agg_precio_mensual")
-        return sorted(df["categoria"].unique().tolist()) if not df.empty else []
+    df = _query_dw(sql)
+    return df["categoria"].tolist() if not df.empty else []
 
 @st.cache_data(ttl=300, show_spinner=False)
 def lista_cadenas() -> list[str]:
-    """Lista de cadenas comerciales."""
+    """Lista de cadenas comerciales en MySQL."""
     sql = "SELECT DISTINCT cadena_comercial FROM agg_precio_mensual ORDER BY cadena_comercial"
-    try:
-        df = _query_dw(sql)
-        return df["cadena_comercial"].tolist()
-    except Exception:
-        df = _sample("agg_precio_mensual")
-        return sorted(df["cadena_comercial"].unique().tolist()) if not df.empty else []
+    df = _query_dw(sql)
+    return df["cadena_comercial"].tolist() if not df.empty else []
 
 @st.cache_data(ttl=300, show_spinner=False)
 def comparativo_por_cadena(producto: str) -> pd.DataFrame:
     """
     Precio promedio, mínimo y máximo por cadena comercial para un producto.
-    Usa agg_precio_mensual (data mart).
+    Usa agg_precio_mensual (data mart en MySQL).
     """
     sql = """
         SELECT
@@ -156,48 +121,26 @@ def comparativo_por_cadena(producto: str) -> pd.DataFrame:
         GROUP BY cadena_comercial
         ORDER BY precio_promedio
     """
-    try:
-        return _query_dw(sql, {"producto": producto})
-    except Exception:
-        df = _sample("agg_precio_mensual")
-        if df.empty:
-            return df
-        df = df[df["producto"] == producto]
-        return (
-            df.groupby("cadena_comercial")
-            .agg(
-                precio_promedio=("precio_promedio", "mean"),
-                precio_minimo=("precio_minimo", "min"),
-                precio_maximo=("precio_maximo", "max"),
-                num_registros=("num_registros", "sum"),
-            )
-            .reset_index()
-        )
+    return _query_dw(sql, {"producto": producto})
 
 @st.cache_data(ttl=300, show_spinner=False)
 def productos_por_categoria(categoria: str) -> list[str]:
-    """Lista de productos de una categoría específica."""
+    """Lista de productos de una categoría específica en MySQL."""
     sql = """
         SELECT DISTINCT producto
         FROM agg_precio_mensual
         WHERE categoria = :categoria
         ORDER BY producto
     """
-    try:
-        df = _query_dw(sql, {"categoria": categoria})
-        return df["producto"].tolist()
-    except Exception:
-        df = _sample("agg_precio_mensual")
-        if df.empty:
-            return []
-        return sorted(df[df["categoria"] == categoria]["producto"].unique().tolist())
+    df = _query_dw(sql, {"categoria": categoria})
+    return df["producto"].tolist() if not df.empty else []
 
 # ─── Series de tiempo ────────────────────────────────────────────────────────
 
 @st.cache_data(ttl=300, show_spinner=False)
 def serie_tiempo_producto(producto: str, cadenas: list[str] | None = None) -> pd.DataFrame:
     """
-    Evolución mensual del precio promedio para un producto,
+    Evolución mensual del precio promedio para un producto en MySQL,
     opcionalmente filtrada por lista de cadenas.
     """
     if cadenas:
@@ -225,28 +168,15 @@ def serie_tiempo_producto(producto: str, cadenas: list[str] | None = None) -> pd
             ORDER BY mes, cadena_comercial
         """
         params = {"producto": producto}
-    try:
-        return _query_dw(sql, params)
-    except Exception:
-        df = _sample("agg_precio_mensual")
-        if df.empty:
-            return df
-        df = df[df["producto"] == producto]
-        if cadenas:
-            df = df[df["cadena_comercial"].isin(cadenas)]
-        return (
-            df.groupby(["mes", "cadena_comercial"])
-            .agg(precio_promedio=("precio_promedio", "mean"),
-                 num_registros=("num_registros", "sum"))
-            .reset_index()
-        )
+    return _query_dw(sql, params)
 
 # ─── Mapa de establecimientos ────────────────────────────────────────────────
 
 @st.cache_data(ttl=600, show_spinner=False)
 def establecimientos_mapa() -> pd.DataFrame:
     """
-    Establecimientos con coordenadas válidas y número de registros en fact_precio.
+    Establecimientos con coordenadas válidas y número de registros en fact_precio
+    directo desde MySQL.
     """
     sql = """
         SELECT
@@ -268,16 +198,13 @@ def establecimientos_mapa() -> pd.DataFrame:
             e.municipio, e.latitud, e.longitud
         ORDER BY num_registros DESC
     """
-    try:
-        return _query_dw(sql)
-    except Exception:
-        return _sample("dim_establecimiento")
+    return _query_dw(sql)
 
 # ─── Calidad de datos ────────────────────────────────────────────────────────
 
 @st.cache_data(ttl=300, show_spinner=False)
 def calidad_nulos_dw() -> pd.DataFrame:
-    """Cuenta nulos en columnas clave de las tablas del DW."""
+    """Cuenta nulos en columnas clave de las tablas del DW en MySQL."""
     sql = """
         SELECT 'dim_establecimiento' AS tabla,
                'latitud'            AS columna,
@@ -294,14 +221,11 @@ def calidad_nulos_dw() -> pd.DataFrame:
         SELECT 'dim_producto', 'marca',
                SUM(marca IS NULL OR marca = ''), COUNT(*) FROM dim_producto
     """
-    try:
-        return _query_dw(sql)
-    except Exception:
-        return _sample("calidad_nulos")
+    return _query_dw(sql)
 
 @st.cache_data(ttl=300, show_spinner=False)
 def coordenadas_fuera_oaxaca() -> int:
-    """Cuenta establecimientos con coordenadas fuera del bounding box de Oaxaca."""
+    """Cuenta establecimientos con coordenadas fuera del bounding box de Oaxaca en MySQL."""
     sql = """
         SELECT COUNT(*) AS total
         FROM dim_establecimiento
@@ -310,8 +234,5 @@ def coordenadas_fuera_oaxaca() -> int:
           AND (latitud  NOT BETWEEN 15.6 AND 18.2
                OR longitud NOT BETWEEN -98.6 AND -93.6)
     """
-    try:
-        df = _query_dw(sql)
-        return int(df["total"].iloc[0])
-    except Exception:
-        return 0
+    df = _query_dw(sql)
+    return int(df["total"].iloc[0]) if not df.empty else 0

@@ -10,7 +10,6 @@ import streamlit as st
 import pandas as pd
 from src.queries import lista_categorias, productos_por_categoria, comparativo_por_cadena
 from src.charts import barras_precio_cadena
-from src.db import is_connected
 
 st.markdown("""
 <style>
@@ -24,9 +23,6 @@ st.markdown("""
 
 st.title("Comparativo de precios por cadena comercial")
 st.markdown("Comparativa de precios promedio, mínimo y máximo por cadena, filtrada por producto.")
-
-if not is_connected():
-    st.info("Modo demo activo. Se muestran datos de muestra.")
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 

@@ -11,7 +11,6 @@ import streamlit as st
 import pandas as pd
 from src.queries import establecimientos_mapa
 from src.charts import mapa_establecimientos
-from src.db import is_connected
 
 st.markdown("""
 <style>
@@ -28,13 +27,10 @@ st.markdown(
     "con coordenadas válidas dentro del estado de Oaxaca."
 )
 
-if not is_connected():
-    st.info("Modo demo activo. Se muestran datos de muestra.")
-
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Cargar datos ─────────────────────────────────────────────────────────────
-with st.spinner("Cargando establecimientos…"):
+with st.spinner("Cargando establecimientos desde MySQL…"):
     df = establecimientos_mapa()
 
 if df.empty:
@@ -59,7 +55,7 @@ for col, valor, label in [
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
-# ─── Filtro por cadena (sidebar) ──────────────────────────────────────────────
+# ─── Filtro por cadena (sidebar) ──────────────────────────────────────
 with st.sidebar:
     st.markdown("### Filtros")
     cadenas_disp = sorted(df["cadena_comercial"].dropna().unique().tolist())

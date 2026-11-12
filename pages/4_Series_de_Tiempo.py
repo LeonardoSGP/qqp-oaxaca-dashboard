@@ -8,7 +8,6 @@ Selector de producto y multiselector de cadenas comerciales.
 import streamlit as st
 from src.queries import lista_categorias, productos_por_categoria, lista_productos, lista_cadenas, serie_tiempo_producto
 from src.charts import linea_serie_tiempo
-from src.db import is_connected
 
 st.markdown("""
 <style>
@@ -21,9 +20,6 @@ st.markdown("""
 
 st.title("Series de tiempo — Evolución mensual de precios")
 st.markdown("Visualiza cómo cambia el precio promedio de un producto mes a mes por cadena comercial.")
-
-if not is_connected():
-    st.info("Modo demo activo. Se muestran datos de muestra.")
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 

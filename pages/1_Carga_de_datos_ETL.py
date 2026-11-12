@@ -133,52 +133,47 @@ st.dataframe(
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Conciliación en vivo ─────────────────────────────────────────────────────
-st.markdown("### Conciliación de carga (conteos reales vs esperados)")
+st.markdown("### Conciliación de carga (conteos reales en MySQL vs esperados)")
 
-if not is_connected():
-    st.info("Modo demo activo: la conciliación requiere conexión a MySQL.")
+df_esp = tablas_esperadas()
+filas_conc = []
+
+with st.spinner("Consultando conteos en MySQL…"):
+    from src.db import get_engine_dw, get_engine_oltp
+    from sqlalchemy import text
+
+    for _, row in df_esp.iterrows():
+        tabla_full = row["tabla"]
+        esperado   = row["esperado"]
+        partes     = tabla_full.split(".")
+
+        sql_count  = f"SELECT COUNT(*) FROM {tabla_full}"
+        try:
+            engine = get_engine_dw() if "dw" in partes[0] else get_engine_oltp()
+            with engine.connect() as conn:
+                real = conn.execute(text(sql_count)).scalar()
+            diff   = real - esperado
+            estado = "OK" if diff == 0 else ("DIFERENCIA" if abs(diff) < 10 else "ERROR")
+            diff_str = f"+{diff:,}" if diff > 0 else f"{diff:,}"
+        except Exception as e:
+            real     = None
+            diff_str = "N/A"
+            estado   = "ERROR"
+
+        filas_conc.append({
+            "Estado": estado,
+            "Tabla": tabla_full,
+            "Esperado": f"{esperado:,}",
+            "Real": f"{real:,}" if real is not None else "Error",
+            "Diferencia": diff_str if real is not None else str(e)[:50],
+        })
+
+df_conc = pd.DataFrame(filas_conc)
+st.dataframe(df_conc, use_container_width=True, hide_index=True)
+
+total_ok  = sum(1 for r in filas_conc if r["Estado"] == "OK")
+total_tot = len(filas_conc)
+if total_ok == total_tot:
+    st.success(f"Todas las tablas concilian correctamente ({total_ok}/{total_tot}).")
 else:
-    df_esp = tablas_esperadas()
-    filas_conc = []
-
-    with st.spinner("Consultando conteos en MySQL…"):
-        from src.db import get_engine_dw, get_engine_oltp
-        from sqlalchemy import text
-
-        for _, row in df_esp.iterrows():
-            tabla_full = row["tabla"]
-            esperado   = row["esperado"]
-            partes     = tabla_full.split(".")
-            esquema    = partes[0].replace("qqp_", "")
-            tabla_name = partes[1]
-
-            sql_count  = f"SELECT COUNT(*) FROM {tabla_full}"
-            try:
-                engine = get_engine_dw() if "dw" in partes[0] else get_engine_oltp()
-                with engine.connect() as conn:
-                    real = conn.execute(text(sql_count)).scalar()
-                diff   = real - esperado
-                estado = "OK" if diff == 0 else ("DIFERENCIA" if abs(diff) < 10 else "ERROR")
-                diff_str = f"+{diff:,}" if diff > 0 else f"{diff:,}"
-            except Exception as e:
-                real     = None
-                diff_str = "N/A"
-                estado   = "ERROR"
-
-            filas_conc.append({
-                "Estado": estado,
-                "Tabla": tabla_full,
-                "Esperado": f"{esperado:,}",
-                "Real": f"{real:,}" if real is not None else "Error",
-                "Diferencia": diff_str if real is not None else str(e)[:50],
-            })
-
-    df_conc = pd.DataFrame(filas_conc)
-    st.dataframe(df_conc, use_container_width=True, hide_index=True)
-
-    total_ok  = sum(1 for r in filas_conc if r["Estado"] == "OK")
-    total_tot = len(filas_conc)
-    if total_ok == total_tot:
-        st.success(f"Todas las tablas concilian correctamente ({total_ok}/{total_tot}).")
-    else:
-        st.warning(f"{total_tot - total_ok} tabla(s) con diferencias. Revisa los datos.")
+    st.warning(f"{total_tot - total_ok} tabla(s) con diferencias. Revisa los datos.")

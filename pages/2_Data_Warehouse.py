@@ -9,7 +9,6 @@ vistas previas paginadas de cada tabla y descripción del data mart.
 import streamlit as st
 from src.queries import conteo_tablas_dw, preview_tabla_dw, preview_tabla_oltp
 from src.charts import barras_conteo_tablas
-from src.db import is_connected
 
 st.markdown("""
 <style>
@@ -81,9 +80,6 @@ st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Conteo de filas por tabla ────────────────────────────────────────────────
 st.markdown("### Conteo de filas por tabla")
-
-if not is_connected():
-    st.info("Modo demo activo. Conteos desde datos de muestra.")
 
 df_cont = conteo_tablas_dw()
 

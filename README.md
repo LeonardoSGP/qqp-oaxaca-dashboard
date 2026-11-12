@@ -171,11 +171,11 @@ La aplicación abre automáticamente en `http://localhost:8501`.
 
 ---
 
-## Modo demo (sin MySQL)
+## Conexión a MySQL
 
-Si la aplicación **no puede conectarse a MySQL**, activa automáticamente el **modo demo** y muestra datos de muestra pre-generados desde `data/sample/`.
+La aplicación se conecta directamente a tu servidor MySQL 8+ leyendo las credenciales desde `.env`.
 
-Para generar los archivos de muestra desde MySQL (solo necesitas hacerlo una vez):
+Para generar o actualizar los archivos de muestra de respaldo:
 
 ```powershell
 python scripts/export_sample.py

@@ -84,12 +84,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ─── Verificación de conexión (cacheada) ─────────────────────────────────────
-@st.cache_data(ttl=60, show_spinner=False)
-def _estado_conexion():
-    return test_connection()
-
-conectado, msg_conexion = _estado_conexion()
+# ─── Verificación de conexión ────────────────────────────────────────────────
+conectado, msg_conexion = test_connection()
 
 # ─── Sidebar: estado de conexión ─────────────────────────────────────────────
 with st.sidebar:
@@ -99,9 +95,9 @@ with st.sidebar:
     st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
     if conectado:
-        st.success(f"Conectado · {msg_conexion}")
+        st.success(f"Conectado a MySQL · {msg_conexion}")
     else:
-        st.warning("Modo demo activo\n\nNo se detectó conexión a MySQL. Se muestran datos de muestra.")
+        st.error(f"Error de conexión a MySQL:\n{msg_conexion}")
 
     st.markdown("<hr class='separador'>", unsafe_allow_html=True)
     st.caption("Datos: Profeco · CC BY 4.0")
