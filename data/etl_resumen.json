@@ -1,0 +1,53 @@
+{
+  "resumen": {
+    "archivos": 16,
+    "filas_leidas": 9388457,
+    "otros_estados": 9196554,
+    "oaxaca": 191903,
+    "rechazados_por_error": 0,
+    "identicos_eliminados": 8,
+    "finales": 191895,
+    "coordenadas_en_nulo": 940,
+    "llaves_repetidas_precio_distinto": 6694,
+    "precios_atipicos": 1,
+    "duracion": "2 min 38 s"
+  },
+  "filas_por_archivo": [
+    {"archivo": "01-2026_Q1", "filas": 496726},
+    {"archivo": "01-2026_Q2", "filas": 630371},
+    {"archivo": "02-2026_Q1", "filas": 496645},
+    {"archivo": "02-2026_Q2", "filas": 547811},
+    {"archivo": "03-2026_Q1", "filas": 558146},
+    {"archivo": "03-2026_Q2", "filas": 606522},
+    {"archivo": "04-2026_Q1", "filas": 480842},
+    {"archivo": "04-2026_Q2", "filas": 597634},
+    {"archivo": "05-2026_Q1", "filas": 480010},
+    {"archivo": "05-2026_Q2", "filas": 533214},
+    {"archivo": "06-2026_Q1", "filas": 622764},
+    {"archivo": "06-2026_Q2", "filas": 633686},
+    {"archivo": "07-2026_Q1", "filas": 665909},
+    {"archivo": "07-2026_Q2", "filas": 744623},
+    {"archivo": "08-2026_Q1", "filas": 635952},
+    {"archivo": "08-2026_Q2", "filas": 657602}
+  ],
+  "reglas_limpieza": [
+    {"regla": "Filtro por estado = Oaxaca", "cantidad": 191903},
+    {"regla": "Registros idénticos eliminados", "cantidad": 8},
+    {"regla": "Coordenadas en nulo (conservados)", "cantidad": 940},
+    {"regla": "Llaves repetidas con precio distinto", "cantidad": 6694},
+    {"regla": "Precios atípicos detectados", "cantidad": 1},
+    {"regla": "Rechazados por error de formato", "cantidad": 0}
+  ],
+  "tablas_esperadas": [
+    {"tabla": "qqp_oltp.stg_qqp",           "esquema": "oltp", "esperado": 191895},
+    {"tabla": "qqp_oltp.v_stg_limpio",       "esquema": "oltp", "esperado": 191895},
+    {"tabla": "qqp_oltp.registro_precio",    "esquema": "oltp", "esperado": 191895},
+    {"tabla": "qqp_dw.fact_precio",          "esquema": "dw",   "esperado": 191895},
+    {"tabla": "qqp_dw.dim_tiempo",           "esquema": "dw",   "esperado": 5844},
+    {"tabla": "qqp_dw.dim_producto",         "esquema": "dw",   "esperado": 3265},
+    {"tabla": "qqp_dw.dim_establecimiento",  "esquema": "dw",   "esperado": 51},
+    {"tabla": "qqp_oltp.producto",           "esquema": "oltp", "esperado": 781},
+    {"tabla": "qqp_oltp.presentacion_producto","esquema": "oltp","esperado": 3265},
+    {"tabla": "qqp_dw.agg_precio_mensual",   "esquema": "dw",   "esperado": 73863}
+  ]
+}
