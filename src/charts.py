@@ -77,7 +77,7 @@ def barras_por_archivo(df: pd.DataFrame) -> go.Figure:
     ))
     _aplicar_tema(fig, "Filas leídas por archivo CSV")
     fig.update_layout(height=480)
-    fig.update_yaxis(tickfont=dict(size=11))
+    fig.update_yaxes(tickfont=dict(size=11))
     return fig
 
 
@@ -90,7 +90,7 @@ def barras_precio_cadena(df: pd.DataFrame, producto: str) -> go.Figure:
         y=df["cadena_comercial"],
         orientation="h",
         marker_color=TEAL,
-        text=df["precio_promedio"].apply(lambda v: f"\${v:,.2f}"),
+        text=df["precio_promedio"].apply(lambda v: f"${v:,.2f}"),
         textposition="outside",
         textfont=dict(color=TEXTO, size=11),
     ))
