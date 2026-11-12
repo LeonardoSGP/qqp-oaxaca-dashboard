@@ -1,5 +1,5 @@
 """
-pages/2_🗄️_Data_Warehouse.py
+pages/2_Data_Warehouse.py
 ─────────────────────────────────────────────────────────────────────────────
 Página 2: Data Warehouse y Data Mart.
 Muestra el diagrama del modelo en estrella, conteo de filas por tabla,
@@ -21,13 +21,13 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🗄️ Data Warehouse y Data Mart")
+st.title("Data Warehouse y Data Mart")
 st.markdown("Arquitectura del modelo de datos, conteos de filas y vistas previas de tablas.")
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Diagrama del modelo en estrella ─────────────────────────────────────────
-st.markdown("### ⭐ Modelo en estrella — esquema `qqp_dw`")
+st.markdown("### Modelo en estrella — esquema `qqp_dw`")
 st.markdown("""
 ```mermaid
 erDiagram
@@ -80,10 +80,10 @@ erDiagram
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Conteo de filas por tabla ────────────────────────────────────────────────
-st.markdown("### 📊 Conteo de filas por tabla")
+st.markdown("### Conteo de filas por tabla")
 
 if not is_connected():
-    st.info("ℹ️ Modo demo activo. Conteos desde datos de muestra.", icon="ℹ️")
+    st.info("Modo demo activo. Conteos desde datos de muestra.")
 
 df_cont = conteo_tablas_dw()
 
@@ -107,7 +107,7 @@ else:
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Data Mart ───────────────────────────────────────────────────────────────
-st.markdown("### 📦 Data Mart — `agg_precio_mensual`")
+st.markdown("### Data Mart — `agg_precio_mensual`")
 st.markdown("""
 La tabla `agg_precio_mensual` es el **data mart** del proyecto. Contiene
 agregaciones pre-calculadas a nivel mensual, pensadas para alimentar
@@ -134,7 +134,7 @@ directamente los reportes y gráficas sin procesar las ~191,895 filas de
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Vistas previas paginadas ─────────────────────────────────────────────────
-st.markdown("### 🔎 Vista previa de tablas")
+st.markdown("### Vista previa de tablas")
 
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "fact_precio", "dim_producto", "dim_establecimiento", "dim_tiempo", "agg_precio_mensual"

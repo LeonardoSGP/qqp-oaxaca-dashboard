@@ -1,5 +1,5 @@
 """
-pages/6_🔍_Calidad_de_Datos.py
+pages/6_Calidad_de_Datos.py
 ─────────────────────────────────────────────────────────────────────────────
 Página 6: Calidad de datos.
 Muestra métricas de nulos, duplicados y coordenadas fuera de rango,
@@ -25,7 +25,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🔍 Calidad de datos")
+st.title("Calidad de datos")
 st.markdown("Análisis de la calidad del dataset: valores nulos, duplicados, coordenadas fuera de rango y anomalías de precio.")
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
@@ -33,7 +33,7 @@ st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 resumen = resumen_general()
 
 # ─── KPIs de calidad ─────────────────────────────────────────────────────────
-st.markdown("### 📊 Resumen de calidad (desde el proceso ETL)")
+st.markdown("### Resumen de calidad (desde el proceso ETL)")
 k1, k2, k3, k4, k5 = st.columns(5)
 kpis = [
     (k1, f"{resumen['rechazados_por_error']}",           "Rechazados por error",        "0 = excelente",          "ok"),
@@ -56,7 +56,7 @@ for col, valor, label, sub, tipo in kpis:
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Análisis de completitud por etapa ───────────────────────────────────────
-st.markdown("### 🔗 Completitud por etapa del ETL")
+st.markdown("### Completitud por etapa del ETL")
 etapas = pd.DataFrame([
     {"Etapa": "Filas leídas (nacional)",      "Registros": resumen["filas_leidas"],      "% completitud": 100.0},
     {"Etapa": "Filtrados (Oaxaca)",           "Registros": resumen["oaxaca"],            "% completitud": round(resumen["oaxaca"]/resumen["filas_leidas"]*100, 4)},
@@ -70,9 +70,9 @@ st.dataframe(etapas, use_container_width=True, hide_index=True)
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Nulos en MySQL (si conectado) ───────────────────────────────────────────
-st.markdown("### 🔎 Valores nulos en el Data Warehouse (MySQL)")
+st.markdown("### Valores nulos en el Data Warehouse (MySQL)")
 if not is_connected():
-    st.info("ℹ️ Modo demo activo. Conecta MySQL para ver el análisis de nulos en tiempo real.", icon="ℹ️")
+    st.info("Modo demo activo. Conecta MySQL para ver el análisis de nulos en tiempo real.")
 
     # Fallback con datos conocidos del ETL
     df_nulos_demo = pd.DataFrame([
@@ -83,7 +83,7 @@ if not is_connected():
     ])
     fig_nulos = barras_calidad_nulos(df_nulos_demo)
     st.plotly_chart(fig_nulos, use_container_width=True)
-    st.caption("⚠️ Datos estimados desde el resumen del ETL, no consultados en tiempo real.")
+    st.caption("Nota: Datos estimados desde el resumen del ETL, no consultados en tiempo real.")
 else:
     from src.queries import calidad_nulos_dw, coordenadas_fuera_oaxaca
     with st.spinner("Consultando nulos en MySQL…"):
@@ -103,16 +103,16 @@ else:
         st.dataframe(df_nulos_tabla, use_container_width=True, hide_index=True)
 
     st.markdown("<hr class='separador'>", unsafe_allow_html=True)
-    st.markdown("### 🌐 Coordenadas fuera del bounding box de Oaxaca")
+    st.markdown("### Coordenadas fuera del bounding box de Oaxaca")
     if fuera == 0:
-        st.success(f"✅ No se detectaron coordenadas fuera del estado de Oaxaca.")
+        st.success("No se detectaron coordenadas fuera del estado de Oaxaca.")
     else:
-        st.warning(f"⚠️ **{fuera}** establecimiento(s) con coordenadas fuera del bounding box de Oaxaca (lat 15.6–18.2, lon -98.6–-93.6).")
+        st.warning(f"**{fuera}** establecimiento(s) con coordenadas fuera del bounding box de Oaxaca (lat 15.6–18.2, lon -98.6–-93.6).")
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Notas de calidad ────────────────────────────────────────────────────────
-st.markdown("### 📝 Notas y observaciones")
+st.markdown("### Notas y observaciones")
 st.markdown("""
 | Métrica | Valor | Interpretación |
 |---|---|---|

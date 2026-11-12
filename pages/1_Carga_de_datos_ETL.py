@@ -1,8 +1,8 @@
 """
-pages/1_🔄_Carga_de_datos_ETL.py
+pages/1_Carga_de_datos_ETL.py
 ─────────────────────────────────────────────────────────────────────────────
 Página 1: Visualización del proceso ETL.
-Muestra el flujo de extracción → transformación → carga, KPIs del proceso,
+Muestra el flujo de extracción -> transformación -> carga, KPIs del proceso,
 barras de filas por archivo, tabla de reglas de limpieza y sección de
 conciliación que compara conteos reales vs esperados en MySQL.
 """
@@ -33,7 +33,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ─── Encabezado ───────────────────────────────────────────────────────────────
-st.title("🔄 Carga de datos — Proceso ETL")
+st.title("Carga de datos — Proceso ETL")
 st.markdown("Resumen del proceso de Extracción, Transformación y Carga de datos del programa *Quién es Quién en los Precios*.")
 
 # ─── Cargar datos ETL ─────────────────────────────────────────────────────────
@@ -46,7 +46,7 @@ col1, col2, col3 = st.columns(3)
 with col1:
     st.markdown("""
     <div class="etl-card">
-        <p class="etl-titulo">📥 Extracción</p>
+        <p class="etl-titulo">Extracción</p>
         <p class="etl-desc">
             Lectura de <strong>16 archivos CSV</strong> del programa Quién es Quién en los Precios
             (enero–agosto 2026). Total: <strong>9,388,457 filas</strong> a nivel nacional.
@@ -57,7 +57,7 @@ with col1:
 with col2:
     st.markdown("""
     <div class="etl-card amber">
-        <p class="etl-titulo">⚙️ Transformación</p>
+        <p class="etl-titulo">Transformación</p>
         <p class="etl-desc">
             Filtro por estado = Oaxaca, eliminación de duplicados exactos, detección de
             coordenadas nulas, llaves repetidas con precio distinto y precios atípicos.
@@ -69,7 +69,7 @@ with col2:
 with col3:
     st.markdown("""
     <div class="etl-card green">
-        <p class="etl-titulo">📤 Carga</p>
+        <p class="etl-titulo">Carga</p>
         <p class="etl-desc">
             Carga en MySQL 8: esquema <strong>qqp_oltp</strong> (modelo relacional)
             y esquema <strong>qqp_dw</strong> (modelo en estrella + data mart).
@@ -81,7 +81,7 @@ with col3:
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── KPIs del proceso ─────────────────────────────────────────────────────────
-st.markdown("### 📊 KPIs del proceso")
+st.markdown("### KPIs del proceso")
 k1, k2, k3, k4, k5, k6 = st.columns(6)
 kpis = [
     (k1, f"{resumen['archivos']}",                     "Archivos CSV",               "Fuente de datos"),
@@ -120,7 +120,7 @@ with col_bar:
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Reglas de limpieza ───────────────────────────────────────────────────────
-st.markdown("### 🧹 Reglas de limpieza aplicadas")
+st.markdown("### Reglas de limpieza aplicadas")
 df_reglas = reglas_limpieza()
 df_reglas.columns = ["Regla de limpieza", "Cantidad"]
 df_reglas["Cantidad"] = df_reglas["Cantidad"].apply(lambda v: f"{v:,}")
@@ -133,10 +133,10 @@ st.dataframe(
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Conciliación en vivo ─────────────────────────────────────────────────────
-st.markdown("### ✅ Conciliación de carga (conteos reales vs esperados)")
+st.markdown("### Conciliación de carga (conteos reales vs esperados)")
 
 if not is_connected():
-    st.info("ℹ️ Modo demo activo: la conciliación requiere conexión a MySQL.", icon="ℹ️")
+    st.info("Modo demo activo: la conciliación requiere conexión a MySQL.")
 else:
     df_esp = tablas_esperadas()
     filas_conc = []
@@ -152,19 +152,18 @@ else:
             esquema    = partes[0].replace("qqp_", "")
             tabla_name = partes[1]
 
-            # Vistas no tienen información en INFORMATION_SCHEMA de la misma forma
             sql_count  = f"SELECT COUNT(*) FROM {tabla_full}"
             try:
                 engine = get_engine_dw() if "dw" in partes[0] else get_engine_oltp()
                 with engine.connect() as conn:
                     real = conn.execute(text(sql_count)).scalar()
                 diff   = real - esperado
-                estado = "✅" if diff == 0 else ("⚠️" if abs(diff) < 10 else "❌")
+                estado = "OK" if diff == 0 else ("DIFERENCIA" if abs(diff) < 10 else "ERROR")
                 diff_str = f"+{diff:,}" if diff > 0 else f"{diff:,}"
             except Exception as e:
                 real     = None
                 diff_str = "N/A"
-                estado   = "❌"
+                estado   = "ERROR"
 
             filas_conc.append({
                 "Estado": estado,
@@ -177,9 +176,9 @@ else:
     df_conc = pd.DataFrame(filas_conc)
     st.dataframe(df_conc, use_container_width=True, hide_index=True)
 
-    total_ok  = sum(1 for r in filas_conc if r["Estado"] == "✅")
+    total_ok  = sum(1 for r in filas_conc if r["Estado"] == "OK")
     total_tot = len(filas_conc)
     if total_ok == total_tot:
-        st.success(f"🎉 Todas las tablas concilian correctamente ({total_ok}/{total_tot}).")
+        st.success(f"Todas las tablas concilian correctamente ({total_ok}/{total_tot}).")
     else:
-        st.warning(f"⚠️ {total_tot - total_ok} tabla(s) con diferencias. Revisa los datos.")
+        st.warning(f"{total_tot - total_ok} tabla(s) con diferencias. Revisa los datos.")

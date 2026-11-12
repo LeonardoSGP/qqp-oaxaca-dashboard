@@ -1,5 +1,5 @@
 """
-pages/4_📈_Series_de_Tiempo.py
+pages/4_Series_de_Tiempo.py
 ─────────────────────────────────────────────────────────────────────────────
 Página 4: Evolución mensual del precio promedio.
 Selector de producto y multiselector de cadenas comerciales.
@@ -19,17 +19,17 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("📈 Series de tiempo — Evolución mensual de precios")
+st.title("Series de tiempo — Evolución mensual de precios")
 st.markdown("Visualiza cómo cambia el precio promedio de un producto mes a mes por cadena comercial.")
 
 if not is_connected():
-    st.info("ℹ️ Modo demo activo. Se muestran datos de muestra.", icon="ℹ️")
+    st.info("Modo demo activo. Se muestran datos de muestra.")
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Sidebar: filtros ─────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("### 🔍 Filtros")
+    st.markdown("### Filtros")
 
     categorias = lista_categorias()
     categoria_sel = st.selectbox("Categoría", ["(todas)"] + categorias)
@@ -100,10 +100,13 @@ st.plotly_chart(fig, use_container_width=True)
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
-# Tabla de datos
-st.markdown("### 📋 Datos de la serie")
-df_tabla = df.copy()
-df_tabla["precio_promedio"] = df_tabla["precio_promedio"].apply(lambda v: f"${v:,.2f}")
-df_tabla["num_registros"]   = df_tabla["num_registros"].apply(lambda v: f"{int(v):,}")
-df_tabla.columns = ["Mes", "Cadena comercial", "Precio promedio", "Registros"]
-st.dataframe(df_tabla, use_container_width=True, hide_index=True)
+# Tabla
+st.markdown("### Datos mensuales")
+df_tabla = df.pivot_table(
+    index="cadena_comercial",
+    columns="mes",
+    values="precio_promedio",
+    aggfunc="first",
+).reset_index()
+df_tabla.columns = ["Cadena comercial"] + [f"Mes {c}" for c in df_tabla.columns[1:]]
+st.dataframe(df_tabla.round(2), use_container_width=True, hide_index=True)

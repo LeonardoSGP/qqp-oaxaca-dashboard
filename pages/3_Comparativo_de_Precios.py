@@ -1,5 +1,5 @@
 """
-pages/3_💲_Comparativo_de_Precios.py
+pages/3_Comparativo_de_Precios.py
 ─────────────────────────────────────────────────────────────────────────────
 Página 3: Comparativo de precios por cadena comercial.
 Filtros en la barra lateral (categoría, producto); gráfica de barras de
@@ -22,17 +22,17 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("💲 Comparativo de precios por cadena comercial")
+st.title("Comparativo de precios por cadena comercial")
 st.markdown("Comparativa de precios promedio, mínimo y máximo por cadena, filtrada por producto.")
 
 if not is_connected():
-    st.info("ℹ️ Modo demo activo. Se muestran datos de muestra.", icon="ℹ️")
+    st.info("Modo demo activo. Se muestran datos de muestra.")
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Sidebar: filtros ─────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("### 🔍 Filtros")
+    st.markdown("### Filtros")
 
     with st.spinner("Cargando categorías…"):
         categorias = lista_categorias()
@@ -72,7 +72,7 @@ if df.empty:
     st.stop()
 
 # KPIs rápidos
-st.markdown(f"### 📦 {producto_sel}")
+st.markdown(f"### {producto_sel}")
 k1, k2, k3, k4 = st.columns(4)
 precio_min = df["precio_minimo"].min()
 precio_max = df["precio_maximo"].max()
@@ -102,11 +102,11 @@ st.plotly_chart(fig, use_container_width=True)
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # Tabla detallada
-st.markdown("### 📋 Detalle por cadena comercial")
-df_tabla = df.copy()
-df_tabla["precio_promedio"] = df_tabla["precio_promedio"].apply(lambda v: f"${v:,.2f}")
-df_tabla["precio_minimo"]   = df_tabla["precio_minimo"].apply(lambda v:   f"${v:,.2f}")
-df_tabla["precio_maximo"]   = df_tabla["precio_maximo"].apply(lambda v:   f"${v:,.2f}")
-df_tabla["num_registros"]   = df_tabla["num_registros"].apply(lambda v:   f"{int(v):,}")
-df_tabla.columns = ["Cadena comercial", "Precio promedio", "Precio mínimo", "Precio máximo", "Registros"]
-st.dataframe(df_tabla, use_container_width=True, hide_index=True)
+st.markdown("### Detalle por cadena comercial")
+df_mostrar = df[["cadena_comercial","precio_promedio","precio_minimo","precio_maximo","num_registros"]].copy()
+df_mostrar["precio_promedio"] = df_mostrar["precio_promedio"].apply(lambda v: f"${v:,.2f}")
+df_mostrar["precio_minimo"]   = df_mostrar["precio_minimo"].apply(lambda v: f"${v:,.2f}")
+df_mostrar["precio_maximo"]   = df_mostrar["precio_maximo"].apply(lambda v: f"${v:,.2f}")
+df_mostrar["num_registros"]   = df_mostrar["num_registros"].apply(lambda v: f"{v:,}")
+df_mostrar.columns = ["Cadena comercial", "Precio promedio", "Precio mínimo", "Precio máximo", "Registros"]
+st.dataframe(df_mostrar, use_container_width=True, hide_index=True)

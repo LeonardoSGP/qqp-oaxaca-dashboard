@@ -1,4 +1,4 @@
-# 🛒 QQP Oaxaca Dashboard
+# QQP Oaxaca Dashboard
 
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.35%2B-FF4B4B?logo=streamlit)](https://streamlit.io/)
@@ -13,7 +13,7 @@ Dashboard web interactivo que visualiza la **carga de un proceso ETL** y permite
 
 ---
 
-## 📌 Descripción del proyecto
+## Descripción del proyecto
 
 Este dashboard fue desarrollado como proyecto de la materia de **Toma de Decisiones** y cubre:
 
@@ -23,7 +23,7 @@ Este dashboard fue desarrollado como proyecto de la materia de **Toma de Decisio
 
 ---
 
-## 📂 Fuente de datos
+## Fuente de datos
 
 | Atributo | Valor |
 |---|---|
@@ -36,14 +36,14 @@ Este dashboard fue desarrollado como proyecto de la materia de **Toma de Decisio
 
 ---
 
-## 🔄 Etapas del proceso ETL
+## Etapas del proceso ETL
 
 ```mermaid
 flowchart LR
-    A["📥 Extracción\n16 CSV nacionales\n9,388,457 filas"] --> B["⚙️ Transformación\nFiltro Oaxaca\nLimpieza y validación\n191,895 registros"]
-    B --> C["📤 Carga OLTP\nMySQL qqp_oltp\nModelo relacional"]
-    C --> D["📤 Carga DW\nMySQL qqp_dw\nModelo estrella"]
-    D --> E["📦 Data Mart\nagg_precio_mensual\n73,863 filas agregadas"]
+    A["Extracción\n16 CSV nacionales\n9,388,457 filas"] --> B["Transformación\nFiltro Oaxaca\nLimpieza y validación\n191,895 registros"]
+    B --> C["Carga OLTP\nMySQL qqp_oltp\nModelo relacional"]
+    C --> D["Carga DW\nMySQL qqp_dw\nModelo estrella"]
+    D --> E["Data Mart\nagg_precio_mensual\n73,863 filas agregadas"]
 
     style A fill:#1A1F2E,stroke:#2DD4BF,color:#E2E8F0
     style B fill:#1A1F2E,stroke:#F59E0B,color:#E2E8F0
@@ -63,24 +63,24 @@ flowchart LR
 
 ---
 
-## 🏗️ Arquitectura
+## Arquitectura
 
 ```mermaid
 flowchart TD
     subgraph Fuente
-        CSV["📄 CSV Profeco\n16 archivos"]
+        CSV["CSV Profeco\n16 archivos"]
     end
     subgraph MySQL["MySQL 8"]
         OLTP["qqp_oltp\nModelo relacional"]
         DW["qqp_dw\nModelo estrella"]
     end
     subgraph Dashboard["Streamlit Dashboard"]
-        P1["🔄 ETL"]
-        P2["🗄️ Data Warehouse"]
-        P3["💲 Comparativo"]
-        P4["📈 Series"]
-        P5["🗺️ Mapa"]
-        P6["🔍 Calidad"]
+        P1["ETL"]
+        P2["Data Warehouse"]
+        P3["Comparativo"]
+        P4["Series"]
+        P5["Mapa"]
+        P6["Calidad"]
     end
 
     CSV --> OLTP --> DW
@@ -89,7 +89,7 @@ flowchart TD
 
 ---
 
-## ⚙️ Requisitos
+## Requisitos
 
 - Python 3.11 o superior
 - MySQL 8.0 con los esquemas `qqp_dw` y `qqp_oltp` cargados
@@ -97,7 +97,7 @@ flowchart TD
 
 ---
 
-## 🚀 Instalación (Windows)
+## Instalación (Windows)
 
 ### 1. Clonar el repositorio
 
@@ -137,11 +137,11 @@ MYSQL_DB_DW=qqp_dw
 MYSQL_DB_OLTP=qqp_oltp
 ```
 
-> **⚠️ NUNCA subas el archivo `.env` al repositorio.** Ya está incluido en `.gitignore`.
+> **Nota:** NUNCA subas el archivo `.env` al repositorio. Ya está incluido en `.gitignore`.
 
 ---
 
-## 🔐 Crear usuario MySQL de solo lectura
+## Crear usuario MySQL de solo lectura
 
 Ejecuta en MySQL como administrador:
 
@@ -161,7 +161,7 @@ Luego usa `qqp_reader` como valor de `MYSQL_USER` en tu `.env`.
 
 ---
 
-## ▶️ Ejecutar el dashboard
+## Ejecutar el dashboard
 
 ```powershell
 streamlit run app.py
@@ -171,7 +171,7 @@ La aplicación abre automáticamente en `http://localhost:8501`.
 
 ---
 
-## 🎭 Modo demo (sin MySQL)
+## Modo demo (sin MySQL)
 
 Si la aplicación **no puede conectarse a MySQL**, activa automáticamente el **modo demo** y muestra datos de muestra pre-generados desde `data/sample/`.
 
@@ -183,18 +183,18 @@ python scripts/export_sample.py
 
 ---
 
-## 📁 Estructura de carpetas
+## Estructura de carpetas
 
 ```
 qqp-oaxaca-dashboard/
 ├── app.py                      # Punto de entrada del dashboard
 ├── pages/                      # Páginas de navegación multipágina
-│   ├── 1_🔄_Carga_de_datos_ETL.py
-│   ├── 2_🗄️_Data_Warehouse.py
-│   ├── 3_💲_Comparativo_de_Precios.py
-│   ├── 4_📈_Series_de_Tiempo.py
-│   ├── 5_🗺️_Mapa.py
-│   └── 6_🔍_Calidad_de_Datos.py
+│   ├── 1_Carga_de_datos_ETL.py
+│   ├── 2_Data_Warehouse.py
+│   ├── 3_Comparativo_de_Precios.py
+│   ├── 4_Series_de_Tiempo.py
+│   ├── 5_Mapa.py
+│   └── 6_Calidad_de_Datos.py
 ├── src/                        # Módulos de lógica de negocio
 │   ├── __init__.py
 │   ├── db.py                   # Conexión SQLAlchemy
@@ -220,9 +220,9 @@ qqp-oaxaca-dashboard/
 
 ---
 
-## 📄 Páginas del dashboard
+## Páginas del dashboard
 
-### 🔄 Página 1 — Carga de datos (ETL)
+### Página 1 — Carga de datos (ETL)
 
 Muestra el flujo completo del proceso ETL con:
 - Tarjetas de las tres etapas (Extracción, Transformación, Carga)
@@ -232,54 +232,54 @@ Muestra el flujo completo del proceso ETL con:
 - Tabla de reglas de limpieza
 - **Conciliación en vivo**: consulta MySQL y compara conteos reales vs esperados
 
-📸 *(Captura disponible en `docs/img/etl.png`)*
+*(Captura disponible en `docs/img/etl.png`)*
 
 ---
 
-### 🗄️ Página 2 — Data Warehouse y Data Mart
+### Página 2 — Data Warehouse y Data Mart
 
 - Diagrama ER del modelo en estrella
 - Conteo de filas por tabla (gráfica de barras)
 - Vista previa paginada de cada tabla (hasta 200 filas)
 - Descripción del Data Mart `agg_precio_mensual`
 
-📸 *(Captura disponible en `docs/img/dw.png`)*
+*(Captura disponible en `docs/img/dw.png`)*
 
 ---
 
-### 💲 Página 3 — Comparativo de precios
+### Página 3 — Comparativo de precios
 
-- Filtros: categoría → producto (en la barra lateral)
+- Filtros: categoría -> producto (en la barra lateral)
 - KPIs: precio promedio, mínimo, máximo, número de cadenas
 - Gráfica de barras horizontales por cadena comercial
 - Tabla detallada con mínimo, máximo y registros
 
-📸 *(Captura disponible en `docs/img/precios.png`)*
+*(Captura disponible en `docs/img/precios.png`)*
 
 ---
 
-### 📈 Página 4 — Series de tiempo
+### Página 4 — Series de tiempo
 
 - Selector de producto y multiselector de cadenas comerciales
 - Gráfica de líneas con evolución mensual del precio promedio
 - Tabla de datos subyacente
 
-📸 *(Captura disponible en `docs/img/series.png`)*
+*(Captura disponible en `docs/img/series.png`)*
 
 ---
 
-### 🗺️ Página 5 — Mapa
+### Página 5 — Mapa
 
 - Establecimientos con coordenadas válidas en Oaxaca
 - Mapa de burbujas con `carto-darkmatter` (sin token requerido)
 - Tamaño y color proporcional al número de registros
 - Filtro por cadena comercial
 
-📸 *(Captura disponible en `docs/img/mapa.png`)*
+*(Captura disponible en `docs/img/mapa.png`)*
 
 ---
 
-### 🔍 Página 6 — Calidad de datos
+### Página 6 — Calidad de datos
 
 - KPIs de calidad: rechazados, duplicados, coordenadas nulas, precios atípicos
 - Tabla de completitud por etapa ETL
@@ -287,20 +287,20 @@ Muestra el flujo completo del proceso ETL con:
 - Establecimientos fuera del bounding box de Oaxaca
 - Notas e interpretación de la calidad
 
-📸 *(Captura disponible en `docs/img/calidad.png`)*
+*(Captura disponible en `docs/img/calidad.png`)*
 
 ---
 
-## 📖 Diccionario de datos
+## Diccionario de datos
 
 ### `fact_precio`
 
 | Columna | Tipo | Descripción |
 |---|---|---|
 | `id_registro` | INT | Llave primaria |
-| `sk_producto` | INT | FK → `dim_producto` |
-| `sk_establecimiento` | INT | FK → `dim_establecimiento` |
-| `id_tiempo` | DATE | FK → `dim_tiempo` |
+| `sk_producto` | INT | FK -> `dim_producto` |
+| `sk_establecimiento` | INT | FK -> `dim_establecimiento` |
+| `id_tiempo` | DATE | FK -> `dim_tiempo` |
 | `precio` | DECIMAL | Precio registrado en MXN |
 
 ### `dim_producto`
@@ -361,7 +361,7 @@ Muestra el flujo completo del proceso ETL con:
 
 ---
 
-## 🛠️ Tecnologías
+## Tecnologías
 
 | Tecnología | Versión | Uso |
 |---|---|---|
@@ -377,7 +377,7 @@ Muestra el flujo completo del proceso ETL con:
 
 ---
 
-## ⚠️ Limitaciones
+## Limitaciones
 
 - El módulo de **conciliación** y el análisis de **nulos en vivo** requieren conexión a MySQL.
 - El **modo demo** usa datos de muestra reducidos; las gráficas son representativas pero no exhaustivas.
@@ -387,15 +387,15 @@ Muestra el flujo completo del proceso ETL con:
 
 ---
 
-## 👨‍💻 Autor
+## Autor
 
-**Leonardo Sadot García Pino**  
+**LeonardoSGP** (Leonardo Sadot García Pino)  
 Ingeniería en Sistemas Computacionales  
 TecNM Campus Oaxaca · 2026
 
 ---
 
-## 📜 Licencia de los datos
+## Licencia de los datos
 
 Los datos utilizados provienen del programa público *Quién es Quién en los Precios* de la **Procuraduría Federal del Consumidor (Profeco)**, disponibles como datos abiertos bajo licencia **[Creative Commons BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es)**.
 

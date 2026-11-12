@@ -46,13 +46,13 @@ EXPORTACIONES_OLTP = {
 
 def exportar(engine, consultas: dict, etiqueta: str):
     for tabla, sql in consultas.items():
-        print(f"  Exportando {etiqueta}.{tabla}…", end=" ")
+        print(f"  Exportando {etiqueta}.{tabla}...", end=" ")
         try:
             with engine.connect() as conn:
                 df = pd.read_sql(text(sql), conn)
             ruta = SAMPLE_DIR / f"{tabla}.csv"
             df.to_csv(ruta, index=False, encoding="utf-8")
-            print(f"OK — {len(df)} filas — {ruta.stat().st_size / 1024:.1f} KB")
+            print(f"OK - {len(df)} filas - {ruta.stat().st_size / 1024:.1f} KB")
         except Exception as e:
             print(f"ERROR: {e}")
 
@@ -60,21 +60,21 @@ def exportar(engine, consultas: dict, etiqueta: str):
 def main():
     ok, msg = test_connection()
     if not ok:
-        print(f"❌ No se puede conectar a MySQL: {msg}")
+        print(f"No se puede conectar a MySQL: {msg}")
         sys.exit(1)
 
-    print(f"✅ Conectado: {msg}")
-    print(f"📂 Destino: {SAMPLE_DIR}\n")
+    print(f"Conectado: {msg}")
+    print(f"Destino: {SAMPLE_DIR}\n")
 
-    print("── Data Warehouse (qqp_dw) ──────────────────────────")
+    print("-- Data Warehouse (qqp_dw) --------------------------")
     exportar(get_engine_dw(), EXPORTACIONES_DW, "dw")
 
-    print("\n── OLTP (qqp_oltp) ──────────────────────────────────")
+    print("\n-- OLTP (qqp_oltp) ----------------------------------")
     exportar(get_engine_oltp(), EXPORTACIONES_OLTP, "oltp")
 
     # Calcular tamaño total
     total_kb = sum(f.stat().st_size for f in SAMPLE_DIR.glob("*.csv")) / 1024
-    print(f"\n✅ Exportación completa. Tamaño total: {total_kb:.1f} KB")
+    print(f"\nExportacion completa. Tamano total: {total_kb:.1f} KB")
 
 
 if __name__ == "__main__":

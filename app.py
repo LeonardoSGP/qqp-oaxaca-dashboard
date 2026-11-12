@@ -15,7 +15,6 @@ from src.db import test_connection
 # ─── Configuración de la página ──────────────────────────────────────────────
 st.set_page_config(
     page_title="QQP Oaxaca · Dashboard",
-    page_icon="🛒",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -94,22 +93,22 @@ conectado, msg_conexion = _estado_conexion()
 
 # ─── Sidebar: estado de conexión ─────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("## 🛒 QQP Oaxaca")
+    st.markdown("## QQP Oaxaca")
     st.markdown("**Quién es Quién en los Precios**")
     st.markdown("TecNM Campus Oaxaca · 2026")
     st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
     if conectado:
-        st.success(f"✅ Conectado · {msg_conexion}", icon="🟢")
+        st.success(f"Conectado · {msg_conexion}")
     else:
-        st.warning("⚠️ **Modo demo activo**\n\nNo se detectó conexión a MySQL. Se muestran datos de muestra.", icon="🟡")
+        st.warning("Modo demo activo\n\nNo se detectó conexión a MySQL. Se muestran datos de muestra.")
 
     st.markdown("<hr class='separador'>", unsafe_allow_html=True)
     st.caption("Datos: Profeco · CC BY 4.0")
     st.caption("Enero–Agosto 2026 · Oaxaca")
 
 # ─── Página de inicio ────────────────────────────────────────────────────────
-st.title("🛒 Dashboard — Quién es Quién en los Precios")
+st.title("Dashboard — Quién es Quién en los Precios")
 st.markdown("**Oaxaca · Enero–Agosto 2026** | Datos abiertos Profeco (CC BY 4.0)")
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
@@ -133,18 +132,18 @@ for col, valor, label, sub in kpis:
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
-st.markdown("### 📂 Páginas del dashboard")
+st.markdown("### Páginas del dashboard")
 st.markdown("""
 | Página | Descripción |
 |---|---|
-| 🔄 **Carga de datos (ETL)** | Flujo de extracción, transformación y carga; KPIs, reglas de limpieza y conciliación en vivo |
-| 🗄️ **Data Warehouse** | Modelo en estrella, conteos de tablas y vistas previas paginadas |
-| 💲 **Comparativo de precios** | Precio promedio por cadena comercial con filtros de producto y categoría |
-| 📈 **Series de tiempo** | Evolución mensual del precio por producto y cadena |
-| 🗺️ **Mapa** | Establecimientos de Oaxaca con coordenadas geográficas |
-| 🔍 **Calidad de datos** | Nulos, duplicados y coordenadas fuera de rango |
+| **Carga de datos (ETL)** | Flujo de extracción, transformación y carga; KPIs, reglas de limpieza y conciliación en vivo |
+| **Data Warehouse** | Modelo en estrella, conteos de tablas y vistas previas paginadas |
+| **Comparativo de precios** | Precio promedio por cadena comercial con filtros de producto y categoría |
+| **Series de tiempo** | Evolución mensual del precio por producto y cadena |
+| **Mapa** | Establecimientos de Oaxaca con coordenadas geográficas |
+| **Calidad de datos** | Nulos, duplicados y coordenadas fuera de rango |
 
-Navega usando el menú de la **barra lateral izquierda** ☰.
+Navega usando el menú de la **barra lateral izquierda**.
 """)
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
@@ -152,5 +151,5 @@ st.markdown(
     "**Fuente:** Programa *Quién es Quién en los Precios* · "
     "[Profeco](https://www.gob.mx/profeco) · "
     "Licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es)  "
-    "| **Autor:** Leonardo Sadot García Pino · TecNM Campus Oaxaca"
+    "| **Autor:** LeonardoSGP · TecNM Campus Oaxaca"
 )

@@ -1,5 +1,5 @@
 """
-pages/5_🗺️_Mapa.py
+pages/5_Mapa.py
 ─────────────────────────────────────────────────────────────────────────────
 Página 5: Mapa de establecimientos en Oaxaca.
 Muestra las tiendas con coordenadas válidas usando Plotly Scattermapbox
@@ -22,14 +22,14 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("🗺️ Mapa de establecimientos — Oaxaca")
+st.title("Mapa de establecimientos — Oaxaca")
 st.markdown(
     "Establecimientos registrados en el programa *Quién es Quién en los Precios* "
     "con coordenadas válidas dentro del estado de Oaxaca."
 )
 
 if not is_connected():
-    st.info("ℹ️ Modo demo activo. Se muestran datos de muestra.", icon="ℹ️")
+    st.info("Modo demo activo. Se muestran datos de muestra.")
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
@@ -61,7 +61,7 @@ st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Filtro por cadena (sidebar) ──────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("### 🔍 Filtros")
+    st.markdown("### Filtros")
     cadenas_disp = sorted(df["cadena_comercial"].dropna().unique().tolist())
     cadenas_sel  = st.multiselect(
         "Filtrar por cadena",
@@ -83,7 +83,7 @@ st.plotly_chart(fig, use_container_width=True)
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Tabla ─────────────────────────────────────────────────────────────────────
-st.markdown("### 📋 Listado de establecimientos")
+st.markdown("### Listado de establecimientos")
 df_tabla = df_map[["nombre_comercial","cadena_comercial","municipio","latitud","longitud","num_registros"]].copy()
 df_tabla["num_registros"] = df_tabla["num_registros"].apply(lambda v: f"{int(v):,}")
 df_tabla.columns = ["Nombre comercial","Cadena","Municipio","Latitud","Longitud","Registros"]
