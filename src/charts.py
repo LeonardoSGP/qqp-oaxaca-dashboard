@@ -126,23 +126,32 @@ def linea_serie_tiempo(df: pd.DataFrame, producto: str) -> go.Figure:
 
 
 # ─── Mapa de establecimientos ────────────────────────────────────────────────
-def mapa_establecimientos(df: pd.DataFrame) -> go.Figure:
+def mapa_establecimientos(
+    df: pd.DataFrame,
+    estilo: str = "open-street-map",
+    zoom: float = 12.3,
+) -> go.Figure:
     """Mapa de burbujas de establecimientos en Oaxaca."""
+    import os
+    mapbox_token = os.getenv("MAPBOX_TOKEN", "").strip()
+
     max_reg = df["num_registros"].max() if not df.empty else 1
+    center_lat = float(df["latitud"].mean()) if not df.empty else 17.065
+    center_lon = float(df["longitud"].mean()) if not df.empty else -96.715
+
     fig = go.Figure(go.Scattermapbox(
         lat=df["latitud"],
         lon=df["longitud"],
         mode="markers",
         marker=dict(
-            size=df["num_registros"].apply(lambda v: 6 + (v / max_reg) * 20),
+            size=df["num_registros"].apply(lambda v: 10 + (v / max_reg) * 18),
             color=df["num_registros"],
-            colorscale=[[0, "#1A1F2E"], [0.5, AMBER], [1, TEAL]],
+            colorscale=[[0, "#38BDF8"], [0.5, AMBER], [1, TEAL]],
             colorbar=dict(
-                title="Registros",
-                titlefont=dict(color=TEXTO),
+                title=dict(text="Registros", font=dict(color=TEXTO)),
                 tickfont=dict(color=TEXTO),
             ),
-            opacity=0.85,
+            opacity=0.9,
         ),
         text=df.apply(
             lambda r: (
@@ -155,12 +164,17 @@ def mapa_establecimientos(df: pd.DataFrame) -> go.Figure:
         ),
         hoverinfo="text",
     ))
+
+    mapbox_cfg = dict(
+        style=estilo,
+        center=dict(lat=center_lat, lon=center_lon),
+        zoom=zoom,
+    )
+    if mapbox_token:
+        mapbox_cfg["accesstoken"] = mapbox_token
+
     fig.update_layout(
-        mapbox=dict(
-            style="carto-darkmatter",
-            center=dict(lat=17.0, lon=-96.7),
-            zoom=6,
-        ),
+        mapbox=mapbox_cfg,
         paper_bgcolor=FONDO,
         font=dict(color=TEXTO),
         margin=dict(l=0, r=0, t=0, b=0),

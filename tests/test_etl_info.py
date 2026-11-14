@@ -157,3 +157,67 @@ def test_linea_serie_tiempo():
     fig = linea_serie_tiempo(df, "LECHE ENTERA")
     assert isinstance(fig, go.Figure)
     assert len(fig.data) == 2  # Una traza por cadena
+
+
+def test_mapa_establecimientos():
+    """La función mapa_establecimientos genera una figura Scattermapbox válida en Plotly 6+."""
+    import plotly.graph_objects as go
+    from src.charts import mapa_establecimientos
+    df = pd.DataFrame({
+        "sk_establecimiento": [1, 2],
+        "nombre_comercial":   ["Bodega Aurrera Centro", "Chedraui Reforma"],
+        "cadena_comercial":   ["Bodega Aurrera", "Chedraui"],
+        "municipio":          ["Oaxaca de Juárez", "Oaxaca de Juárez"],
+        "latitud":            [17.0654, 17.0789],
+        "longitud":           [-96.7236, -96.7112],
+        "num_registros":      [4500, 5200],
+    })
+    fig = mapa_establecimientos(df)
+    assert isinstance(fig, go.Figure)
+    assert len(fig.data) == 1
+    assert fig.data[0].marker.colorbar.title.text == "Registros"
+
+
+def test_pagina_mapa_renderiza_sin_errores():
+    """Ejecuta pages/5_Mapa.py con AppTest simulando datos de establecimientos."""
+    from unittest.mock import patch
+    from streamlit.testing.v1 import AppTest
+
+    df_mock = pd.DataFrame({
+        "sk_establecimiento": [1, 2],
+        "nombre_comercial":   ["Bodega Aurrera Centro", "Chedraui Reforma"],
+        "cadena_comercial":   ["Bodega Aurrera", "Chedraui"],
+        "municipio":          ["Oaxaca de Juárez", "Oaxaca de Juárez"],
+        "latitud":            [17.0654, 17.0789],
+        "longitud":           [-96.7236, -96.7112],
+        "num_registros":      [4500, 5200],
+    })
+
+    with patch("src.queries.establecimientos_mapa", return_value=df_mock):
+        at = AppTest.from_file("pages/5_Mapa.py")
+        at.run(timeout=15)
+        assert not at.exception, f"Excepción en pages/5_Mapa.py: {at.exception}"
+
+
+def test_barras_conteo_tablas_y_calidad_nulos():
+    """Verifica barras_conteo_tablas y barras_calidad_nulos en Plotly 6+."""
+    import plotly.graph_objects as go
+    from src.charts import barras_conteo_tablas, barras_calidad_nulos
+
+    df_conteo = pd.DataFrame({
+        "tabla": ["fact_precio", "dim_producto"],
+        "filas": [191895, 3265],
+    })
+    fig1 = barras_conteo_tablas(df_conteo)
+    assert isinstance(fig1, go.Figure)
+
+    df_nulos = pd.DataFrame({
+        "tabla":   ["dim_establecimiento", "fact_precio"],
+        "columna": ["latitud", "precio"],
+        "nulos":   [1, 0],
+        "total":   [51, 191895],
+    })
+    fig2 = barras_calidad_nulos(df_nulos)
+    assert isinstance(fig2, go.Figure)
+
+

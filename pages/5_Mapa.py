@@ -7,7 +7,7 @@ con estilo carto-darkmatter (sin token requerido).
 El tamaño y color de cada punto indica el número de registros en fact_precio.
 """
 
-import streamlit as st
+import streamlit as st 
 import pandas as pd
 from src.queries import establecimientos_mapa
 from src.charts import mapa_establecimientos
@@ -58,6 +58,21 @@ st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 # ─── Filtro por cadena (sidebar) ──────────────────────────────────────
 with st.sidebar:
     st.markdown("### Filtros")
+    estilos_mapa = {
+        "OpenStreetMap (Calles detallado)": "open-street-map",
+        "Carto Positron (Claro)": "carto-positron",
+        "Carto Darkmatter (Oscuro)": "carto-darkmatter",
+    }
+    import os
+    if os.getenv("MAPBOX_TOKEN", "").strip():
+        estilos_mapa.update({
+            "Mapbox Streets": "streets",
+            "Mapbox Dark": "dark",
+            "Mapbox Satellite Streets": "satellite-streets",
+        })
+    estilo_label = st.selectbox("Estilo de mapa", options=list(estilos_mapa.keys()), index=0)
+    estilo_sel = estilos_mapa[estilo_label]
+
     cadenas_disp = sorted(df["cadena_comercial"].dropna().unique().tolist())
     cadenas_sel  = st.multiselect(
         "Filtrar por cadena",
@@ -73,7 +88,7 @@ else:
 st.caption(f"Mostrando {len(df_map)} establecimientos")
 
 # ─── Mapa ──────────────────────────────────────────────────────────────────────
-fig = mapa_establecimientos(df_map)
+fig = mapa_establecimientos(df_map, estilo=estilo_sel)
 st.plotly_chart(fig, use_container_width=True)
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
