@@ -29,8 +29,6 @@ st.markdown("""
 .badge-ok  { color:#34D399; font-weight:700; }
 .badge-err { color:#F87171; font-weight:700; }
 .separador { border:none; border-top:1px solid #2D3748; margin:1.5rem 0; }
-[data-testid="stSidebarNav"] li:first-child a span { visibility: hidden; position: relative; }
-[data-testid="stSidebarNav"] li:first-child a span::after { visibility: visible; position: absolute; left: 0; top: 0; content: "Inicio"; }
 </style>
 """, unsafe_allow_html=True)
 
