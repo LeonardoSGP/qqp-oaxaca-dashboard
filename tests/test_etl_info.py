@@ -193,8 +193,10 @@ def test_pagina_mapa_renderiza_sin_errores():
         "num_registros":      [4500, 5200],
     })
 
+    import pathlib
+    ruta_mapa = str((pathlib.Path(__file__).parent.parent / "pages" / "5_Mapa.py").resolve())
     with patch("src.queries.establecimientos_mapa", return_value=df_mock):
-        at = AppTest.from_file("pages/5_Mapa.py")
+        at = AppTest.from_file(ruta_mapa)
         at.run(timeout=15)
         assert not at.exception, f"Excepción en pages/5_Mapa.py: {at.exception}"
 

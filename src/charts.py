@@ -139,7 +139,11 @@ def mapa_establecimientos(
     center_lat = float(df["latitud"].mean()) if not df.empty else 17.065
     center_lon = float(df["longitud"].mean()) if not df.empty else -96.715
 
-    fig = go.Figure(go.Scattermapbox(
+    # Compatibilidad Plotly 6/7 (Scattermap/map) y Plotly 5 (Scattermapbox/mapbox)
+    ScatterCls = getattr(go, "Scattermap", None) or getattr(go, "Scattermapbox", None)
+    map_layout_key = "map" if hasattr(go, "Scattermap") else "mapbox"
+
+    fig = go.Figure(ScatterCls(
         lat=df["latitud"],
         lon=df["longitud"],
         mode="markers",
@@ -165,21 +169,22 @@ def mapa_establecimientos(
         hoverinfo="text",
     ))
 
-    mapbox_cfg = dict(
+    map_cfg = dict(
         style=estilo,
         center=dict(lat=center_lat, lon=center_lon),
         zoom=zoom,
     )
     if mapbox_token:
-        mapbox_cfg["accesstoken"] = mapbox_token
+        map_cfg["accesstoken"] = mapbox_token
 
-    fig.update_layout(
-        mapbox=mapbox_cfg,
-        paper_bgcolor=FONDO,
-        font=dict(color=TEXTO),
-        margin=dict(l=0, r=0, t=0, b=0),
-        height=560,
-    )
+    layout_kwargs = {
+        map_layout_key: map_cfg,
+        "paper_bgcolor": FONDO,
+        "font": dict(color=TEXTO),
+        "margin": dict(l=0, r=0, t=0, b=0),
+        "height": 560,
+    }
+    fig.update_layout(**layout_kwargs)
     return fig
 
 
