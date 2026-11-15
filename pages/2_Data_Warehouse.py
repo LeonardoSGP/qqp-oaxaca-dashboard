@@ -1,24 +1,17 @@
 """
 pages/2_Data_Warehouse.py
 ─────────────────────────────────────────────────────────────────────────────
-Página 2: Data Warehouse y Data Mart.
+Página 2: Data Warehouse y Data Mart con diseño Glassmorphism.
 Muestra el diagrama del modelo en estrella, conteo de filas por tabla,
 vistas previas paginadas de cada tabla y descripción del data mart.
 """
 
 import streamlit as st
-from src.queries import conteo_tablas_dw, preview_tabla_dw, preview_tabla_oltp
+from src.queries import conteo_tablas_dw, preview_tabla_dw
 from src.charts import barras_conteo_tablas
+from src.theme import apply_glassmorphism
 
-st.markdown("""
-<style>
-.kpi-card  { background:#1A1F2E; border:1px solid #2D3748; border-radius:12px; padding:1.2rem 1.5rem; text-align:center; }
-.kpi-valor { font-size:2rem; font-weight:700; color:#2DD4BF; margin:0; }
-.kpi-label { font-size:0.85rem; color:#94A3B8; margin-top:0.25rem; }
-.kpi-sub   { font-size:0.75rem; color:#64748B; }
-.separador { border:none; border-top:1px solid #2D3748; margin:1.5rem 0; }
-</style>
-""", unsafe_allow_html=True)
+apply_glassmorphism()
 
 st.title("Data Warehouse y Data Mart")
 st.markdown("Arquitectura del modelo de datos, conteos de filas y vistas previas de tablas.")
@@ -87,16 +80,15 @@ if not df_cont.empty:
     fig = barras_conteo_tablas(df_cont)
     st.plotly_chart(fig, use_container_width=True)
 
-    # KPIs rápidos
+    # KPIs rápidos con altura de referencia unificada
     k1, k2, k3, k4, k5 = st.columns(5)
     for col, row in zip([k1, k2, k3, k4, k5], df_cont.itertuples()):
         with col:
-            st.markdown(f"""
-            <div class="kpi-card">
-                <p class="kpi-valor">{row.filas:,}</p>
-                <p class="kpi-label">{row.tabla}</p>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown(
+                f'<div class="kpi-card glass-card"><p class="kpi-valor">{row.filas:,}</p>'
+                f'<p class="kpi-label">{row.tabla}</p><p class="kpi-sub">Esquema qqp_dw</p></div>',
+                unsafe_allow_html=True,
+            )
 else:
     st.warning("No se pudieron obtener los conteos.")
 

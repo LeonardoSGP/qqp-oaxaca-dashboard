@@ -2,8 +2,8 @@
 app.py
 ─────────────────────────────────────────────────────────────────────────────
 Punto de entrada del dashboard QQP Oaxaca.
-Configura la navegación nativa multipágina, verifica la conexión a MySQL
-y muestra el panel de inicio del sistema.
+Configura la navegación superior (position="top") con diseño Glassmorphism,
+verifica la conexión a MySQL y muestra el panel de inicio del sistema.
 
 Proyecto: Quién es Quién en los Precios — Oaxaca 2026
 TecNM Campus Oaxaca · Datos abiertos Profeco
@@ -11,94 +11,22 @@ TecNM Campus Oaxaca · Datos abiertos Profeco
 
 import streamlit as st
 from src.db import test_connection
+from src.theme import apply_glassmorphism, render_top_status_bar
 
 # ─── Configuración global de la página ───────────────────────────────────────
 st.set_page_config(
     page_title="QQP Oaxaca · Dashboard",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 
-# ─── CSS global compartido ──────────────────────────────────────────────────
-st.markdown("""
-<style>
-/* Tarjetas KPI */
-.kpi-card {
-    background: #1A1F2E;
-    border: 1px solid #2D3748;
-    border-radius: 12px;
-    padding: 1.2rem 1.5rem;
-    text-align: center;
-}
-.kpi-valor {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #2DD4BF;
-    margin: 0;
-}
-.kpi-label {
-    font-size: 0.85rem;
-    color: #94A3B8;
-    margin-top: 0.25rem;
-}
-.kpi-sub {
-    font-size: 0.75rem;
-    color: #64748B;
-}
-
-/* Tarjetas de paso ETL */
-.etl-card {
-    background: #1A1F2E;
-    border-left: 4px solid #2DD4BF;
-    border-radius: 8px;
-    padding: 1rem 1.2rem;
-    margin-bottom: 0.5rem;
-}
-.etl-card.amber { border-left-color: #F59E0B; }
-.etl-card.green { border-left-color: #34D399; }
-.etl-titulo {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #E2E8F0;
-    margin: 0 0 0.3rem 0;
-}
-.etl-desc {
-    font-size: 0.82rem;
-    color: #94A3B8;
-    margin: 0;
-}
-
-/* Badges de conciliación */
-.badge-ok  { color: #34D399; font-weight: 700; }
-.badge-err { color: #F87171; font-weight: 700; }
-
-/* Separador */
-.separador {
-    border: none;
-    border-top: 1px solid #2D3748;
-    margin: 1.5rem 0;
-}
-</style>
-""", unsafe_allow_html=True)
+# ─── Aplicar sistema de diseño Glassmorphism ─────────────────────────────────
+apply_glassmorphism()
 
 # ─── Verificación de conexión a MySQL ────────────────────────────────────────
 conectado, msg_conexion = test_connection()
+render_top_status_bar(conectado, msg_conexion)
 
-# ─── Sidebar: información general y estado de conexión ──────────────────────
-with st.sidebar:
-    st.markdown("## QQP Oaxaca")
-    st.markdown("**Quién es Quién en los Precios**")
-    st.markdown("TecNM Campus Oaxaca · 2026")
-    st.markdown("<hr class='separador'>", unsafe_allow_html=True)
-
-    if conectado:
-        st.success(f"Conectado a MySQL · {msg_conexion}")
-    else:
-        st.error(f"Error de conexión a MySQL:\n{msg_conexion}")
-
-    st.markdown("<hr class='separador'>", unsafe_allow_html=True)
-    st.caption("Datos: Profeco")
-    st.caption("Enero–Agosto 2026 · Oaxaca")
 
 # ─── Vista de Inicio ────────────────────────────────────────────────────────
 def pagina_inicio():
@@ -109,36 +37,34 @@ def pagina_inicio():
 
     col1, col2, col3, col4 = st.columns(4)
     kpis = [
-        (col1, "9,388,457", "Filas leídas (total nacional)", "16 archivos CSV"),
-        (col2, "191,895",   "Registros de Oaxaca",           "Cargados en MySQL"),
-        (col3, "3,265",     "Productos únicos",               "dim_producto"),
-        (col4, "51",        "Establecimientos",               "dim_establecimiento"),
+        (col1, "9,388,457", "Filas leídas (total nacional)", "16 archivos CSV quincenales"),
+        (col2, "191,895",   "Registros de Oaxaca",           "Cargados y validados en MySQL"),
+        (col3, "3,265",     "Productos únicos",               "Catálogo dim_producto"),
+        (col4, "51",        "Establecimientos",               "Catálogo dim_establecimiento"),
     ]
     for col, valor, label, sub in kpis:
         with col:
-            st.markdown(f"""
-            <div class="kpi-card">
-                <p class="kpi-valor">{valor}</p>
-                <p class="kpi-label">{label}</p>
-                <p class="kpi-sub">{sub}</p>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown(
+                f'<div class="kpi-card glass-card"><p class="kpi-valor">{valor}</p>'
+                f'<p class="kpi-label">{label}</p><p class="kpi-sub">{sub}</p></div>',
+                unsafe_allow_html=True,
+            )
 
     st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
     st.markdown("### Páginas del dashboard")
     st.markdown("""
-    | Página | Descripción |
-    |---|---|
-    | **Carga de datos (ETL)** | Flujo de extracción, transformación y carga; KPIs, reglas de limpieza y conciliación en vivo |
-    | **Data Warehouse** | Modelo en estrella, conteos de tablas y vistas previas paginadas |
-    | **Comparativo de precios** | Precio promedio por cadena comercial con filtros de producto y categoría |
-    | **Series de tiempo** | Evolución mensual del precio por producto y cadena |
-    | **Mapa** | Establecimientos de Oaxaca con coordenadas geográficas |
-    | **Calidad de datos** | Nulos, duplicados y coordenadas fuera de rango |
+| Página | Descripción |
+|---|---|
+| **Carga de datos (ETL)** | Flujo de extracción, transformación y carga; KPIs, reglas de limpieza y conciliación en vivo |
+| **Data Warehouse** | Modelo en estrella, conteos de tablas y vistas previas paginadas |
+| **Comparativo de precios** | Precio promedio por cadena comercial con filtros de producto y categoría |
+| **Series de tiempo** | Evolución mensual del precio por producto y cadena |
+| **Mapa** | Establecimientos de Oaxaca con coordenadas geográficas |
+| **Calidad de datos** | Nulos, duplicados y coordenadas fuera de rango |
 
-    Navega usando el menú de la **barra lateral izquierda**.
-    """)
+Navega usando el **menú superior en el encabezado (header)**.
+""")
 
     st.markdown("<hr class='separador'>", unsafe_allow_html=True)
     st.markdown(
@@ -147,15 +73,19 @@ def pagina_inicio():
         "| **Autores:** Leonardo Garcia y Cristian Placido · TecNM Campus Oaxaca"
     )
 
-# ─── Configuración de navegación nativa multipágina ─────────────────────────
-pg = st.navigation([
-    st.Page(pagina_inicio, title="Inicio", default=True),
-    st.Page("pages/1_Carga_de_datos_ETL.py", title="Carga de datos (ETL)"),
-    st.Page("pages/2_Data_Warehouse.py", title="Data Warehouse"),
-    st.Page("pages/3_Comparativo_de_Precios.py", title="Comparativo de precios"),
-    st.Page("pages/4_Series_de_Tiempo.py", title="Series de tiempo"),
-    st.Page("pages/5_Mapa.py", title="Mapa"),
-    st.Page("pages/6_Calidad_de_Datos.py", title="Calidad de datos"),
-])
+
+# ─── Configuración de navegación nativa en la parte superior del header ─────
+pg = st.navigation(
+    [
+        st.Page(pagina_inicio, title="Inicio", default=True),
+        st.Page("pages/1_Carga_de_datos_ETL.py", title="Carga de datos (ETL)"),
+        st.Page("pages/2_Data_Warehouse.py", title="Data Warehouse"),
+        st.Page("pages/3_Comparativo_de_Precios.py", title="Comparativo de precios"),
+        st.Page("pages/4_Series_de_Tiempo.py", title="Series de tiempo"),
+        st.Page("pages/5_Mapa.py", title="Mapa"),
+        st.Page("pages/6_Calidad_de_Datos.py", title="Calidad de datos"),
+    ],
+    position="top",
+)
 
 pg.run()

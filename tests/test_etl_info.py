@@ -159,8 +159,8 @@ def test_linea_serie_tiempo():
     assert len(fig.data) == 2  # Una traza por cadena
 
 
-def test_mapa_establecimientos():
-    """La función mapa_establecimientos genera una figura Scattermapbox válida en Plotly 6+."""
+def test_mapa_establecimientos(monkeypatch):
+    """La función mapa_establecimientos funciona con y sin MAPBOX_TOKEN en todos los estilos."""
     import plotly.graph_objects as go
     from src.charts import mapa_establecimientos
     df = pd.DataFrame({
@@ -172,10 +172,17 @@ def test_mapa_establecimientos():
         "longitud":           [-96.7236, -96.7112],
         "num_registros":      [4500, 5200],
     })
-    fig = mapa_establecimientos(df)
-    assert isinstance(fig, go.Figure)
-    assert len(fig.data) == 1
-    assert fig.data[0].marker.colorbar.title.text == "Registros"
+    # Con MAPBOX_TOKEN activo y estilo libre (open-street-map -> layout.map sin accesstoken)
+    monkeypatch.setenv("MAPBOX_TOKEN", "pk.test_token_123")
+    fig_osm = mapa_establecimientos(df, estilo="open-street-map")
+    assert isinstance(fig_osm, go.Figure)
+    assert len(fig_osm.data) == 1
+    assert fig_osm.data[0].marker.colorbar.title.text == "Registros"
+
+    # Con MAPBOX_TOKEN activo y estilo Mapbox (satellite-streets -> layout.mapbox con accesstoken)
+    fig_mb = mapa_establecimientos(df, estilo="satellite-streets")
+    assert isinstance(fig_mb, go.Figure)
+    assert fig_mb.layout.mapbox.accesstoken == "pk.test_token_123"
 
 
 def test_pagina_mapa_renderiza_sin_errores():
@@ -221,5 +228,24 @@ def test_barras_conteo_tablas_y_calidad_nulos():
     })
     fig2 = barras_calidad_nulos(df_nulos)
     assert isinstance(fig2, go.Figure)
+
+
+def test_glassmorphism_skill_y_tema_sin_fugas_css():
+    """Verifica que la skill glassmorphism, tokens.css y src/theme.py estén completos y sin líneas vacías."""
+    raiz = pathlib.Path(__file__).parent.parent
+    skill_md = raiz / ".agents" / "skills" / "glassmorphism" / "SKILL.md"
+    tokens_css = raiz / ".agents" / "skills" / "glassmorphism" / "references" / "tokens.css"
+
+    assert skill_md.exists(), "Falta .agents/skills/glassmorphism/SKILL.md"
+    assert tokens_css.exists(), "Falta .agents/skills/glassmorphism/references/tokens.css"
+
+    from src.theme import _COMPACT_GLASS_CSS
+    assert "\n\n" not in _COMPACT_GLASS_CSS, "El bloque CSS compacto no debe tener líneas en blanco para evitar fugas CommonMark"
+    assert ".glass-card" in _COMPACT_GLASS_CSS
+    assert ".glass-nav" in _COMPACT_GLASS_CSS
+    assert "--card-ref-height" in _COMPACT_GLASS_CSS
+    assert "prefers-reduced-transparency" in _COMPACT_GLASS_CSS
+    assert "prefers-contrast: more" in _COMPACT_GLASS_CSS
+
 
 

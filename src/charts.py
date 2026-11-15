@@ -10,13 +10,13 @@ import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
 
-# ─── Paleta y tema base ──────────────────────────────────────────────────────
-FONDO       = "#0E1117"
-FONDO2      = "#1A1F2E"
+# ─── Paleta y tema base (Glassmorphism translúcido) ──────────────────────────
+FONDO       = "rgba(15, 23, 42, 0.35)"
+FONDO2      = "rgba(30, 41, 59, 0.45)"
 TEAL        = "#2DD4BF"
 AMBER       = "#F59E0B"
 SLATE       = "#94A3B8"
-TEXTO       = "#E2E8F0"
+TEXTO       = "#F8FAFC"
 PALETA      = [
     "#2DD4BF", "#F59E0B", "#60A5FA", "#F472B6",
     "#34D399", "#A78BFA", "#FB923C", "#38BDF8",
@@ -25,9 +25,9 @@ PALETA      = [
 _LAYOUT_BASE = dict(
     paper_bgcolor=FONDO,
     plot_bgcolor=FONDO2,
-    font=dict(family="Inter, sans-serif", color=TEXTO, size=13),
+    font=dict(family="Outfit, Inter, sans-serif", color=TEXTO, size=13),
     margin=dict(l=40, r=20, t=50, b=40),
-    legend=dict(bgcolor=FONDO2, bordercolor="#2D3748", borderwidth=1),
+    legend=dict(bgcolor="rgba(15, 23, 42, 0.65)", bordercolor="rgba(255, 255, 255, 0.18)", borderwidth=1),
 )
 
 
@@ -133,15 +133,26 @@ def mapa_establecimientos(
 ) -> go.Figure:
     """Mapa de burbujas de establecimientos en Oaxaca."""
     import os
+    from dotenv import load_dotenv
+    if not os.getenv("MAPBOX_TOKEN", "").strip():
+        load_dotenv(override=True)
     mapbox_token = os.getenv("MAPBOX_TOKEN", "").strip()
 
     max_reg = df["num_registros"].max() if not df.empty else 1
     center_lat = float(df["latitud"].mean()) if not df.empty else 17.065
     center_lon = float(df["longitud"].mean()) if not df.empty else -96.715
 
-    # Compatibilidad Plotly 6/7 (Scattermap/map) y Plotly 5 (Scattermapbox/mapbox)
-    ScatterCls = getattr(go, "Scattermap", None) or getattr(go, "Scattermapbox", None)
-    map_layout_key = "map" if hasattr(go, "Scattermap") else "mapbox"
+    # Si hay token de Mapbox y se usa un estilo propio de Mapbox, usar Scattermapbox/mapbox
+    # (ya que layout.map de MapLibre en Plotly 6+ no acepta la propiedad 'accesstoken').
+    estilos_mapbox = {"streets", "dark", "satellite-streets", "satellite", "outdoors", "light", "basic"}
+    usar_mapbox = bool(mapbox_token and estilo in estilos_mapbox and hasattr(go, "Scattermapbox"))
+
+    if usar_mapbox:
+        ScatterCls = go.Scattermapbox
+        map_layout_key = "mapbox"
+    else:
+        ScatterCls = getattr(go, "Scattermap", None) or getattr(go, "Scattermapbox", None)
+        map_layout_key = "map" if hasattr(go, "Scattermap") else "mapbox"
 
     fig = go.Figure(ScatterCls(
         lat=df["latitud"],
@@ -177,7 +188,7 @@ def mapa_establecimientos(
         center=dict(lat=center_lat, lon=center_lon),
         zoom=zoom,
     )
-    if mapbox_token:
+    if mapbox_token and map_layout_key == "mapbox":
         map_cfg["accesstoken"] = mapbox_token
 
     layout_kwargs = {

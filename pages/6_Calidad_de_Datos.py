@@ -1,7 +1,7 @@
 """
 pages/6_Calidad_de_Datos.py
 ─────────────────────────────────────────────────────────────────────────────
-Página 6: Calidad de datos.
+Página 6: Calidad de datos con diseño Glassmorphism.
 Muestra métricas de nulos, duplicados y coordenadas fuera de rango,
 combinando datos del JSON del ETL y consultas en vivo a MySQL.
 """
@@ -11,19 +11,9 @@ import pandas as pd
 from src.etl_info import resumen_general
 from src.queries import calidad_nulos_dw, coordenadas_fuera_oaxaca
 from src.charts import barras_calidad_nulos
+from src.theme import apply_glassmorphism
 
-st.markdown("""
-<style>
-.separador { border:none; border-top:1px solid #2D3748; margin:1.5rem 0; }
-.kpi-card  { background:#1A1F2E; border:1px solid #2D3748; border-radius:12px; padding:1.2rem 1.5rem; text-align:center; }
-.kpi-valor { font-size:2rem; font-weight:700; color:#2DD4BF; margin:0; }
-.kpi-label { font-size:0.85rem; color:#94A3B8; margin-top:0.25rem; }
-.kpi-sub   { font-size:0.75rem; color:#64748B; }
-.badge-ok  { color:#34D399; font-weight:700; }
-.badge-warn{ color:#F59E0B; font-weight:700; }
-.badge-err { color:#F87171; font-weight:700; }
-</style>
-""", unsafe_allow_html=True)
+apply_glassmorphism()
 
 st.title("Calidad de datos")
 st.markdown("Análisis de la calidad del dataset: valores nulos, duplicados, coordenadas fuera de rango y anomalías de precio.")
@@ -32,38 +22,39 @@ st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 resumen = resumen_general()
 
-# ─── KPIs de calidad ─────────────────────────────────────────────────────────
+# ─── KPIs de calidad con altura de referencia unificada ──────────────────────
 st.markdown("### Resumen de calidad (desde el proceso ETL)")
 k1, k2, k3, k4, k5 = st.columns(5)
 kpis = [
-    (k1, f"{resumen['rechazados_por_error']}",           "Rechazados por error",        "0 = excelente",          "ok"),
-    (k2, f"{resumen['identicos_eliminados']}",           "Duplicados exactos",          "Eliminados del dataset", "warn"),
-    (k3, f"{resumen['coordenadas_en_nulo']}",            "Coordenadas en nulo",         "De 191,903 registros",   "warn"),
-    (k4, f"{resumen['llaves_repetidas_precio_distinto']}","Llaves con precio distinto", "Mismo prod+est+fecha",   "warn"),
-    (k5, f"{resumen['precios_atipicos']}",               "Precios atípicos",            "Detectados en ETL",      "warn"),
+    (k1, f"{resumen['rechazados_por_error']}",            "Rechazados por error",        "0 = excelente",          "ok"),
+    (k2, f"{resumen['identicos_eliminados']}",            "Duplicados exactos",          "Eliminados del dataset", "warn"),
+    (k3, f"{resumen['coordenadas_en_nulo']}",             "Coordenadas en nulo",         "De 191,903 registros",   "warn"),
+    (k4, f"{resumen['llaves_repetidas_precio_distinto']}","Llaves con precio distinto",  "Mismo prod+est+fecha",   "warn"),
+    (k5, f"{resumen['precios_atipicos']}",                "Precios atípicos",            "Detectados en ETL",      "warn"),
 ]
 for col, valor, label, sub, tipo in kpis:
     with col:
         color = "#34D399" if tipo == "ok" else "#F59E0B"
-        st.markdown(f"""
-        <div class="kpi-card" style="border-top:3px solid {color};">
-            <p class="kpi-valor" style="color:{color};">{valor}</p>
-            <p class="kpi-label">{label}</p>
-            <p class="kpi-sub">{sub}</p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            f'<div class="kpi-card glass-card" style="border-top:3px solid {color};">'
+            f'<p class="kpi-valor" style="color:{color};">{valor}</p>'
+            f'<p class="kpi-label">{label}</p>'
+            f'<p class="kpi-sub">{sub}</p>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Análisis de completitud por etapa ───────────────────────────────────────
 st.markdown("### Completitud por etapa del ETL")
 etapas = pd.DataFrame([
-    {"Etapa": "Filas leídas (nacional)",      "Registros": resumen["filas_leidas"],      "% completitud": 100.0},
-    {"Etapa": "Filtrados (Oaxaca)",           "Registros": resumen["oaxaca"],            "% completitud": round(resumen["oaxaca"]/resumen["filas_leidas"]*100, 4)},
-    {"Etapa": "Sin duplicados exactos",       "Registros": resumen["oaxaca"] - resumen["identicos_eliminados"], "% completitud": round((resumen["oaxaca"]-resumen["identicos_eliminados"])/resumen["oaxaca"]*100,2)},
-    {"Etapa": "Cargados en MySQL (finales)",  "Registros": resumen["finales"],           "% completitud": round(resumen["finales"]/resumen["oaxaca"]*100,2)},
+    {"Etapa": "Filas leídas (nacional)",     "Registros": resumen["filas_leidas"], "% completitud": 100.0},
+    {"Etapa": "Filtrados (Oaxaca)",          "Registros": resumen["oaxaca"],       "% completitud": round(resumen["oaxaca"] / resumen["filas_leidas"] * 100, 4)},
+    {"Etapa": "Sin duplicados exactos",      "Registros": resumen["oaxaca"] - resumen["identicos_eliminados"], "% completitud": round((resumen["oaxaca"] - resumen["identicos_eliminados"]) / resumen["oaxaca"] * 100, 2)},
+    {"Etapa": "Cargados en MySQL (finales)", "Registros": resumen["finales"],      "% completitud": round(resumen["finales"] / resumen["oaxaca"] * 100, 2)},
 ])
-etapas["Registros"] = etapas["Registros"].apply(lambda v: f"{v:,}")
+etapas["Registros"]     = etapas["Registros"].apply(lambda v: f"{v:,}")
 etapas["% completitud"] = etapas["% completitud"].apply(lambda v: f"{v:.4f}%")
 st.dataframe(etapas, use_container_width=True, hide_index=True)
 

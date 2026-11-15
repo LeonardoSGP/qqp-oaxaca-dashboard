@@ -28,6 +28,7 @@ def _query_oltp(sql: str, params: dict | None = None) -> pd.DataFrame:
 
 # ─── Conciliación ───────────────────────────────────────────────────────────
 
+@st.cache_data(ttl=600, show_spinner=False)
 def contar_tabla(tabla: str, esquema: str) -> int | None:
     """Devuelve el conteo real de filas de una tabla en MySQL."""
     try:
@@ -37,6 +38,60 @@ def contar_tabla(tabla: str, esquema: str) -> int | None:
             return conn.execute(text(sql)).scalar()
     except Exception:
         return None
+
+
+@st.cache_data(ttl=600, show_spinner=False)
+def conciliacion_tablas() -> pd.DataFrame:
+    """Conciliación en lote cacheada para evitar bloquear el cambio de páginas."""
+    from src.etl_info import tablas_esperadas
+
+    df_esp = tablas_esperadas()
+    conteos_reales: dict[str, int] = {}
+    err_str = "N/A"
+    try:
+        df_dw = _query_dw("""
+            SELECT 'qqp_dw.fact_precio' AS tabla, COUNT(*) AS filas FROM fact_precio
+            UNION ALL SELECT 'qqp_dw.dim_tiempo', COUNT(*) FROM dim_tiempo
+            UNION ALL SELECT 'qqp_dw.dim_producto', COUNT(*) FROM dim_producto
+            UNION ALL SELECT 'qqp_dw.dim_establecimiento', COUNT(*) FROM dim_establecimiento
+            UNION ALL SELECT 'qqp_dw.agg_precio_mensual', COUNT(*) FROM agg_precio_mensual
+        """)
+        for r in df_dw.itertuples():
+            conteos_reales[r.tabla] = int(r.filas)
+
+        df_oltp = _query_oltp("""
+            SELECT 'qqp_oltp.stg_qqp' AS tabla, COUNT(*) AS filas FROM stg_qqp
+            UNION ALL SELECT 'qqp_oltp.registro_precio', COUNT(*) FROM registro_precio
+            UNION ALL SELECT 'qqp_oltp.producto', COUNT(*) FROM producto
+            UNION ALL SELECT 'qqp_oltp.presentacion_producto', COUNT(*) FROM presentacion_producto
+        """)
+        for r in df_oltp.itertuples():
+            conteos_reales[r.tabla] = int(r.filas)
+        if "qqp_oltp.registro_precio" in conteos_reales:
+            conteos_reales["qqp_oltp.v_stg_limpio"] = conteos_reales["qqp_oltp.registro_precio"]
+    except Exception as e:
+        err_str = str(e)[:50]
+
+    filas_conc = []
+    for _, row in df_esp.iterrows():
+        tabla_full = row["tabla"]
+        esperado   = int(row["esperado"])
+        real       = conteos_reales.get(tabla_full)
+        if real is not None:
+            diff     = real - esperado
+            estado   = "OK" if diff == 0 else ("DIFERENCIA" if abs(diff) < 10 else "ERROR")
+            diff_str = f"+{diff:,}" if diff > 0 else f"{diff:,}"
+        else:
+            estado   = "ERROR"
+            diff_str = err_str
+        filas_conc.append({
+            "Estado": estado,
+            "Tabla": tabla_full,
+            "Esperado": f"{esperado:,}",
+            "Real": f"{real:,}" if real is not None else "Error",
+            "Diferencia": diff_str,
+        })
+    return pd.DataFrame(filas_conc)
 
 # ─── Data Warehouse: conteos ─────────────────────────────────────────────────
 
