@@ -4,7 +4,7 @@
 **Institución:** Instituto Tecnológico de Oaxaca (TecNM Campus Oaxaca)  
 **Programa Académico:** Ingeniería en Sistemas Computacionales  
 **Materia:** Toma de Decisiones  
-**Autor:** LeonardoSGP (Leonardo Sadot García Pino)  
+**Autores:** Leonardo Garcia y Cristian Placido  
 **Versión del Sistema:** v1.0.0  
 **Fecha:** Noviembre 2026  
 
@@ -23,7 +23,7 @@ El pipeline procesó **9,388,457 filas** provenientes de 16 archivos CSV quincen
 ```mermaid
 flowchart TD
     subgraph Origen
-        CSV["16 Archivos CSV Quincenales\n9,388,457 registros nacionales\nProfeco CC BY 4.0"]
+        CSV["16 Archivos CSV Quincenales\n9,388,457 registros nacionales\nProfeco"]
     end
 
     subgraph "Capa de Persistencia (MySQL 8+)"

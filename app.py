@@ -6,7 +6,7 @@ Configura la página principal, verifica la conexión a MySQL y muestra
 el estado de la conexión en la barra lateral.
 
 Proyecto: Quién es Quién en los Precios — Oaxaca 2026
-TecNM Campus Oaxaca · Datos abiertos Profeco (CC BY 4.0)
+TecNM Campus Oaxaca · Datos abiertos Profeco
 """
 
 import streamlit as st
@@ -100,12 +100,12 @@ with st.sidebar:
         st.error(f"Error de conexión a MySQL:\n{msg_conexion}")
 
     st.markdown("<hr class='separador'>", unsafe_allow_html=True)
-    st.caption("Datos: Profeco · CC BY 4.0")
+    st.caption("Datos: Profeco")
     st.caption("Enero–Agosto 2026 · Oaxaca")
 
 # ─── Página de inicio ────────────────────────────────────────────────────────
 st.title("Dashboard — Quién es Quién en los Precios")
-st.markdown("**Oaxaca · Enero–Agosto 2026** | Datos abiertos Profeco (CC BY 4.0)")
+st.markdown("**Oaxaca · Enero–Agosto 2026** | Datos abiertos Profeco")
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
@@ -145,7 +145,6 @@ Navega usando el menú de la **barra lateral izquierda**.
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 st.markdown(
     "**Fuente:** Programa *Quién es Quién en los Precios* · "
-    "[Profeco](https://www.gob.mx/profeco) · "
-    "Licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es)  "
-    "| **Autor:** LeonardoSGP · TecNM Campus Oaxaca"
+    "[Profeco](https://www.gob.mx/profeco)  "
+    "| **Autores:** Leonardo Garcia y Cristian Placido · TecNM Campus Oaxaca"
 )

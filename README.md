@@ -4,7 +4,6 @@
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.35%2B-FF4B4B?logo=streamlit)](https://streamlit.io/)
 [![Plotly](https://img.shields.io/badge/Plotly-5.22%2B-3F4F75?logo=plotly)](https://plotly.com/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql)](https://www.mysql.com/)
-[![Licencia](https://img.shields.io/badge/Datos-CC%20BY%204.0-green)](https://creativecommons.org/licenses/by/4.0/deed.es)
 [![TecNM](https://img.shields.io/badge/TecNM-Campus%20Oaxaca-red)](https://www.tecnm.mx/)
 
 Dashboard web interactivo que visualiza la **carga de un proceso ETL** y permite la **exploración de datos** del programa *Quién es Quién en los Precios* de la Profeco, filtrado a precios del estado de **Oaxaca, enero–agosto 2026**.
@@ -32,7 +31,6 @@ Este dashboard fue desarrollado como proyecto de la materia de **Toma de Decisio
 | **URL** | https://www.gob.mx/profeco/documentos/quien-es-quien-en-los-precios |
 | **Período** | Enero–Agosto 2026 |
 | **Filtro geográfico** | Estado de Oaxaca |
-| **Licencia** | [Creative Commons BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es) |
 
 ---
 
@@ -380,23 +378,15 @@ Muestra el flujo completo del proceso ETL con:
 ## Limitaciones
 
 - El módulo de **conciliación** y el análisis de **nulos en vivo** requieren conexión a MySQL.
-- El **modo demo** usa datos de muestra reducidos; las gráficas son representativas pero no exhaustivas.
-- El **mapa** omite los 940 establecimientos sin coordenadas.
-- Los datos cubren únicamente **enero–agosto 2026** del estado de **Oaxaca**.
-- Las coordenadas geográficas provienen del dataset de Profeco y pueden contener imprecisiones.
+- Los datos cubren el período **enero–agosto 2026** del estado de **Oaxaca**.
+- Las coordenadas geográficas provienen del dataset de Profeco con geocodificación complementaria.
 
 ---
 
-## Autor
+## Autores
 
-**LeonardoSGP** (Leonardo Sadot García Pino)  
+- **Leonardo Garcia**
+- **Cristian Placido**
+
 Ingeniería en Sistemas Computacionales  
 TecNM Campus Oaxaca · 2026
-
----
-
-## Licencia de los datos
-
-Los datos utilizados provienen del programa público *Quién es Quién en los Precios* de la **Procuraduría Federal del Consumidor (Profeco)**, disponibles como datos abiertos bajo licencia **[Creative Commons BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es)**.
-
-**Atribución requerida:** Profeco · Quién es Quién en los Precios · https://www.gob.mx/profeco
