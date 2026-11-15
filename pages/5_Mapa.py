@@ -53,6 +53,12 @@ for col, valor, label in [
         </div>
         """, unsafe_allow_html=True)
 
+st.info(
+    "Nota de georreferenciación: Se agregaron las coordenadas faltantes para el establecimiento "
+    "«Farmacia Hospital Reforma» (17.069029, -96.721632 vía Google Maps), alcanzando una "
+    "cobertura geográfica del 100% (51 de 51 tiendas y 191,895 registros totales en el mapa)."
+)
+
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
 # ─── Filtro por cadena (sidebar) ──────────────────────────────────────

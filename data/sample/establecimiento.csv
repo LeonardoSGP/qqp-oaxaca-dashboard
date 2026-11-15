@@ -6,7 +6,7 @@ id_establecimiento,id_cadena,id_giro,id_municipio,nombre_comercial,direccion,lat
 5,25,9,1,Distribuidora Escolar y de Oficina J.p.,Heroico Colegio Militar 1010 Loc.9a Un Costado de Gigante Reforma. Col. Reforma. Cp. 68150,17.081359,-96.711684
 6,5,2,1,Elektra Sucurasl Centro,Colon 210. Entre Fiallo y Armenta y Lopez. Col. Centro. Cp. 68000,17.058777,-96.723676
 7,16,4,1,Farmacia Guadalajara Sucursal Emiliano Zapata,Emiliano Zapata 220. Entre Sabinos y Palmeras. Col. Reforma. Cp. 68050,17.077215,-96.71692
-8,6,4,1,Farmacia Hospital Reforma,Reforma 613. Entre Berriozabal y Humboldt. Col. Centro. Cp. 68000,,
+8,6,4,1,Farmacia Hospital Reforma,Reforma 613. Entre Berriozabal y Humboldt. Col. Centro. Cp. 68000,17.069029,-96.721632
 9,11,4,1,Farmacia Similares Sucursal 76317,Dalias 601. Esquina Alamos. Col. Reforma. Cp. 68050,17.079242,-96.711341
 10,12,4,1,Farmacias del Ahorro Sucursal Juarez,Avenida Juarez 312 Local 1 y 2. Entre Berriozabal y Humbolt. Col. Centro. Cp. 68000,17.067798,-96.720313
 11,7,4,1,Farmacias Guelaguetza Sucursal Independencia,Independencia 407 Loc. 1. Esq. Tinoco y Palacios. Col. Centro. Cp. 68000,17.062446,-96.727005

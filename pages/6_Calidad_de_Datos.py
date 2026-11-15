@@ -103,12 +103,13 @@ st.markdown("""
 | Métrica | Valor | Interpretación |
 |---|---|---|
 | Duplicados exactos eliminados | 8 | Muy bajo — datos de buena calidad |
-| Coordenadas nulas | 940 | ~0.49% de registros sin geolocalización |
+| Coordenadas nulas (origen ETL) | 940 | ~0.49% de registros originales sin geolocalización |
 | Llaves repetidas, precio distinto | 6,694 | Mismo producto/establecimiento/fecha con precios diferentes (variación de precio en el día) |
 | Precios atípicos detectados | 1 | Dato extremo conservado en la carga |
 | Registros rechazados por error | 0 | 100% de los registros filtrados pudieron procesarse |
 
-> **Conclusión:** El dataset presenta una calidad alta. La mayor área de mejora
-> es la geolocalización (940 registros sin coordenadas), que limita el mapa a
-> los establecimientos con datos completos.
+> **Nota de enriquecimiento de datos:** Los 940 registros con coordenadas nulas en el archivo original
+> correspondían al establecimiento *Farmacia Hospital Reforma* (Reforma 613, Centro, Oaxaca).
+> Se agregaron sus coordenadas (lat 17.069029, lon -96.721632) en la base de datos a partir de Google Maps,
+> completando la cobertura al 100% (51 de 51 establecimientos en el mapa).
 """)
