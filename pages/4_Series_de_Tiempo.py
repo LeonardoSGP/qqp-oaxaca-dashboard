@@ -15,6 +15,8 @@ st.markdown("""
 .kpi-card  { background:#1A1F2E; border:1px solid #2D3748; border-radius:12px; padding:1.2rem 1.5rem; text-align:center; }
 .kpi-valor { font-size:2rem; font-weight:700; color:#2DD4BF; margin:0; }
 .kpi-label { font-size:0.85rem; color:#94A3B8; margin-top:0.25rem; }
+[data-testid="stSidebarNav"] li:first-child a span { visibility: hidden; position: relative; }
+[data-testid="stSidebarNav"] li:first-child a span::after { visibility: visible; position: absolute; left: 0; top: 0; content: "Inicio"; }
 </style>
 """, unsafe_allow_html=True)
 

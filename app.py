@@ -79,8 +79,18 @@ st.markdown("""
     margin: 1.5rem 0;
 }
 
-/* Ocultar el texto "app" en el sidebar */
-[data-testid="stSidebarNav"] li:first-child { display: none; }
+/* Mostrar la pagina de inicio como "Inicio" en lugar de "app" */
+[data-testid="stSidebarNav"] li:first-child a span {
+    visibility: hidden;
+    position: relative;
+}
+[data-testid="stSidebarNav"] li:first-child a span::after {
+    visibility: visible;
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: "Inicio";
+}
 </style>
 """, unsafe_allow_html=True)
 
