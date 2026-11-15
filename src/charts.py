@@ -154,6 +154,9 @@ def mapa_establecimientos(
             colorbar=dict(
                 title=dict(text="Registros", font=dict(color=TEXTO)),
                 tickfont=dict(color=TEXTO),
+                y=0.45,
+                len=0.72,
+                thickness=18,
             ),
             opacity=0.9,
         ),
@@ -181,8 +184,14 @@ def mapa_establecimientos(
         map_layout_key: map_cfg,
         "paper_bgcolor": FONDO,
         "font": dict(color=TEXTO),
-        "margin": dict(l=0, r=0, t=0, b=0),
-        "height": 560,
+        "margin": dict(l=0, r=0, t=38, b=0),
+        "height": 580,
+        "modebar": dict(
+            orientation="h",
+            bgcolor="rgba(26, 31, 46, 0.85)",
+            color="#94A3B8",
+            activecolor="#2DD4BF",
+        ),
     }
     fig.update_layout(**layout_kwargs)
     return fig

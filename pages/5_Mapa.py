@@ -95,7 +95,15 @@ st.caption(f"Mostrando {len(df_map)} establecimientos")
 
 # ─── Mapa ──────────────────────────────────────────────────────────────────────
 fig = mapa_establecimientos(df_map, estilo=estilo_sel)
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(
+    fig,
+    use_container_width=True,
+    config={
+        "displaylogo": False,
+        "scrollZoom": True,
+        "modeBarButtonsToRemove": ["lasso2d", "select2d"],
+    },
+)
 
 st.markdown("<hr class='separador'>", unsafe_allow_html=True)
 
