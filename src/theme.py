@@ -50,7 +50,8 @@ html, body, [data-testid="stAppViewContainer"], .stApp {
 }
 .block-container {
     max-width: 1320px !important;
-    padding: 3.8rem clamp(1.25rem, 3vw, 3rem) 4rem !important;
+    padding-top: 3.6rem !important;
+    padding-bottom: 3.5rem !important;
 }
 /* ─── Navbar superior Glassmorphism (.glass-nav) ─── */
 header[data-testid="stHeader"], .glass-nav {
@@ -142,7 +143,6 @@ header[data-testid="stHeader"] a:hover {
 /* ─── Alineación de columnas; las tarjetas controlan su propio tamaño ─── */
 [data-testid="stHorizontalBlock"] {
     align-items: stretch !important;
-    gap: 1.25rem !important;
 }
 /* ─── Tarjetas Glassmorphism (.glass-card, .kpi-card, .etl-card) ─── */
 .glass-card, .kpi-card, .etl-card {
@@ -234,8 +234,7 @@ header[data-testid="stHeader"] a:hover {
     border: var(--glass-border);
     border-radius: var(--glass-radius);
     box-shadow: var(--glass-shadow);
-    padding: 0.75rem;
-    margin: 0.75rem 0 1.5rem;
+    padding: 0.5rem;
     overflow: hidden;
 }
 [data-testid="stDataFrame"] {
@@ -245,8 +244,6 @@ header[data-testid="stHeader"] a:hover {
     border: var(--glass-border);
     border-radius: var(--glass-radius);
     box-shadow: var(--glass-shadow);
-    padding: 0.65rem;
-    margin: 0.75rem 0 1.5rem;
     overflow: hidden;
 }
 .glass-btn, .stButton > button {
