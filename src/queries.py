@@ -296,58 +296,79 @@ def coordenadas_fuera_oaxaca() -> int:
 # KPIs de la canasta básica – consultas específicas
 # ---------------------------------------------------------------------------
 
-from src.config import CANASTA_PACIC, CANASTA_PRODUCTOS
+from src.config import CANASTA_PACIC
+
+_KPI_PARAMS = {
+    "catalogo": CANASTA_PACIC,
+    "fecha_inicio": "2026-01-01",
+    "fecha_fin": "2026-09-01",
+}
+
+
+def _kpi_where(alias_producto: str = "p", alias_tiempo: str = "t") -> str:
+    """Filtro único para que todos los KPIs usen catálogo y periodo idénticos."""
+    return (
+        f"{alias_producto}.catalogo = :catalogo "
+        f"AND {alias_tiempo}.fecha >= :fecha_inicio "
+        f"AND {alias_tiempo}.fecha < :fecha_fin"
+    )
 
 # 1. Precio promedio por producto
 @st.cache_data(ttl=600, show_spinner=False)
 def precio_promedio_por_producto() -> pd.DataFrame:
     sql = f"""
         SELECT
-            ap.producto,
-            ROUND(AVG(ap.precio_promedio), 2) AS precio_promedio,
-            SUM(ap.num_registros)               AS num_registros,
-            COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas
-        FROM agg_precio_mensual ap
-        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
-          AND YEAR(ap.mes) = 2026 AND MONTH(ap.mes) BETWEEN 1 AND 8
-        GROUP BY ap.producto
+            p.producto,
+            COUNT(*) AS num_registros,
+            ROUND(AVG(f.precio), 2) AS precio_promedio,
+            COUNT(DISTINCT e.cadena_comercial) AS cadenas_cubiertas
+        FROM fact_precio f
+        JOIN dim_producto p ON p.sk_producto = f.sk_producto
+        JOIN dim_tiempo t ON t.id_tiempo = f.id_tiempo
+        JOIN dim_establecimiento e ON e.sk_establecimiento = f.sk_establecimiento
+        WHERE {_kpi_where()}
+        GROUP BY p.producto
         ORDER BY precio_promedio DESC;
     """
-    return _query_dw(sql)
+    return _query_dw(sql, _KPI_PARAMS)
 
 # 2. Precio máximo por producto
 @st.cache_data(ttl=600, show_spinner=False)
 def precio_maximo_por_producto() -> pd.DataFrame:
     sql = f"""
         SELECT
-            ap.producto,
-            ROUND(MAX(ap.precio_maximo), 2) AS precio_maximo,
-            SUM(ap.num_registros)           AS num_registros,
-            COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas
-        FROM agg_precio_mensual ap
-        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
-          AND YEAR(ap.mes) = 2026 AND MONTH(ap.mes) BETWEEN 1 AND 8
-        GROUP BY ap.producto
+            p.producto,
+            COUNT(*) AS num_registros,
+            ROUND(MAX(f.precio), 2) AS precio_maximo,
+            COUNT(DISTINCT e.cadena_comercial) AS cadenas_cubiertas
+        FROM fact_precio f
+        JOIN dim_producto p ON p.sk_producto = f.sk_producto
+        JOIN dim_tiempo t ON t.id_tiempo = f.id_tiempo
+        JOIN dim_establecimiento e ON e.sk_establecimiento = f.sk_establecimiento
+        WHERE {_kpi_where()}
+        GROUP BY p.producto
         ORDER BY precio_maximo DESC;
     """
-    return _query_dw(sql)
+    return _query_dw(sql, _KPI_PARAMS)
 
 # 3. Precio mínimo por producto
 @st.cache_data(ttl=600, show_spinner=False)
 def precio_minimo_por_producto() -> pd.DataFrame:
     sql = f"""
         SELECT
-            ap.producto,
-            ROUND(MIN(ap.precio_minimo), 2) AS precio_minimo,
-            SUM(ap.num_registros)           AS num_registros,
-            COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas
-        FROM agg_precio_mensual ap
-        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
-          AND YEAR(ap.mes) = 2026 AND MONTH(ap.mes) BETWEEN 1 AND 8
-        GROUP BY ap.producto
+            p.producto,
+            COUNT(*) AS num_registros,
+            ROUND(MIN(f.precio), 2) AS precio_minimo,
+            COUNT(DISTINCT e.cadena_comercial) AS cadenas_cubiertas
+        FROM fact_precio f
+        JOIN dim_producto p ON p.sk_producto = f.sk_producto
+        JOIN dim_tiempo t ON t.id_tiempo = f.id_tiempo
+        JOIN dim_establecimiento e ON e.sk_establecimiento = f.sk_establecimiento
+        WHERE {_kpi_where()}
+        GROUP BY p.producto
         ORDER BY precio_minimo ASC;
     """
-    return _query_dw(sql)
+    return _query_dw(sql, _KPI_PARAMS)
 
 # 4. Variación mensual del precio promedio (%)
 @st.cache_data(ttl=600, show_spinner=False)
@@ -355,13 +376,14 @@ def variacion_mensual_promedio() -> pd.DataFrame:
     sql = f"""
         WITH base AS (
             SELECT
-                ap.producto,
-                CONCAT(YEAR(ap.mes), '-', LPAD(MONTH(ap.mes),2,'0')) AS periodo,
-                ROUND(AVG(ap.precio_promedio),2) AS precio_prom
-            FROM agg_precio_mensual ap
-            WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
-              AND YEAR(ap.mes) = 2026 AND MONTH(ap.mes) BETWEEN 1 AND 8
-            GROUP BY ap.producto, YEAR(ap.mes), MONTH(ap.mes)
+                p.producto,
+                DATE_FORMAT(t.fecha, '%Y-%m') AS periodo,
+                AVG(f.precio) AS precio_prom
+            FROM fact_precio f
+            JOIN dim_producto p ON p.sk_producto = f.sk_producto
+            JOIN dim_tiempo t ON t.id_tiempo = f.id_tiempo
+            WHERE {_kpi_where()}
+            GROUP BY p.producto, DATE_FORMAT(t.fecha, '%Y-%m')
         ),
         lagged AS (
             SELECT
@@ -380,27 +402,27 @@ def variacion_mensual_promedio() -> pd.DataFrame:
         FROM lagged
         ORDER BY producto, periodo;
     """
-    return _query_dw(sql)
+    return _query_dw(sql, _KPI_PARAMS)
 
 # 5. Variación acumulada (primer mes vs último mes)
 @st.cache_data(ttl=600, show_spinner=False)
 def variacion_acumulada() -> pd.DataFrame:
-    # Build IN clause with quoted product names (embedded, no parameters)
-    productos_str = ', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])
     sql = f"""
         WITH primero AS (
-            SELECT producto, AVG(precio_promedio) AS precio_inicio
-            FROM agg_precio_mensual
-            WHERE producto COLLATE utf8mb4_0900_as_ci IN ({productos_str})
-              AND YEAR(mes) = 2026 AND MONTH(mes) = 1
-            GROUP BY producto
+            SELECT p.producto, AVG(f.precio) AS precio_inicio
+            FROM fact_precio f
+            JOIN dim_producto p ON p.sk_producto = f.sk_producto
+            JOIN dim_tiempo t ON t.id_tiempo = f.id_tiempo
+            WHERE {_kpi_where()} AND MONTH(t.fecha) = 1
+            GROUP BY p.producto
         ),
         ultimo AS (
-            SELECT producto, AVG(precio_promedio) AS precio_fin
-            FROM agg_precio_mensual
-            WHERE producto COLLATE utf8mb4_0900_as_ci IN ({productos_str})
-              AND YEAR(mes) = 2026 AND MONTH(mes) = 8
-            GROUP BY producto
+            SELECT p.producto, AVG(f.precio) AS precio_fin
+            FROM fact_precio f
+            JOIN dim_producto p ON p.sk_producto = f.sk_producto
+            JOIN dim_tiempo t ON t.id_tiempo = f.id_tiempo
+            WHERE {_kpi_where()} AND MONTH(t.fecha) = 8
+            GROUP BY p.producto
         )
         SELECT
             p.producto,
@@ -412,7 +434,7 @@ def variacion_acumulada() -> pd.DataFrame:
         JOIN ultimo u USING (producto)
         ORDER BY delta_pct DESC;
     """
-    return _query_dw(sql)
+    return _query_dw(sql, _KPI_PARAMS)
 
 # 6. Top 10 productos más caros (por precio promedio)
 @st.cache_data(ttl=600, show_spinner=False)
@@ -437,30 +459,27 @@ def top_productos_mas_estables() -> pd.DataFrame:
 @st.cache_data(ttl=600, show_spinner=False)
 def costo_canasta_por_cadena() -> pd.DataFrame:
     sql = f"""
-        WITH costos_mensuales AS (
+        WITH por_cadena AS (
             SELECT
-                ap.cadena_comercial,
-                YEAR(ap.mes) AS ano,
-                MONTH(ap.mes) AS mes,
-                SUM(ap.precio_promedio) AS costo_mensual,
-                COUNT(DISTINCT ap.producto) AS productos_cubiertos,
-                SUM(ap.num_registros) AS total_registros
-            FROM agg_precio_mensual ap
-            WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
-              AND YEAR(ap.mes) = 2026 AND MONTH(ap.mes) BETWEEN 1 AND 8
-            GROUP BY ap.cadena_comercial, YEAR(ap.mes), MONTH(ap.mes)
+                e.cadena_comercial,
+                p.producto,
+                AVG(f.precio) AS promedio
+            FROM fact_precio f
+            JOIN dim_producto p ON p.sk_producto = f.sk_producto
+            JOIN dim_tiempo t ON t.id_tiempo = f.id_tiempo
+            JOIN dim_establecimiento e ON e.sk_establecimiento = f.sk_establecimiento
+            WHERE {_kpi_where()}
+            GROUP BY e.cadena_comercial, p.producto
         )
         SELECT
             cadena_comercial,
-            ROUND(AVG(costo_mensual), 2) AS costo_promedio,
-            MIN(productos_cubiertos) AS productos_cubiertos,
-            SUM(total_registros) AS total_registros
-        FROM costos_mensuales
+            COUNT(*) AS productos_cubiertos,
+            ROUND(SUM(promedio), 2) AS costo_promedio
+        FROM por_cadena
         GROUP BY cadena_comercial
-        HAVING MIN(productos_cubiertos) >= 20
-        ORDER BY costo_promedio DESC;
+        ORDER BY productos_cubiertos DESC, costo_promedio;
     """
-    return _query_dw(sql)
+    return _query_dw(sql, _KPI_PARAMS)
 
 # 10. Diferencia de precio entre cadenas por producto
 @st.cache_data(ttl=600, show_spinner=False)
@@ -468,21 +487,23 @@ def diferencia_precio_entre_cadenas() -> pd.DataFrame:
     sql = f"""
         WITH precios AS (
             SELECT
-                ap.producto,
-                ap.cadena_comercial,
-                ROUND(AVG(ap.precio_promedio),2) AS precio_promedio
-            FROM agg_precio_mensual ap
-            WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
-              AND YEAR(ap.mes) = 2026 AND MONTH(ap.mes) BETWEEN 1 AND 8
-            GROUP BY ap.producto, ap.cadena_comercial
+                p.producto,
+                e.cadena_comercial,
+                AVG(f.precio) AS precio_promedio
+            FROM fact_precio f
+            JOIN dim_producto p ON p.sk_producto = f.sk_producto
+            JOIN dim_tiempo t ON t.id_tiempo = f.id_tiempo
+            JOIN dim_establecimiento e ON e.sk_establecimiento = f.sk_establecimiento
+            WHERE {_kpi_where()}
+            GROUP BY p.producto, e.cadena_comercial
         ),
         rangos AS (
             SELECT
                 p.producto,
                 MAX(p.precio_promedio) AS max_precio,
                 MIN(p.precio_promedio) AS min_precio,
-                (MAX(p.precio_promedio) - MIN(p.precio_promedio))
-                    / NULLIF(MIN(p.precio_promedio), 0) * 100 AS variacion_pct
+                (MAX(p.precio_promedio) / NULLIF(MIN(p.precio_promedio), 0) - 1) * 100 AS variacion_pct,
+                COUNT(*) AS cadenas
             FROM precios p
             GROUP BY p.producto
         )
@@ -498,6 +519,26 @@ def diferencia_precio_entre_cadenas() -> pd.DataFrame:
           ON maximo.producto = r.producto AND maximo.precio_promedio = r.max_precio
         JOIN precios minimo
           ON minimo.producto = r.producto AND minimo.precio_promedio = r.min_precio
+        WHERE r.cadenas >= 2
         ORDER BY r.variacion_pct DESC;
     """
-    return _query_dw(sql)
+    return _query_dw(sql, _KPI_PARAMS)
+
+
+@st.cache_data(ttl=600, show_spinner=False)
+def control_canasta_mensual() -> pd.DataFrame:
+    """Cobertura mensual calculada con la misma fuente que los KPIs."""
+    sql = f"""
+        SELECT
+            DATE_FORMAT(t.fecha, '%Y-%m') AS mes,
+            COUNT(*) AS observaciones,
+            COUNT(DISTINCT p.producto) AS productos,
+            COUNT(DISTINCT f.sk_establecimiento) AS establecimientos
+        FROM fact_precio f
+        JOIN dim_producto p ON p.sk_producto = f.sk_producto
+        JOIN dim_tiempo t ON t.id_tiempo = f.id_tiempo
+        WHERE {_kpi_where()}
+        GROUP BY DATE_FORMAT(t.fecha, '%Y-%m')
+        ORDER BY mes;
+    """
+    return _query_dw(sql, _KPI_PARAMS)

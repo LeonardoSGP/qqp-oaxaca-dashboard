@@ -15,15 +15,19 @@ from src import queries, charts
 st.title("KPIs – Canasta básica de Oaxaca (Catálogo Pacic)")
 st.caption("Número de productos: 24 | Periodo: enero‑agosto 2026")
 
-# Tabla de control (simplificada)
-control_df = pd.DataFrame({
-    "Mes": ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago"],
-    "Observaciones": ["OK"] * 8,
-    "Productos": [24] * 8,
-    "Establecimientos": [51] * 8,
-})
 st.subheader("Control de observaciones")
-st.dataframe(control_df, hide_index=True)
+with st.spinner("Consultando cobertura mensual…"):
+    control_df = queries.control_canasta_mensual()
+if control_df.empty:
+    st.info("No hay datos de cobertura para el catálogo Pacic en el periodo seleccionado.")
+else:
+    control_df = control_df.rename(columns={
+        "mes": "Mes",
+        "observaciones": "Observaciones",
+        "productos": "Productos",
+        "establecimientos": "Establecimientos",
+    })
+    st.dataframe(control_df, use_container_width=True, hide_index=True)
 
 # Selector de KPI (compatible con Streamlit 1.67)
 kpi = st.radio(
@@ -73,7 +77,7 @@ if kpi == "Precio promedio":
     st.plotly_chart(fig, use_container_width=True)
     mostrar_tabla(df)
     bloque_explicativo(
-        "Precio promedio mensual acumulado (todos los meses 1‑8).",
+        "Precio promedio de las observaciones del catálogo durante enero‑agosto 2026.",
         "Valores más altos indican mayor costo del bien.",
         f"El producto con mayor precio promedio es {top['producto']} con ${top['precio_promedio']:,}."
     )
@@ -193,16 +197,16 @@ elif kpi == "Top 5 más estables":
                        file_name="top_5_estables.csv", mime="text/csv")
 
 elif kpi == "Costo por cadena":
-    st.header("Costo de la canasta por cadena (cobertura ≥ 20 productos)")
+    st.header("Costo de la canasta por cadena")
     df = queries.costo_canasta_por_cadena()
     exigir_datos(df, "No hay cadenas con cobertura suficiente para calcular el costo de la canasta.")
     fig = charts.barras_costo_cadena(df, "Costo promedio de la canasta por cadena")
     st.plotly_chart(fig, use_container_width=True)
     mostrar_tabla(df)
     bloque_explicativo(
-        "Suma de precios promedio de los 24 productos por cadena.",
+        "Suma de los precios promedio de los productos disponibles por cadena.",
         "Mayor costo = cadena más cara.",
-        "Se resaltan sólo cadenas con cobertura de 20 + productos; el límite de $910 del Pacic no se compara por diferencias de presentación."
+        "La cobertura se muestra en la tabla para comparar cadenas con cantidades similares de productos."
     )
     st.download_button("Descargar CSV", df.to_csv(index=False).encode("utf-8"),
                        file_name="costo_cadena.csv", mime="text/csv")
