@@ -9,6 +9,19 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 from zipfile import ZIP_DEFLATED, ZipFile
+from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.units import inch
+from reportlab.platypus import (
+    LongTable,
+    PageBreak,
+    Paragraph,
+    SimpleDocTemplate,
+    Spacer,
+    TableStyle,
+)
 from src import queries, charts
 from src.config import PACIC_LIMITE
 
@@ -131,8 +144,9 @@ def mostrar_tabla(df: pd.DataFrame) -> None:
     st.dataframe(df, use_container_width=True, hide_index=True)
 
 
-def generar_zip_kpis() -> bytes:
-    """Genera un ZIP con un CSV independiente para cada uno de los 10 KPIs."""
+@st.cache_data(ttl=600, show_spinner=False)
+def obtener_datos_kpis() -> dict[str, pd.DataFrame]:
+    """Obtiene los diez DataFrames que se exportan en ZIP y PDF."""
     df_min = queries.precio_minimo_por_producto()
     df_max = queries.precio_maximo_por_producto()
     df_rango = pd.merge(
@@ -142,23 +156,117 @@ def generar_zip_kpis() -> bytes:
     )
     df_rango["rango"] = df_rango["precio_maximo"] - df_rango["precio_minimo"]
 
-    archivos = {
-        "01_precio_promedio.csv": queries.precio_promedio_por_producto(),
-        "02_precio_maximo.csv": df_max,
-        "03_precio_minimo_rango.csv": df_rango,
-        "04_variacion_mensual.csv": queries.variacion_mensual_promedio(),
-        "05_variacion_acumulada.csv": queries.variacion_acumulada(),
-        "06_top_10_productos_caros.csv": queries.top_productos_mas_caros(),
-        "07_top_5_mayor_alza.csv": queries.top_productos_mayor_alza(),
-        "08_top_5_mas_estables.csv": queries.top_productos_mas_estables(),
-        "09_costo_por_cadena.csv": queries.costo_canasta_por_cadena(),
-        "10_diferencia_entre_cadenas.csv": queries.diferencia_precio_entre_cadenas(),
+    return {
+        "01 Precio promedio": queries.precio_promedio_por_producto(),
+        "02 Precio máximo": df_max,
+        "03 Precio mínimo y rango": df_rango,
+        "04 Variación mensual": queries.variacion_mensual_promedio(),
+        "05 Variación acumulada": queries.variacion_acumulada(),
+        "06 Top 10 productos más caros": queries.top_productos_mas_caros(),
+        "07 Top 5 mayor alza": queries.top_productos_mayor_alza(),
+        "08 Top 5 más estables": queries.top_productos_mas_estables(),
+        "09 Costo por cadena": queries.costo_canasta_por_cadena(),
+        "10 Diferencia entre cadenas": queries.diferencia_precio_entre_cadenas(),
     }
 
+
+def generar_zip_kpis() -> bytes:
+    """Genera un ZIP con un CSV independiente para cada uno de los 10 KPIs."""
+    datos = obtener_datos_kpis()
     contenido = BytesIO()
     with ZipFile(contenido, mode="w", compression=ZIP_DEFLATED) as archivo_zip:
-        for nombre, df in archivos.items():
+        for indice, (titulo, df) in enumerate(datos.items(), start=1):
+            nombre = f"{indice:02d}_{titulo.lower().replace(' ', '_')}.csv"
             archivo_zip.writestr(nombre, df.to_csv(index=False).encode("utf-8-sig"))
+    return contenido.getvalue()
+
+
+def generar_pdf_kpis() -> bytes:
+    """Genera un PDF con tablas resumidas de los diez KPIs."""
+    datos = obtener_datos_kpis()
+    contenido = BytesIO()
+    estilos = getSampleStyleSheet()
+    titulo = ParagraphStyle(
+        "TituloKpis",
+        parent=estilos["Title"],
+        alignment=TA_CENTER,
+        textColor=colors.HexColor("#0F766E"),
+        spaceAfter=12,
+    )
+    subtitulo = ParagraphStyle(
+        "SubtituloKpis",
+        parent=estilos["Normal"],
+        alignment=TA_CENTER,
+        fontSize=9,
+        textColor=colors.HexColor("#475569"),
+        spaceAfter=16,
+    )
+    encabezado = ParagraphStyle(
+        "EncabezadoKpi",
+        parent=estilos["Heading2"],
+        textColor=colors.HexColor("#0F766E"),
+        spaceBefore=8,
+        spaceAfter=8,
+    )
+    celda = ParagraphStyle(
+        "CeldaKpi",
+        parent=estilos["Normal"],
+        fontSize=7,
+        leading=8,
+    )
+
+    documento = SimpleDocTemplate(
+        contenido,
+        pagesize=landscape(letter),
+        rightMargin=0.4 * inch,
+        leftMargin=0.4 * inch,
+        topMargin=0.4 * inch,
+        bottomMargin=0.4 * inch,
+        title="KPIs de la canasta básica PACIC",
+        author="QQP Oaxaca Dashboard",
+    )
+    elementos = [
+        Paragraph("KPIs de la canasta básica PACIC", titulo),
+        Paragraph(
+            "Catálogo Pacic · Oaxaca · enero–agosto 2026 · "
+            "Reporte generado desde el dashboard QQP Oaxaca",
+            subtitulo,
+        ),
+    ]
+
+    for indice, (nombre, df) in enumerate(datos.items(), start=1):
+        elementos.append(Paragraph(f"{indice}. {nombre}", encabezado))
+        if df.empty:
+            elementos.append(Paragraph("Sin datos disponibles.", celda))
+            continue
+
+        encabezados = [str(col) for col in df.columns]
+        filas = [[Paragraph(col, celda) for col in encabezados]]
+        for fila in df.itertuples(index=False, name=None):
+            filas.append([
+                Paragraph("" if pd.isna(valor) else str(valor), celda)
+                for valor in fila
+            ])
+        tabla = LongTable(filas, repeatRows=1, splitByRow=1)
+        tabla.setStyle(TableStyle([
+            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#0F766E")),
+            ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+            ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#CBD5E1")),
+            ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ("ROWBACKGROUNDS", (0, 1), (-1, -1), [
+                colors.white,
+                colors.HexColor("#F1F5F9"),
+            ]),
+            ("LEFTPADDING", (0, 0), (-1, -1), 4),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+            ("TOPPADDING", (0, 0), (-1, -1), 3),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+        ]))
+        elementos.extend([tabla, Spacer(1, 10)])
+        if indice < len(datos):
+            elementos.append(PageBreak())
+
+    documento.build(elementos)
     return contenido.getvalue()
 
 
@@ -168,6 +276,13 @@ st.download_button(
     file_name="kpis_canasta_pacic.zip",
     mime="application/zip",
     help="Incluye un archivo CSV independiente para cada KPI.",
+)
+st.download_button(
+    "Descargar los 10 KPIs (PDF)",
+    data=generar_pdf_kpis(),
+    file_name="kpis_canasta_pacic.pdf",
+    mime="application/pdf",
+    help="Incluye tablas con la información de los 10 KPIs.",
 )
 
 
