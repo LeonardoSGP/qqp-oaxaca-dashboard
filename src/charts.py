@@ -228,6 +228,125 @@ def barras_conteo_tablas(df: pd.DataFrame) -> go.Figure:
 
 
 # ─── Barras: calidad de datos (nulos) ────────────────────────────────────────
+
+# ─── KPIs de la canasta básica ─────────────────────────────────────────────────────
+
+def barra_horizontal(df: pd.DataFrame, x_col: str, y_col: str, title: str) -> go.Figure:
+    """Barra horizontal genérica ordenada descendente.
+    df: DataFrame con al menos las columnas `x_col` (valor numérico) y `y_col` (categoría).
+    """
+    df = df.sort_values(x_col, ascending=True)  # Ascendente para que la barra más alta quede arriba
+    fig = go.Figure(go.Bar(
+        x=df[x_col],
+        y=df[y_col],
+        orientation="h",
+        marker_color=TEAL,
+        text=df[x_col].apply(lambda v: f"{v:,}" if isinstance(v, (int, float)) else str(v)),
+        textposition="outside",
+        textfont=dict(color=TEXTO, size=11),
+    ))
+    _aplicar_tema(fig, title)
+    fig.update_yaxes(categoryorder="array", categoryarray=df[y_col].tolist())
+    return fig
+
+def barra_rango_precio(df: pd.DataFrame, title: str) -> go.Figure:
+    """Muestra rango de precios (mín‑máx) por producto usando barras `base` + `width`."""
+    df = df.sort_values("precio_minimo", ascending=True)
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        y=df["producto"],
+        x=df["precio_maximo"] - df["precio_minimo"],
+        base=df["precio_minimo"],
+        orientation="h",
+        marker_color=AMBER,
+        hovertemplate="%{y}<br>Min: %{base}<br>Max: %{x + base}<extra></extra>",
+    ))
+    _aplicar_tema(fig, title)
+    fig.update_yaxes(categoryorder="array", categoryarray=df["producto"].tolist())
+    return fig
+
+def heatmap_variacion(df: pd.DataFrame, title: str) -> go.Figure:
+    """Heatmap de variación porcentual mensual (producto x periodo)."""
+    pivot = df.pivot(index="producto", columns="periodo", values="variacion_pct")
+    fig = go.Figure(data=go.Heatmap(
+        z=pivot.values,
+        x=pivot.columns.tolist(),
+        y=pivot.index.tolist(),
+        colorscale=[[0, TEAL], [0.5, "#606060"], [1, AMBER]],
+        colorbar=dict(title="% variación"),
+    ))
+    _aplicar_tema(fig, title)
+    fig.update_xaxes(tickangle=-45)
+    return fig
+
+def barras_variacion_acumulada(df: pd.DataFrame, title: str) -> go.Figure:
+    """Barras divergentes: delta_pct positivo en ámbar, negativo en verde azulado.
+    También muestra el delta en pesos como texto.
+    """
+    colors = [AMBER if v >= 0 else TEAL for v in df["delta_pct"]]
+    fig = go.Figure(go.Bar(
+        y=df["producto"],
+        x=df["delta_pct"],
+        orientation="h",
+        marker_color=colors,
+        text=df["delta_valor"].apply(lambda v: f"{v:,.2f}"),
+        textposition="outside",
+        textfont=dict(color=TEXTO, size=11),
+    ))
+    _aplicar_tema(fig, title)
+    fig.update_yaxes(categoryorder="array", categoryarray=df["producto"].tolist())
+    return fig
+
+def barras_top_productos(df: pd.DataFrame, value_col: str, title: str) -> go.Figure:
+    """Barras horizontales para top‑N (usada para productos caros, alza, estabilidad)."""
+    fig = go.Figure(go.Bar(
+        y=df["producto"],
+        x=df[value_col],
+        orientation="h",
+        marker_color=AMBER if "pct" in value_col.lower() else TEAL,
+        text=df[value_col].apply(lambda v: f"{v:.2f}%" if isinstance(v, float) else f"{v:,}"),
+        textposition="outside",
+        textfont=dict(color=TEXTO, size=11),
+    ))
+    _aplicar_tema(fig, title)
+    fig.update_yaxes(categoryorder="array", categoryarray=df["producto"].tolist())
+    return fig
+
+def barras_costo_cadena(df: pd.DataFrame, title: str) -> go.Figure:
+    """Barras de costo promedio de la canasta por cadena (solo cadenas con ≥20 productos)."""
+    fig = go.Figure(go.Bar(
+        y=df["cadena_comercial"],
+        x=df["costo_promedio"],
+        orientation="h",
+        marker_color=TEAL,
+        text=df["productos_cubiertos"].apply(lambda v: f"{v} prod"),
+        textposition="outside",
+        textfont=dict(color=TEXTO, size=11),
+    ))
+    _aplicar_tema(fig, title)
+    fig.update_yaxes(categoryorder="array", categoryarray=df["cadena_comercial"].tolist())
+    return fig
+
+def barras_diferencia_cadenas(df: pd.DataFrame, title: str) -> go.Figure:
+    """Barras que muestran la variación porcentual entre la cadena más cara y la más barata por producto."""
+    fig = go.Figure(go.Bar(
+        y=df["producto"],
+        x=df["variacion_pct"],
+        orientation="h",
+        marker_color=AMBER,
+        hovertemplate=(
+            "Producto: %{y}<br>Más cara: %{customdata[0]} (${customdata[1]:,.2f})<br>Más barata: %{customdata[2]} (${customdata[3]:,.2f})<extra></extra>"
+        ),
+        customdata=df[["cadena_mas_cara", "max_precio", "cadena_mas_barata", "min_precio"]].values,
+        text=df["variacion_pct"].apply(lambda v: f"{v:.2f}%"),
+        textposition="outside",
+        textfont=dict(color=TEXTO, size=11),
+    ))
+    _aplicar_tema(fig, title)
+    fig.update_yaxes(categoryorder="array", categoryarray=df["producto"].tolist())
+    return fig
+
+# Fin de sección KPIs
 def barras_calidad_nulos(df: pd.DataFrame) -> go.Figure:
     """Barras de valores nulos por columna."""
     df = df.copy()

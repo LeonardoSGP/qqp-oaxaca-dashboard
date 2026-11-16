@@ -291,3 +291,213 @@ def coordenadas_fuera_oaxaca() -> int:
     """
     df = _query_dw(sql)
     return int(df["total"].iloc[0]) if not df.empty else 0
+
+# ---------------------------------------------------------------------------
+# KPIs de la canasta básica – consultas específicas
+# ---------------------------------------------------------------------------
+
+from src.config import CANASTA_PACIC, CANASTA_PRODUCTOS
+
+# Helper – ejecuta consulta en DW
+def _query_dw(sql: str, params: tuple | None = None) -> pd.DataFrame:
+    engine = get_engine_dw()
+    with engine.connect() as conn:
+        return pd.read_sql(text(sql), conn, params=params)
+
+# 1. Precio promedio por producto
+@st.cache_data(ttl=600, show_spinner=False)
+def precio_promedio_por_producto() -> pd.DataFrame:
+    sql = f"""
+        SELECT
+            ap.producto,
+            ROUND(AVG(ap.precio_promedio), 2) AS precio_promedio,
+            SUM(ap.num_registros)               AS num_registros,
+            COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas,
+            COUNT(DISTINCT ap.establecimiento_id) AS establecimientos_cubiertos
+        FROM agg_precio_mensual ap
+        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+          AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
+        GROUP BY ap.producto
+        ORDER BY precio_promedio DESC;
+    """
+    params = tuple(CANASTA_PRODUCTOS)
+    return _query_dw(sql, params)
+
+# 2. Precio máximo por producto
+@st.cache_data(ttl=600, show_spinner=False)
+def precio_maximo_por_producto() -> pd.DataFrame:
+    sql = f"""
+        SELECT
+            ap.producto,
+            ROUND(MAX(ap.precio_maximo), 2) AS precio_maximo,
+            SUM(ap.num_registros)           AS num_registros,
+            COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas,
+            COUNT(DISTINCT ap.establecimiento_id) AS establecimientos_cubiertos
+        FROM agg_precio_mensual ap
+        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+          AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
+        GROUP BY ap.producto
+        ORDER BY precio_maximo DESC;
+    """
+    params = tuple(CANASTA_PRODUCTOS)
+    return _query_dw(sql, params)
+
+# 3. Precio mínimo por producto
+@st.cache_data(ttl=600, show_spinner=False)
+def precio_minimo_por_producto() -> pd.DataFrame:
+    sql = f"""
+        SELECT
+            ap.producto,
+            ROUND(MIN(ap.precio_minimo), 2) AS precio_minimo,
+            SUM(ap.num_registros)           AS num_registros,
+            COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas,
+            COUNT(DISTINCT ap.establecimiento_id) AS establecimientos_cubiertos
+        FROM agg_precio_mensual ap
+        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+          AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
+        GROUP BY ap.producto
+        ORDER BY precio_minimo ASC;
+    """
+    params = tuple(CANASTA_PRODUCTOS)
+    return _query_dw(sql, params)
+
+# 4. Variación mensual del precio promedio (%)
+@st.cache_data(ttl=600, show_spinner=False)
+def variacion_mensual_promedio() -> pd.DataFrame:
+    sql = f"""
+        WITH base AS (
+            SELECT
+                ap.producto,
+                CONCAT(ap.ano, '-', LPAD(ap.mes,2,'0')) AS periodo,
+                ROUND(AVG(ap.precio_promedio),2) AS precio_prom
+            FROM agg_precio_mensual ap
+            WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+              AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
+            GROUP BY ap.producto, ap.ano, ap.mes
+        ),
+        lagged AS (
+            SELECT
+                b.producto,
+                b.periodo,
+                b.precio_prom,
+                LAG(b.precio_prom) OVER (PARTITION BY b.producto ORDER BY b.periodo) AS precio_anterior
+            FROM base b
+        )
+        SELECT
+            producto,
+            periodo,
+            CASE WHEN precio_anterior IS NULL THEN NULL
+                 ELSE ROUND(100.0 * (precio_prom - precio_anterior) / precio_anterior,2)
+            END AS variacion_pct
+        FROM lagged
+        ORDER BY producto, periodo;
+    """
+    params = tuple(CANASTA_PRODUCTOS)
+    return _query_dw(sql, params)
+
+# 5. Variación acumulada (primer mes vs último mes)
+@st.cache_data(ttl=600, show_spinner=False)
+def variacion_acumulada() -> pd.DataFrame:
+    sql = f"""
+        WITH primero AS (
+            SELECT producto, AVG(precio_promedio) AS precio_inicio
+            FROM agg_precio_mensual
+            WHERE producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+              AND ano = 2026 AND mes = 1
+            GROUP BY producto
+        ),
+        ultimo AS (
+            SELECT producto, AVG(precio_promedio) AS precio_fin
+            FROM agg_precio_mensual
+            WHERE producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+              AND ano = 2026 AND mes = 8
+            GROUP BY producto
+        )
+        SELECT
+            p.producto,
+            ROUND(p.precio_inicio,2) AS precio_inicio,
+            ROUND(u.precio_fin,2)    AS precio_fin,
+            ROUND(u.precio_fin - p.precio_inicio,2) AS delta_valor,
+            ROUND(100.0 * (u.precio_fin - p.precio_inicio) / p.precio_inicio,2) AS delta_pct
+        FROM primero p
+        JOIN ultimo u USING (producto)
+        ORDER BY delta_pct DESC;
+    """
+    params = tuple(CANASTA_PRODUCTOS * 2)
+    return _query_dw(sql, params)
+
+# 6. Top 10 productos más caros (por precio promedio)
+@st.cache_data(ttl=600, show_spinner=False)
+def top_productos_mas_caros() -> pd.DataFrame:
+    df = precio_promedio_por_producto()
+    return df.nlargest(10, 'precio_promedio')
+
+# 7. Top 5 productos con mayor alza (variación acumulada)
+@st.cache_data(ttl=600, show_spinner=False)
+def top_productos_mayor_alza() -> pd.DataFrame:
+    df = variacion_acumulada()
+    return df.nlargest(5, 'delta_pct')
+
+# 8. Top 5 productos más estables (menor variación absoluta)
+@st.cache_data(ttl=600, show_spinner=False)
+def top_productos_mas_estables() -> pd.DataFrame:
+    df = variacion_acumulada().copy()
+    df['abs_delta'] = df['delta_pct'].abs()
+    return df.nsmallest(5, 'abs_delta')
+
+# 9. Costo de la canasta por cadena (cobertura >= 20 productos)
+@st.cache_data(ttl=600, show_spinner=False)
+def costo_canasta_por_cadena() -> pd.DataFrame:
+    sql = f"""
+        SELECT
+            ap.cadena_comercial,
+            SUM(ap.precio_promedio) AS costo_promedio,
+            COUNT(DISTINCT ap.producto) AS productos_cubiertos,
+            SUM(ap.num_registros)      AS total_registros
+        FROM agg_precio_mensual ap
+        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+          AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
+        GROUP BY ap.cadena_comercial
+        HAVING productos_cubiertos >= 20
+        ORDER BY costo_promedio DESC;
+    """
+    params = tuple(CANASTA_PRODUCTOS)
+    return _query_dw(sql, params)
+
+# 10. Diferencia de precio entre cadenas por producto
+@st.cache_data(ttl=600, show_spinner=False)
+def diferencia_precio_entre_cadenas() -> pd.DataFrame:
+    sql = f"""
+        WITH precios AS (
+            SELECT
+                ap.producto,
+                ap.cadena_comercial,
+                ROUND(AVG(ap.precio_promedio),2) AS precio_promedio
+            FROM agg_precio_mensual ap
+            WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+              AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
+            GROUP BY ap.producto, ap.cadena_comercial
+        ),
+        rangos AS (
+            SELECT
+                p.producto,
+                MAX(p.precio_promedio) AS max_precio,
+                MIN(p.precio_promedio) AS min_precio,
+                (MAX(p.precio_promedio) - MIN(p.precio_promedio)) / NULLIF(MIN(p.precio_promedio),0) * 100 AS variacion_pct,
+                MAX(p.cadena_comercial) FILTER (WHERE p.precio_promedio = MAX(p.precio_promedio)) AS cadena_max,
+                MIN(p.cadena_comercial) FILTER (WHERE p.precio_promedio = MIN(p.precio_promedio)) AS cadena_min
+            FROM precios p
+            GROUP BY p.producto
+        )
+        SELECT
+            producto,
+            cadena_max AS cadena_mas_cara,
+            max_precio,
+            cadena_min AS cadena_mas_barata,
+            min_precio,
+            ROUND(variacion_pct,2) AS variacion_pct
+        FROM rangos
+        ORDER BY variacion_pct DESC;
+    """
+    params = tuple(CANASTA_PRODUCTOS)
+    return _query_dw(sql, params)
