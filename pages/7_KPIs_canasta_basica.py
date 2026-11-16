@@ -182,8 +182,9 @@ def generar_zip_kpis() -> bytes:
 
 
 def generar_pdf_kpis() -> bytes:
-    """Genera un PDF con tablas resumidas de los diez KPIs."""
+    """Genera un PDF con los diez KPIs y el análisis mensual de la canasta."""
     datos = obtener_datos_kpis()
+    costo_df = queries.costo_canasta_mensual()
     contenido = BytesIO()
     estilos = getSampleStyleSheet()
     titulo = ParagraphStyle(
@@ -266,6 +267,70 @@ def generar_pdf_kpis() -> bytes:
         if indice < len(datos):
             elementos.append(PageBreak())
 
+    elementos.append(PageBreak())
+    elementos.append(Paragraph("Análisis mensual de la canasta PACIC", encabezado))
+    elementos.append(Paragraph(
+        f"Comparación del costo mensual de los 24 productos contra el límite "
+        f"PACIC de ${PACIC_LIMITE:,.0f}. El costo se obtiene sumando el precio "
+        "promedio mensual de cada producto.",
+        celda,
+    ))
+    elementos.append(Spacer(1, 8))
+
+    if costo_df.empty:
+        elementos.append(Paragraph("Sin datos disponibles.", celda))
+    else:
+        costo_pdf = costo_df.copy()
+        costo_pdf["estado"] = costo_pdf["costo_canasta"].apply(
+            lambda value: "Dentro del límite" if value <= PACIC_LIMITE else "Sobre el límite"
+        )
+        costo_pdf = costo_pdf.rename(columns={
+            "mes": "Mes",
+            "productos_cubiertos": "Productos",
+            "costo_canasta": "Costo canasta",
+            "diferencia_limite": "Diferencia vs $910",
+            "estado": "Estado",
+        })
+        filas_costo = [
+            [Paragraph(str(col), celda) for col in costo_pdf.columns]
+        ]
+        for fila in costo_pdf.itertuples(index=False, name=None):
+            filas_costo.append([
+                Paragraph("" if pd.isna(valor) else str(valor), celda)
+                for valor in fila
+            ])
+        tabla_costo = LongTable(filas_costo, repeatRows=1)
+        tabla_costo.setStyle(TableStyle([
+            ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#B45309")),
+            ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+            ("GRID", (0, 0), (-1, -1), 0.25, colors.HexColor("#CBD5E1")),
+            ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ("ROWBACKGROUNDS", (0, 1), (-1, -1), [
+                colors.white,
+                colors.HexColor("#FFF7ED"),
+            ]),
+            ("LEFTPADDING", (0, 0), (-1, -1), 4),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+            ("TOPPADDING", (0, 0), (-1, -1), 3),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+        ]))
+        elementos.append(tabla_costo)
+        primero = costo_df.iloc[0]
+        ultimo = costo_df.iloc[-1]
+        cambio = float(ultimo["costo_canasta"] - primero["costo_canasta"])
+        tendencia = "subió" if cambio > 0.01 else "bajó" if cambio < -0.01 else "se mantuvo estable"
+        elementos.extend([
+            Spacer(1, 10),
+            Paragraph(
+                f"<b>Análisis:</b> entre {primero['mes']} y {ultimo['mes']}, "
+                f"la canasta {tendencia} ${abs(cambio):,.2f}. "
+                f"El último costo fue ${ultimo['costo_canasta']:,.2f}, "
+                f"{'por encima' if ultimo['costo_canasta'] > PACIC_LIMITE else 'dentro'} "
+                f"del límite de ${PACIC_LIMITE:,.0f}.",
+                celda,
+            ),
+        ])
+
     documento.build(elementos)
     return contenido.getvalue()
 
@@ -282,7 +347,7 @@ st.download_button(
     data=generar_pdf_kpis(),
     file_name="kpis_canasta_pacic.pdf",
     mime="application/pdf",
-    help="Incluye tablas con la información de los 10 KPIs.",
+    help="Incluye los 10 KPIs y el análisis mensual de la canasta contra $910.",
 )
 
 
