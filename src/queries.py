@@ -315,13 +315,12 @@ def precio_promedio_por_producto() -> pd.DataFrame:
             COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas,
             COUNT(DISTINCT ap.establecimiento_id) AS establecimientos_cubiertos
         FROM agg_precio_mensual ap
-        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
           AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
         GROUP BY ap.producto
         ORDER BY precio_promedio DESC;
     """
-    params = tuple(CANASTA_PRODUCTOS)
-    return _query_dw(sql, params)
+    return _query_dw(sql)
 
 # 2. Precio máximo por producto
 @st.cache_data(ttl=600, show_spinner=False)
@@ -334,13 +333,12 @@ def precio_maximo_por_producto() -> pd.DataFrame:
             COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas,
             COUNT(DISTINCT ap.establecimiento_id) AS establecimientos_cubiertos
         FROM agg_precio_mensual ap
-        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
           AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
         GROUP BY ap.producto
         ORDER BY precio_maximo DESC;
     """
-    params = tuple(CANASTA_PRODUCTOS)
-    return _query_dw(sql, params)
+    return _query_dw(sql)
 
 # 3. Precio mínimo por producto
 @st.cache_data(ttl=600, show_spinner=False)
@@ -353,13 +351,12 @@ def precio_minimo_por_producto() -> pd.DataFrame:
             COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas,
             COUNT(DISTINCT ap.establecimiento_id) AS establecimientos_cubiertos
         FROM agg_precio_mensual ap
-        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
           AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
         GROUP BY ap.producto
         ORDER BY precio_minimo ASC;
     """
-    params = tuple(CANASTA_PRODUCTOS)
-    return _query_dw(sql, params)
+    return _query_dw(sql)
 
 # 4. Variación mensual del precio promedio (%)
 @st.cache_data(ttl=600, show_spinner=False)
@@ -371,7 +368,7 @@ def variacion_mensual_promedio() -> pd.DataFrame:
                 CONCAT(ap.ano, '-', LPAD(ap.mes,2,'0')) AS periodo,
                 ROUND(AVG(ap.precio_promedio),2) AS precio_prom
             FROM agg_precio_mensual ap
-            WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+            WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
               AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
             GROUP BY ap.producto, ap.ano, ap.mes
         ),
@@ -392,24 +389,25 @@ def variacion_mensual_promedio() -> pd.DataFrame:
         FROM lagged
         ORDER BY producto, periodo;
     """
-    params = tuple(CANASTA_PRODUCTOS)
-    return _query_dw(sql, params)
+    return _query_dw(sql)
 
 # 5. Variación acumulada (primer mes vs último mes)
 @st.cache_data(ttl=600, show_spinner=False)
 def variacion_acumulada() -> pd.DataFrame:
+    # Build IN clause with quoted product names (embedded, no parameters)
+    productos_str = ', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])
     sql = f"""
         WITH primero AS (
             SELECT producto, AVG(precio_promedio) AS precio_inicio
             FROM agg_precio_mensual
-            WHERE producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+            WHERE producto COLLATE utf8mb4_0900_as_ci IN ({productos_str})
               AND ano = 2026 AND mes = 1
             GROUP BY producto
         ),
         ultimo AS (
             SELECT producto, AVG(precio_promedio) AS precio_fin
             FROM agg_precio_mensual
-            WHERE producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+            WHERE producto COLLATE utf8mb4_0900_as_ci IN ({productos_str})
               AND ano = 2026 AND mes = 8
             GROUP BY producto
         )
@@ -423,8 +421,7 @@ def variacion_acumulada() -> pd.DataFrame:
         JOIN ultimo u USING (producto)
         ORDER BY delta_pct DESC;
     """
-    params = tuple(CANASTA_PRODUCTOS * 2)
-    return _query_dw(sql, params)
+    return _query_dw(sql)
 
 # 6. Top 10 productos más caros (por precio promedio)
 @st.cache_data(ttl=600, show_spinner=False)
@@ -455,14 +452,13 @@ def costo_canasta_por_cadena() -> pd.DataFrame:
             COUNT(DISTINCT ap.producto) AS productos_cubiertos,
             SUM(ap.num_registros)      AS total_registros
         FROM agg_precio_mensual ap
-        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
           AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
         GROUP BY ap.cadena_comercial
         HAVING productos_cubiertos >= 20
         ORDER BY costo_promedio DESC;
     """
-    params = tuple(CANASTA_PRODUCTOS)
-    return _query_dw(sql, params)
+    return _query_dw(sql)
 
 # 10. Diferencia de precio entre cadenas por producto
 @st.cache_data(ttl=600, show_spinner=False)
@@ -474,7 +470,7 @@ def diferencia_precio_entre_cadenas() -> pd.DataFrame:
                 ap.cadena_comercial,
                 ROUND(AVG(ap.precio_promedio),2) AS precio_promedio
             FROM agg_precio_mensual ap
-            WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join(['%s'] * len(CANASTA_PRODUCTOS))})
+            WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
               AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
             GROUP BY ap.producto, ap.cadena_comercial
         ),
@@ -499,5 +495,4 @@ def diferencia_precio_entre_cadenas() -> pd.DataFrame:
         FROM rangos
         ORDER BY variacion_pct DESC;
     """
-    params = tuple(CANASTA_PRODUCTOS)
-    return _query_dw(sql, params)
+    return _query_dw(sql)

@@ -84,6 +84,7 @@ pg = st.navigation(
         st.Page("pages/4_Series_de_Tiempo.py", title="Series de tiempo"),
         st.Page("pages/5_Mapa.py", title="Mapa"),
         st.Page("pages/6_Calidad_de_Datos.py", title="Calidad de datos"),
+        st.Page("pages/7_KPIs_canasta_basica.py", title="KPIs – Canasta básica"),
     ],
     position="top",
 )

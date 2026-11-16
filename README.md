@@ -193,6 +193,7 @@ qqp-oaxaca-dashboard/
 │   ├── 4_Series_de_Tiempo.py
 │   ├── 5_Mapa.py
 │   └── 6_Calidad_de_Datos.py
+│   └── 7_KPIs_canasta_basica.py
 ├── src/                        # Módulos de lógica de negocio
 │   ├── __init__.py
 │   ├── db.py                   # Conexión SQLAlchemy

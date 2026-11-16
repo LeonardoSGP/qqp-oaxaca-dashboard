@@ -179,10 +179,13 @@ def test_mapa_establecimientos(monkeypatch):
     assert len(fig_osm.data) == 1
     assert fig_osm.data[0].marker.colorbar.title.text == "Registros"
 
-    # Con MAPBOX_TOKEN activo y estilo Mapbox (satellite-streets -> layout.mapbox con accesstoken)
+    # Con MAPBOX_TOKEN activo y estilo Mapbox (satellite-streets -> layout.mapbox con accesstoken si Plotly soporta Scattermapbox, o layout.map en Plotly 7+)
     fig_mb = mapa_establecimientos(df, estilo="satellite-streets")
     assert isinstance(fig_mb, go.Figure)
-    assert fig_mb.layout.mapbox.accesstoken == "pk.test_token_123"
+    if hasattr(go, "Scattermapbox") and hasattr(fig_mb.layout, "mapbox"):
+        assert fig_mb.layout.mapbox.accesstoken == "pk.test_token_123"
+    else:
+        assert hasattr(fig_mb.layout, "map")
 
 
 def test_pagina_mapa_renderiza_sin_errores():
