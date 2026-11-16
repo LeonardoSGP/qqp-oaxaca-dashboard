@@ -7,6 +7,8 @@ bloques explicativos y botón de descarga CSV.
 
 import streamlit as st
 import pandas as pd
+from io import BytesIO
+from zipfile import ZIP_DEFLATED, ZipFile
 from src import queries, charts
 from src.config import PACIC_LIMITE
 
@@ -127,6 +129,46 @@ def exigir_datos(df: pd.DataFrame, mensaje: str) -> None:
 
 def mostrar_tabla(df: pd.DataFrame) -> None:
     st.dataframe(df, use_container_width=True, hide_index=True)
+
+
+def generar_zip_kpis() -> bytes:
+    """Genera un ZIP con un CSV independiente para cada uno de los 10 KPIs."""
+    df_min = queries.precio_minimo_por_producto()
+    df_max = queries.precio_maximo_por_producto()
+    df_rango = pd.merge(
+        df_min[["producto", "precio_minimo"]],
+        df_max[["producto", "precio_maximo"]],
+        on="producto",
+    )
+    df_rango["rango"] = df_rango["precio_maximo"] - df_rango["precio_minimo"]
+
+    archivos = {
+        "01_precio_promedio.csv": queries.precio_promedio_por_producto(),
+        "02_precio_maximo.csv": df_max,
+        "03_precio_minimo_rango.csv": df_rango,
+        "04_variacion_mensual.csv": queries.variacion_mensual_promedio(),
+        "05_variacion_acumulada.csv": queries.variacion_acumulada(),
+        "06_top_10_productos_caros.csv": queries.top_productos_mas_caros(),
+        "07_top_5_mayor_alza.csv": queries.top_productos_mayor_alza(),
+        "08_top_5_mas_estables.csv": queries.top_productos_mas_estables(),
+        "09_costo_por_cadena.csv": queries.costo_canasta_por_cadena(),
+        "10_diferencia_entre_cadenas.csv": queries.diferencia_precio_entre_cadenas(),
+    }
+
+    contenido = BytesIO()
+    with ZipFile(contenido, mode="w", compression=ZIP_DEFLATED) as archivo_zip:
+        for nombre, df in archivos.items():
+            archivo_zip.writestr(nombre, df.to_csv(index=False).encode("utf-8-sig"))
+    return contenido.getvalue()
+
+
+st.download_button(
+    "Descargar los 10 KPIs (ZIP)",
+    data=generar_zip_kpis(),
+    file_name="kpis_canasta_pacic.zip",
+    mime="application/zip",
+    help="Incluye un archivo CSV independiente para cada KPI.",
+)
 
 
 # -------------------------------------------------------------------------
