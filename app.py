@@ -62,6 +62,7 @@ def pagina_inicio():
 | **Series de tiempo** | Evolución mensual del precio por producto y cadena |
 | **Mapa** | Establecimientos de Oaxaca con coordenadas geográficas |
 | **Calidad de datos** | Nulos, duplicados y coordenadas fuera de rango |
+| **KPIs – Canasta básica** | Evolución y comparación de precios de los 24 productos Pacic |
 
 Navega usando el **menú superior en el encabezado (header)**.
 """)

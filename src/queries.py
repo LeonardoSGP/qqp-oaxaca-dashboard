@@ -298,12 +298,6 @@ def coordenadas_fuera_oaxaca() -> int:
 
 from src.config import CANASTA_PACIC, CANASTA_PRODUCTOS
 
-# Helper – ejecuta consulta en DW
-def _query_dw(sql: str, params: tuple | None = None) -> pd.DataFrame:
-    engine = get_engine_dw()
-    with engine.connect() as conn:
-        return pd.read_sql(text(sql), conn, params=params)
-
 # 1. Precio promedio por producto
 @st.cache_data(ttl=600, show_spinner=False)
 def precio_promedio_por_producto() -> pd.DataFrame:
@@ -312,11 +306,10 @@ def precio_promedio_por_producto() -> pd.DataFrame:
             ap.producto,
             ROUND(AVG(ap.precio_promedio), 2) AS precio_promedio,
             SUM(ap.num_registros)               AS num_registros,
-            COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas,
-            COUNT(DISTINCT ap.establecimiento_id) AS establecimientos_cubiertos
+            COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas
         FROM agg_precio_mensual ap
         WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
-          AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
+          AND YEAR(ap.mes) = 2026 AND MONTH(ap.mes) BETWEEN 1 AND 8
         GROUP BY ap.producto
         ORDER BY precio_promedio DESC;
     """
@@ -330,11 +323,10 @@ def precio_maximo_por_producto() -> pd.DataFrame:
             ap.producto,
             ROUND(MAX(ap.precio_maximo), 2) AS precio_maximo,
             SUM(ap.num_registros)           AS num_registros,
-            COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas,
-            COUNT(DISTINCT ap.establecimiento_id) AS establecimientos_cubiertos
+            COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas
         FROM agg_precio_mensual ap
         WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
-          AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
+          AND YEAR(ap.mes) = 2026 AND MONTH(ap.mes) BETWEEN 1 AND 8
         GROUP BY ap.producto
         ORDER BY precio_maximo DESC;
     """
@@ -348,11 +340,10 @@ def precio_minimo_por_producto() -> pd.DataFrame:
             ap.producto,
             ROUND(MIN(ap.precio_minimo), 2) AS precio_minimo,
             SUM(ap.num_registros)           AS num_registros,
-            COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas,
-            COUNT(DISTINCT ap.establecimiento_id) AS establecimientos_cubiertos
+            COUNT(DISTINCT ap.cadena_comercial) AS cadenas_cubiertas
         FROM agg_precio_mensual ap
         WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
-          AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
+          AND YEAR(ap.mes) = 2026 AND MONTH(ap.mes) BETWEEN 1 AND 8
         GROUP BY ap.producto
         ORDER BY precio_minimo ASC;
     """
@@ -365,12 +356,12 @@ def variacion_mensual_promedio() -> pd.DataFrame:
         WITH base AS (
             SELECT
                 ap.producto,
-                CONCAT(ap.ano, '-', LPAD(ap.mes,2,'0')) AS periodo,
+                CONCAT(YEAR(ap.mes), '-', LPAD(MONTH(ap.mes),2,'0')) AS periodo,
                 ROUND(AVG(ap.precio_promedio),2) AS precio_prom
             FROM agg_precio_mensual ap
             WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
-              AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
-            GROUP BY ap.producto, ap.ano, ap.mes
+              AND YEAR(ap.mes) = 2026 AND MONTH(ap.mes) BETWEEN 1 AND 8
+            GROUP BY ap.producto, YEAR(ap.mes), MONTH(ap.mes)
         ),
         lagged AS (
             SELECT
@@ -401,14 +392,14 @@ def variacion_acumulada() -> pd.DataFrame:
             SELECT producto, AVG(precio_promedio) AS precio_inicio
             FROM agg_precio_mensual
             WHERE producto COLLATE utf8mb4_0900_as_ci IN ({productos_str})
-              AND ano = 2026 AND mes = 1
+              AND YEAR(mes) = 2026 AND MONTH(mes) = 1
             GROUP BY producto
         ),
         ultimo AS (
             SELECT producto, AVG(precio_promedio) AS precio_fin
             FROM agg_precio_mensual
             WHERE producto COLLATE utf8mb4_0900_as_ci IN ({productos_str})
-              AND ano = 2026 AND mes = 8
+              AND YEAR(mes) = 2026 AND MONTH(mes) = 8
             GROUP BY producto
         )
         SELECT
@@ -446,16 +437,27 @@ def top_productos_mas_estables() -> pd.DataFrame:
 @st.cache_data(ttl=600, show_spinner=False)
 def costo_canasta_por_cadena() -> pd.DataFrame:
     sql = f"""
+        WITH costos_mensuales AS (
+            SELECT
+                ap.cadena_comercial,
+                YEAR(ap.mes) AS ano,
+                MONTH(ap.mes) AS mes,
+                SUM(ap.precio_promedio) AS costo_mensual,
+                COUNT(DISTINCT ap.producto) AS productos_cubiertos,
+                SUM(ap.num_registros) AS total_registros
+            FROM agg_precio_mensual ap
+            WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
+              AND YEAR(ap.mes) = 2026 AND MONTH(ap.mes) BETWEEN 1 AND 8
+            GROUP BY ap.cadena_comercial, YEAR(ap.mes), MONTH(ap.mes)
+        )
         SELECT
-            ap.cadena_comercial,
-            SUM(ap.precio_promedio) AS costo_promedio,
-            COUNT(DISTINCT ap.producto) AS productos_cubiertos,
-            SUM(ap.num_registros)      AS total_registros
-        FROM agg_precio_mensual ap
-        WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
-          AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
-        GROUP BY ap.cadena_comercial
-        HAVING productos_cubiertos >= 20
+            cadena_comercial,
+            ROUND(AVG(costo_mensual), 2) AS costo_promedio,
+            MIN(productos_cubiertos) AS productos_cubiertos,
+            SUM(total_registros) AS total_registros
+        FROM costos_mensuales
+        GROUP BY cadena_comercial
+        HAVING MIN(productos_cubiertos) >= 20
         ORDER BY costo_promedio DESC;
     """
     return _query_dw(sql)
@@ -471,7 +473,7 @@ def diferencia_precio_entre_cadenas() -> pd.DataFrame:
                 ROUND(AVG(ap.precio_promedio),2) AS precio_promedio
             FROM agg_precio_mensual ap
             WHERE ap.producto COLLATE utf8mb4_0900_as_ci IN ({', '.join([f"'{p}'" for p in CANASTA_PRODUCTOS])})
-              AND ap.ano = 2026 AND ap.mes BETWEEN 1 AND 8
+              AND YEAR(ap.mes) = 2026 AND MONTH(ap.mes) BETWEEN 1 AND 8
             GROUP BY ap.producto, ap.cadena_comercial
         ),
         rangos AS (
@@ -479,20 +481,23 @@ def diferencia_precio_entre_cadenas() -> pd.DataFrame:
                 p.producto,
                 MAX(p.precio_promedio) AS max_precio,
                 MIN(p.precio_promedio) AS min_precio,
-                (MAX(p.precio_promedio) - MIN(p.precio_promedio)) / NULLIF(MIN(p.precio_promedio),0) * 100 AS variacion_pct,
-                MAX(p.cadena_comercial) FILTER (WHERE p.precio_promedio = MAX(p.precio_promedio)) AS cadena_max,
-                MIN(p.cadena_comercial) FILTER (WHERE p.precio_promedio = MIN(p.precio_promedio)) AS cadena_min
+                (MAX(p.precio_promedio) - MIN(p.precio_promedio))
+                    / NULLIF(MIN(p.precio_promedio), 0) * 100 AS variacion_pct
             FROM precios p
             GROUP BY p.producto
         )
         SELECT
-            producto,
-            cadena_max AS cadena_mas_cara,
-            max_precio,
-            cadena_min AS cadena_mas_barata,
-            min_precio,
-            ROUND(variacion_pct,2) AS variacion_pct
-        FROM rangos
-        ORDER BY variacion_pct DESC;
+            r.producto,
+            maximo.cadena_comercial AS cadena_mas_cara,
+            r.max_precio,
+            minimo.cadena_comercial AS cadena_mas_barata,
+            r.min_precio,
+            ROUND(r.variacion_pct, 2) AS variacion_pct
+        FROM rangos r
+        JOIN precios maximo
+          ON maximo.producto = r.producto AND maximo.precio_promedio = r.max_precio
+        JOIN precios minimo
+          ON minimo.producto = r.producto AND minimo.precio_promedio = r.min_precio
+        ORDER BY r.variacion_pct DESC;
     """
     return _query_dw(sql)

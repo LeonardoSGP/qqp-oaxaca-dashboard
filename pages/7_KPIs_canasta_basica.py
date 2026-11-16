@@ -7,7 +7,7 @@ bloques explicativos y botón de descarga CSV.
 
 import streamlit as st
 import pandas as pd
-from src import queries, charts, config
+from src import queries, charts
 
 # ---------------------------------------------------------------------------
 # Cabecera informativa
@@ -29,16 +29,16 @@ st.dataframe(control_df, hide_index=True)
 kpi = st.radio(
     "Selecciona el KPI que deseas visualizar",
     [
-        "1️⃣ Precio promedio",
-        "2️⃣ Precio máximo",
-        "3️⃣ Precio mínimo / rango",
-        "4️⃣ Variación mensual",
-        "5️⃣ Variación acumulada",
-        "6️⃣ Top 10 productos más caros",
-        "7️⃣ Top 5 mayor alza",
-        "8️⃣ Top 5 más estables",
-        "9️⃣ Costo por cadena",
-        "🔟 Diferencia entre cadenas",
+        "Precio promedio",
+        "Precio máximo",
+        "Precio mínimo / rango",
+        "Variación mensual",
+        "Variación acumulada",
+        "Top 10 productos más caros",
+        "Top 5 mayor alza",
+        "Top 5 más estables",
+        "Costo por cadena",
+        "Diferencia entre cadenas",
     ],
 )
 
@@ -48,17 +48,30 @@ def bloque_explicativo(que_mide: str, como_leer: str, lectura: str):
     st.markdown(f"**Cómo leerlo:** {como_leer}")
     st.markdown(f"**Lectura de los datos:** {lectura}")
 
+
+def exigir_datos(df: pd.DataFrame, mensaje: str) -> None:
+    """Evita errores poco claros cuando MySQL no devuelve datos para un KPI."""
+    if df.empty:
+        st.info(mensaje)
+        st.stop()
+
+
+def mostrar_tabla(df: pd.DataFrame) -> None:
+    st.dataframe(df, use_container_width=True, hide_index=True)
+
+
 # -------------------------------------------------------------------------
 # Cada opción muestra su contenido
 # -------------------------------------------------------------------------
-if kpi == "1️⃣ Precio promedio":
+if kpi == "Precio promedio":
     st.header("Precio promedio por producto")
     df = queries.precio_promedio_por_producto()
+    exigir_datos(df, "No hay datos de la canasta para el periodo seleccionado.")
     top = df.iloc[0]
     st.metric("Producto más caro (promedio)", top["producto"], f"${top['precio_promedio']:,}")
     fig = charts.barra_horizontal(df, "precio_promedio", "producto", "Precio promedio por producto")
     st.plotly_chart(fig, use_container_width=True)
-    st.dataframe(df)
+    mostrar_tabla(df)
     bloque_explicativo(
         "Precio promedio mensual acumulado (todos los meses 1‑8).",
         "Valores más altos indican mayor costo del bien.",
@@ -67,14 +80,15 @@ if kpi == "1️⃣ Precio promedio":
     st.download_button("Descargar CSV", df.to_csv(index=False).encode("utf-8"),
                        file_name="precio_promedio.csv", mime="text/csv")
 
-elif kpi == "2️⃣ Precio máximo":
+elif kpi == "Precio máximo":
     st.header("Precio máximo por producto")
     df = queries.precio_maximo_por_producto()
+    exigir_datos(df, "No hay datos de precios máximos para el periodo seleccionado.")
     top = df.iloc[0]
     st.metric("Producto más caro (máximo)", top["producto"], f"${top['precio_maximo']:,}")
     fig = charts.barra_horizontal(df, "precio_maximo", "producto", "Precio máximo por producto")
     st.plotly_chart(fig, use_container_width=True)
-    st.dataframe(df)
+    mostrar_tabla(df)
     bloque_explicativo(
         "Precio máximo observado entre enero‑agosto 2026.",
         "Muestra el peor caso de precio pagado.",
@@ -83,15 +97,16 @@ elif kpi == "2️⃣ Precio máximo":
     st.download_button("Descargar CSV", df.to_csv(index=False).encode("utf-8"),
                        file_name="precio_maximo.csv", mime="text/csv")
 
-elif kpi == "3️⃣ Precio mínimo / rango":
+elif kpi == "Precio mínimo / rango":
     st.header("Precio mínimo y rango por producto")
     df_min = queries.precio_minimo_por_producto()
     df_max = queries.precio_maximo_por_producto()
     df_rango = pd.merge(df_min[["producto", "precio_minimo"]], df_max[["producto", "precio_maximo"]], on="producto")
+    exigir_datos(df_rango, "No hay datos suficientes para calcular el rango de precios.")
     fig = charts.barra_rango_precio(df_rango, "Rango de precios (min‑max) por producto")
     st.plotly_chart(fig, use_container_width=True)
-    st.dataframe(df_rango)
     df_rango["rango"] = df_rango["precio_maximo"] - df_rango["precio_minimo"]
+    mostrar_tabla(df_rango)
     top = df_rango.sort_values("rango", ascending=False).iloc[0]
     st.metric("Mayor rango de precios", top["producto"], f"${top['rango']:,}")
     bloque_explicativo(
@@ -102,12 +117,13 @@ elif kpi == "3️⃣ Precio mínimo / rango":
     st.download_button("Descargar CSV", df_rango.to_csv(index=False).encode("utf-8"),
                        file_name="rango_precios.csv", mime="text/csv")
 
-elif kpi == "4️⃣ Variación mensual":
+elif kpi == "Variación mensual":
     st.header("Variación mensual del precio promedio (%)")
     df = queries.variacion_mensual_promedio()
+    exigir_datos(df, "No hay datos mensuales suficientes para calcular la variación.")
     fig = charts.heatmap_variacion(df, "Variación mensual % (producto × periodo)")
     st.plotly_chart(fig, use_container_width=True)
-    st.dataframe(df)
+    mostrar_tabla(df)
     bloque_explicativo(
         "Variación porcentual respecto al mes anterior.",
         "Valores positivos = alza, negativos = baja.",
@@ -116,12 +132,13 @@ elif kpi == "4️⃣ Variación mensual":
     st.download_button("Descargar CSV", df.to_csv(index=False).encode("utf-8"),
                        file_name="variacion_mensual.csv", mime="text/csv")
 
-elif kpi == "5️⃣ Variación acumulada":
+elif kpi == "Variación acumulada":
     st.header("Variación acumulada (enero ↔ agosto)")
     df = queries.variacion_acumulada()
+    exigir_datos(df, "No hay datos de enero y agosto para calcular la variación acumulada.")
     fig = charts.barras_variacion_acumulada(df, "Variación acumulada % entre enero y agosto")
     st.plotly_chart(fig, use_container_width=True)
-    st.dataframe(df)
+    mostrar_tabla(df)
     bloque_explicativo(
         "Cambio total en precio promedio entre el primer y último mes.",
         "Positivo = alza, negativo = disminución.",
@@ -130,12 +147,13 @@ elif kpi == "5️⃣ Variación acumulada":
     st.download_button("Descargar CSV", df.to_csv(index=False).encode("utf-8"),
                        file_name="variacion_acumulada.csv", mime="text/csv")
 
-elif kpi == "6️⃣ Top 10 productos más caros":
+elif kpi == "Top 10 productos más caros":
     st.header("Top 10 productos más caros (precio promedio)")
     df = queries.top_productos_mas_caros()
+    exigir_datos(df, "No hay productos disponibles para construir este ranking.")
     fig = charts.barras_top_productos(df, "precio_promedio", "Top 10 productos más caros")
     st.plotly_chart(fig, use_container_width=True)
-    st.dataframe(df)
+    mostrar_tabla(df)
     bloque_explicativo(
         "Los 10 productos con mayor precio promedio.",
         "Orden descendente por precio.",
@@ -144,12 +162,13 @@ elif kpi == "6️⃣ Top 10 productos más caros":
     st.download_button("Descargar CSV", df.to_csv(index=False).encode("utf-8"),
                        file_name="top_10_caros.csv", mime="text/csv")
 
-elif kpi == "7️⃣ Top 5 mayor alza":
+elif kpi == "Top 5 mayor alza":
     st.header("Top 5 productos con mayor alza acumulada")
     df = queries.top_productos_mayor_alza()
+    exigir_datos(df, "No hay datos suficientes para construir el ranking de alzas.")
     fig = charts.barras_top_productos(df, "delta_pct", "Mayor alza % acumulada")
     st.plotly_chart(fig, use_container_width=True)
-    st.dataframe(df)
+    mostrar_tabla(df)
     bloque_explicativo(
         "Productos con mayor aumento porcentual entre enero y agosto.",
         "Mayor delta_pct = mayor alza.",
@@ -158,12 +177,13 @@ elif kpi == "7️⃣ Top 5 mayor alza":
     st.download_button("Descargar CSV", df.to_csv(index=False).encode("utf-8"),
                        file_name="top_5_alza.csv", mime="text/csv")
 
-elif kpi == "8️⃣ Top 5 más estables":
+elif kpi == "Top 5 más estables":
     st.header("Top 5 productos más estables (menor variación absoluta)")
     df = queries.top_productos_mas_estables()
+    exigir_datos(df, "No hay datos suficientes para construir el ranking de estabilidad.")
     fig = charts.barras_top_productos(df, "abs_delta", "Menor variación absoluta")
     st.plotly_chart(fig, use_container_width=True)
-    st.dataframe(df)
+    mostrar_tabla(df)
     bloque_explicativo(
         "Productos cuya variación acumulada es más cercana a cero.",
         "Valor bajo indica estabilidad de precios.",
@@ -172,12 +192,13 @@ elif kpi == "8️⃣ Top 5 más estables":
     st.download_button("Descargar CSV", df.to_csv(index=False).encode("utf-8"),
                        file_name="top_5_estables.csv", mime="text/csv")
 
-elif kpi == "9️⃣ Costo por cadena":
+elif kpi == "Costo por cadena":
     st.header("Costo de la canasta por cadena (cobertura ≥ 20 productos)")
     df = queries.costo_canasta_por_cadena()
+    exigir_datos(df, "No hay cadenas con cobertura suficiente para calcular el costo de la canasta.")
     fig = charts.barras_costo_cadena(df, "Costo promedio de la canasta por cadena")
     st.plotly_chart(fig, use_container_width=True)
-    st.dataframe(df)
+    mostrar_tabla(df)
     bloque_explicativo(
         "Suma de precios promedio de los 24 productos por cadena.",
         "Mayor costo = cadena más cara.",
@@ -186,12 +207,13 @@ elif kpi == "9️⃣ Costo por cadena":
     st.download_button("Descargar CSV", df.to_csv(index=False).encode("utf-8"),
                        file_name="costo_cadena.csv", mime="text/csv")
 
-elif kpi == "🔟 Diferencia entre cadenas":
+elif kpi == "Diferencia entre cadenas":
     st.header("Diferencia de precio entre cadenas (por producto)")
     df = queries.diferencia_precio_entre_cadenas()
+    exigir_datos(df, "No hay datos suficientes para comparar cadenas.")
     fig = charts.barras_diferencia_cadenas(df, "Variación % entre la cadena más cara y la más barata")
     st.plotly_chart(fig, use_container_width=True)
-    st.dataframe(df)
+    mostrar_tabla(df)
     bloque_explicativo(
         "% de diferencia entre la cadena más cara y la más barata para cada producto.",
         "Valores altos indican gran disparidad de precios entre cadenas.",

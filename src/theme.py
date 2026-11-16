@@ -140,21 +140,9 @@ header[data-testid="stHeader"] a:hover {
     border-right: var(--glass-border) !important;
     box-shadow: var(--glass-shadow) !important;
 }
-/* ─── Estiramiento automático de columnas para igualar al cuadro con más texto ─── */
+/* ─── Alineación de columnas; las tarjetas controlan su propio tamaño ─── */
 [data-testid="stHorizontalBlock"] {
     align-items: stretch !important;
-}
-[data-testid="stColumn"],
-[data-testid="stColumn"] > div,
-[data-testid="stColumn"] [data-testid="stVerticalBlockBorderWrapper"],
-[data-testid="stColumn"] [data-testid="stVerticalBlock"],
-[data-testid="stColumn"] [data-testid="stElementContainer"],
-[data-testid="stColumn"] [data-testid="stMarkdown"],
-[data-testid="stColumn"] [data-testid="stMarkdownContainer"] {
-    height: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    flex: 1 1 auto !important;
 }
 /* ─── Tarjetas Glassmorphism (.glass-card, .kpi-card, .etl-card) ─── */
 .glass-card, .kpi-card, .etl-card {
