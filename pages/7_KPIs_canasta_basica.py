@@ -8,6 +8,7 @@ bloques explicativos y botón de descarga CSV.
 import streamlit as st
 import pandas as pd
 from src import queries, charts
+from src.config import PACIC_LIMITE
 
 # ---------------------------------------------------------------------------
 # Cabecera informativa
@@ -28,6 +29,70 @@ else:
         "establecimientos": "Establecimientos",
     })
     st.dataframe(control_df, use_container_width=True, hide_index=True)
+
+st.markdown("---")
+st.subheader("Costo mensual de la canasta PACIC")
+st.markdown(
+    "El PACIC contempla 24 productos esenciales y establece un precio de referencia "
+    f"de **${PACIC_LIMITE:,.0f}**. El costo mostrado se calcula sumando el precio "
+    "promedio mensual de cada producto disponible."
+)
+
+with st.spinner("Calculando el costo mensual de la canasta…"):
+    costo_df = queries.costo_canasta_mensual()
+
+if costo_df.empty:
+    st.info("No hay datos suficientes para calcular el costo mensual de la canasta.")
+else:
+    costo_df["estado_limite"] = costo_df["costo_canasta"].apply(
+        lambda value: "Dentro del límite" if value <= PACIC_LIMITE else "Sobre el límite"
+    )
+    primero = costo_df.iloc[0]
+    ultimo = costo_df.iloc[-1]
+    cambio = float(ultimo["costo_canasta"] - primero["costo_canasta"])
+    if abs(cambio) < 0.01:
+        tendencia = "se mantuvo estable"
+    elif cambio > 0:
+        tendencia = "subió"
+    else:
+        tendencia = "bajó"
+
+    met1, met2, met3 = st.columns(3)
+    met1.metric("Costo más reciente", f"${ultimo['costo_canasta']:,.2f}")
+    met2.metric("Cambio enero–agosto", f"${cambio:,.2f}")
+    met3.metric("Productos cubiertos", f"{int(ultimo['productos_cubiertos'])}/24")
+
+    st.plotly_chart(
+        charts.linea_costo_canasta(
+            costo_df,
+            PACIC_LIMITE,
+            "Costo mensual de la canasta vs. límite PACIC",
+        ),
+        use_container_width=True,
+    )
+    st.dataframe(
+        costo_df.rename(columns={
+            "mes": "Mes",
+            "productos_cubiertos": "Productos cubiertos",
+            "costo_canasta": "Costo de la canasta",
+            "diferencia_limite": "Diferencia contra $910",
+            "estado_limite": "Estado",
+        }),
+        use_container_width=True,
+        hide_index=True,
+    )
+    if cambio > 0.01:
+        lectura = f"subió ${cambio:,.2f}"
+    elif cambio < -0.01:
+        lectura = f"bajó ${abs(cambio):,.2f}"
+    else:
+        lectura = "se mantuvo estable"
+    st.info(
+        f"**Análisis:** entre {primero['mes']} y {ultimo['mes']}, el costo de la "
+        f"canasta {lectura}. El último costo registrado está "
+        f"{'por encima' if ultimo['costo_canasta'] > PACIC_LIMITE else 'dentro'} "
+        f"del límite de ${PACIC_LIMITE:,.0f}."
+    )
 
 # Selector de KPI (compatible con Streamlit 1.67)
 kpi = st.radio(

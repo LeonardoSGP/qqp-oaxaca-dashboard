@@ -346,6 +346,34 @@ def barras_diferencia_cadenas(df: pd.DataFrame, title: str) -> go.Figure:
     fig.update_yaxes(categoryorder="array", categoryarray=df["producto"].tolist())
     return fig
 
+
+def linea_costo_canasta(df: pd.DataFrame, limite: float, title: str) -> go.Figure:
+    """Evolución mensual del costo de la canasta contra el límite PACIC."""
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=df["mes"],
+        y=df["costo_canasta"],
+        mode="lines+markers",
+        name="Costo de la canasta",
+        line=dict(color=TEAL, width=3),
+        marker=dict(size=8),
+        hovertemplate="Mes: %{x}<br>Costo: $%{y:,.2f}<extra></extra>",
+    ))
+    fig.add_trace(go.Scatter(
+        x=df["mes"],
+        y=[limite] * len(df),
+        mode="lines",
+        name=f"Límite PACIC (${limite:,.0f})",
+        line=dict(color=AMBER, width=2, dash="dash"),
+        hovertemplate="Límite PACIC: $%{y:,.2f}<extra></extra>",
+    ))
+    _aplicar_tema(fig, title)
+    fig.update_yaxes(title_text="Costo (MXN)", tickprefix="$")
+    fig.update_xaxes(title_text="Mes")
+    fig.update_layout(height=390)
+    return fig
+
+
 # Fin de sección KPIs
 def barras_calidad_nulos(df: pd.DataFrame) -> go.Figure:
     """Barras de valores nulos por columna."""

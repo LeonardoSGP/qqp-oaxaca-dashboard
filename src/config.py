@@ -5,6 +5,7 @@ Configuración global del proyecto.
 
 # Nombre del catálogo que define la canasta básica de Oaxaca
 CANASTA_PACIC = "Pacic"
+PACIC_LIMITE = 910.0
 
 # Lista de los 24 productos de la canasta según el catálogo Pacic
 CANASTA_PRODUCTOS = [

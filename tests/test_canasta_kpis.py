@@ -80,3 +80,12 @@ def test_barras_diferencia_cadenas():
     })
     fig = charts.barras_diferencia_cadenas(df, "Dif")
     assert fig.layout.title.text == "Dif"
+
+def test_linea_costo_canasta():
+    df = pd.DataFrame({
+        "mes": ["2026-01", "2026-02"],
+        "costo_canasta": [850.0, 875.0],
+    })
+    fig = charts.linea_costo_canasta(df, 910.0, "Costo PACIC")
+    assert fig.layout.title.text == "Costo PACIC"
+    assert len(fig.data) == 2

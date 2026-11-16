@@ -296,7 +296,7 @@ def coordenadas_fuera_oaxaca() -> int:
 # KPIs de la canasta básica – consultas específicas
 # ---------------------------------------------------------------------------
 
-from src.config import CANASTA_PACIC
+from src.config import CANASTA_PACIC, PACIC_LIMITE
 
 _KPI_PARAMS = {
     "catalogo": CANASTA_PACIC,
@@ -542,3 +542,32 @@ def control_canasta_mensual() -> pd.DataFrame:
         ORDER BY mes;
     """
     return _query_dw(sql, _KPI_PARAMS)
+
+
+@st.cache_data(ttl=600, show_spinner=False)
+def costo_canasta_mensual() -> pd.DataFrame:
+    """Calcula el costo mensual sumando el promedio de cada producto Pacic."""
+    sql = f"""
+        WITH por_producto AS (
+            SELECT
+                DATE_FORMAT(t.fecha, '%Y-%m') AS mes,
+                p.producto,
+                AVG(f.precio) AS precio_promedio
+            FROM fact_precio f
+            JOIN dim_producto p ON p.sk_producto = f.sk_producto
+            JOIN dim_tiempo t ON t.id_tiempo = f.id_tiempo
+            WHERE {_kpi_where()}
+            GROUP BY DATE_FORMAT(t.fecha, '%Y-%m'), p.producto
+        )
+        SELECT
+            mes,
+            COUNT(*) AS productos_cubiertos,
+            ROUND(SUM(precio_promedio), 2) AS costo_canasta,
+            ROUND(SUM(precio_promedio) - :limite_pacic, 2) AS diferencia_limite
+        FROM por_producto
+        GROUP BY mes
+        ORDER BY mes;
+    """
+    params = dict(_KPI_PARAMS)
+    params["limite_pacic"] = PACIC_LIMITE
+    return _query_dw(sql, params)
